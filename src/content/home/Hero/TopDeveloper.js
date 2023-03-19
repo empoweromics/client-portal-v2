@@ -61,9 +61,9 @@ function TopDeveloper() {
       <CardHeader title="Top Developers" />
       <Divider />
       <Box p={2}>
-        <Grid container spacing={0}>
+        <Grid container columnSpacing={5}>
           {feed.map((_feed) => (
-            <Grid key={_feed.name} item xs={6} sm={4} lg={3}>
+            <Grid key={_feed.name} item>
               <Box p={3} display="flex" alignItems="flex-start">
                 <Avatar sx={{ width: 56, height: 56 }} src={_feed.avatar} />
                 <Box pl={2}>
@@ -81,7 +81,7 @@ function TopDeveloper() {
             </Grid>
           ))}
 
-          <Grid key="dd" item xs={6} sm={4} lg={3}>
+          <Grid key="dd" item xs={12} sm={6} md={4}>
             <Box p={3} display="flex" alignItems="flex-start">
               <AvatarGroup max={4}>
                 <Avatar

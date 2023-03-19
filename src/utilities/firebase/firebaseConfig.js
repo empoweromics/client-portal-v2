@@ -2,13 +2,14 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyCssQAyNJjZgA0jHlSQYAPFJ9-qn6vagG8',
-  authDomain: 'platform-3-35c05.firebaseapp.com',
-  projectId: 'platform-3-35c05',
-  storageBucket: 'platform-3-35c05.appspot.com',
-  messagingSenderId: '638666491959',
-  appId: '1:638666491959:web:cadd6ca3f588c6eab9d7b2',
-  measurementId: 'G-KE0ZV9FR3P'
+  apiKey: 'AIzaSyAF_QMR0UbrGbxyDX62x4OMhatYayailoM',
+  authDomain: 'empoweromics-dev.firebaseapp.com',
+  projectId: 'empoweromics-dev',
+  storageBucket: 'empoweromics-dev.appspot.com',
+  messagingSenderId: '127286142109',
+  appId: '1:127286142109:web:8e0c1aae077e199a046074',
+  measurementId: 'G-FWEBPF9DCH'
 };
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+export const getTokenId = () => auth.currentUser.getIdToken(true);

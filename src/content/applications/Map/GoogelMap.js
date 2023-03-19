@@ -1,10 +1,56 @@
 import { GoogleMap } from '@react-google-maps/api';
-import { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 // import { useRef, useEffect } from 'react';
 import axios from 'axios';
 import { getStorage, setStorage } from 'src/utilities/storage/storage';
-import { CardHeader, CircularProgress } from '@mui/material';
 import style from './googleMaps.module.css';
+import {
+  CardHeader,
+  Box,
+  Grid,
+  Typography,
+  LinearProgress
+} from '@mui/material';
+
+const stateColors = [
+  {
+    state: 'constructed',
+    color: 'green'
+  },
+  {
+    state: 'under construction',
+    color: 'yellow'
+  },
+  {
+    state: 'constructed (partial)',
+    color: 'orange'
+  },
+  {
+    state: 'off-plane',
+    color: 'black'
+  }
+];
+function ColorBox() {
+  return (
+    <Grid item md={7} xs={12}>
+      <Box display="flex" justifyContent="flex-end">
+        {stateColors.map((item, i) => (
+          <Box display="flex" key={i} alignItems="center">
+            <Box
+              sx={{
+                width: 15,
+                height: 15,
+                backgroundColor: item.color,
+                margin: '0 0.4em'
+              }}
+            />
+            <Typography variant="subtitle1">{item.state}</Typography>
+          </Box>
+        ))}
+      </Box>
+    </Grid>
+  );
+}
 
 function GoogleMaps() {
   const [polygons, setPolygons] = useState(null);
@@ -29,7 +75,7 @@ function GoogleMaps() {
       setLoading(false);
       // fitBounds(map.current);
       map.current.data.setStyle(function (feature) {
-        if (feature.j.state === 'constructed') {
+        if (feature.getProperty('state') === 'constructed') {
           return {
             fillColor: 'green',
             strokeColor: 'green',
@@ -37,14 +83,14 @@ function GoogleMaps() {
           };
         }
 
-        if (feature.j.state === 'under construction') {
+        if (feature.getProperty('state') === 'under construction') {
           return {
             fillColor: 'yellow',
             strokeColor: 'yellow',
             strokeWeight: 0.3
           };
         }
-        if (feature.j.state === 'constructed (partial)') {
+        if (feature.getProperty('state') === 'constructed (partial)') {
           return {
             fillColor: 'orange',
             strokeColor: 'orange',
@@ -76,9 +122,34 @@ function GoogleMaps() {
   //     });
   //   }
   // }
+  // function processPoints(geometry) {
+  //   let bounds = new window.google.maps.LatLngBounds();
+  //   console.log(geometry.coordinates[0][0]);
+  //   geometry.coordinates[0].forEach((point) => {
+  //     console.log(point);
+  //     bounds.extend({ lat: point[1], lng: point[0] });
+  //   });
+
+  //   // map.current.fitBounds(bounds);
+  // }
+
+  // processPoints({
+  //   type: 'Polygon',
+  //   coordinates: [
+  //     [
+  //       [30.85109, 30.093023],
+  //       [30.851626, 30.090015],
+  //       [30.85815, 30.090331],
+  //       [30.85772, 30.093859],
+  //       [30.85109, 30.093023]
+  //     ]
+  //   ]
+  // });
   // function fitBounds(mapInstance) {
   //   let bounds = new window.google.maps.LatLngBounds();
+  //   console.log(mapInstance.data);
   //   mapInstance.data.forEach(function (feature) {
+  //     console.log(feature.getGeometry());
   //     feature.getGeometry().forEachLatLng(function (latlng) {
   //       bounds.extend(latlng);
   //     });
@@ -101,35 +172,35 @@ function GoogleMaps() {
       let content = `<table class=${style.infoWindowTable}>
    <tr>
     <th>Name</th>
-    <td>${feature.j.name}</td>
+    <td>${feature.getProperty('name')}</td>
   </tr>
    <tr>
     <th>Category</th>
-    <td>${feature.j.category}</td>
+    <td> ${feature.getProperty('category')}</td>
   </tr>
   <tr>
     <th>Area Name</th>
-    <td>${feature.j.area}</td>
+    <td> ${feature.getProperty('area')}</td>
   </tr>
    <tr>
     <th>Area (acres)</th>
-    <td>${feature.j.acres}</td>
+    <td> ${feature.getProperty('acres')}</td>
   </tr>
  <tr>
     <th>City</th>
-    <td>${feature.j.city}</td>
+    <td>${feature.getProperty('city')}</td>
   </tr>
    <tr>
     <th>Country</th>
-    <td>${feature.j.country}</td>
+    <td>${feature.getProperty('country')}</td>
   </tr>
   <tr>
     <th>Supplier</th>
-    <td>${feature.j.supplier}</td>
+    <td>${feature.getProperty('supplier')}</td>
   </tr>
   <tr>
     <th>Description</th>
-    <td>${feature.j.description}</td>
+    <td>${feature.getProperty('description')}</td>
   </tr>
 </table>`;
       infowindow.setContent(content);
@@ -179,8 +250,20 @@ function GoogleMaps() {
     <>
       <CardHeader
         title={
-          loading ? <CircularProgress color="secondary" /> : 'Recent Activity'
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item md={5} xs={12}>
+              {loading ? (
+                <LinearProgress />
+              ) : (
+                <Typography variant="subtitle1">E-map with Polygons</Typography>
+              )}
+            </Grid>
+
+            <ColorBox />
+          </Grid>
         }
+        sx={{ padding: '1em' }}
+        // title={<ColorBox />}
       />
       <GoogleMap
         mapContainerStyle={{

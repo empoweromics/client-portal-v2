@@ -16,6 +16,7 @@ function PageHeader() {
         <Avatar
           sx={{
             mr: 2,
+            mb: 1,
             width: theme.spacing(8),
             height: theme.spacing(8)
           }}

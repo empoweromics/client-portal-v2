@@ -22,7 +22,7 @@ const AvatarPrimary = styled(Avatar)(
 
 function RecentActivity() {
   return (
-    <Card>
+    <Card sx={{ paddingBottom: '1em' }}>
       <CardHeader title="Recent Activity" />
       <Divider />
       <Box px={2} py={2} display="flex" alignItems="flex-start">
