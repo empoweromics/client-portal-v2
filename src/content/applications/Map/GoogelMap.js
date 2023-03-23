@@ -1,4 +1,4 @@
-import { GoogleMap } from '@react-google-maps/api';
+import { GoogleMap, InfoWindow, Marker } from '@react-google-maps/api';
 import React, { useEffect, useState, useRef } from 'react';
 // import { useRef, useEffect } from 'react';
 import axios from 'axios';
@@ -11,6 +11,9 @@ import {
   Typography,
   LinearProgress
 } from '@mui/material';
+
+import { MapSearch } from './Search/index';
+import { InfoWindoqContent } from './InfoWindoqContent';
 
 const stateColors = [
   {
@@ -55,6 +58,8 @@ function ColorBox() {
 function GoogleMaps() {
   const [polygons, setPolygons] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [selectedProject, setSelectedProject] = useState();
+  const [center, setCenter] = useState({ lat: 30.010317, lng: 31.51263 });
 
   const map = useRef(null);
   function getData() {
@@ -68,6 +73,12 @@ function GoogleMaps() {
         console.log(err);
       });
   }
+  // ----------------------------------------------------------------------------------------------
+  const selectProject = (project) => {
+    setCenter({ lat: project?.geometry?.coordinates[0][0][0], lng: project?.geometry?.coordinates[0][0][1] });
+    setSelectedProject(project);
+  }
+  // ----------------------------------------------------------------------------------------------
   useEffect(() => {
     if (polygons) {
       setStorage('EMap', JSON.stringify(polygons), 60 * 60 * 24); // store 1 day
@@ -255,7 +266,10 @@ function GoogleMaps() {
               {loading ? (
                 <LinearProgress />
               ) : (
-                <Typography variant="subtitle1">E-map with Polygons</Typography>
+               <> 
+               <MapSearch selectProject={selectProject} projects={polygons} />
+                {/* <Typography variant="subtitle1">E-map with Polygons</Typography> */}
+                </>
               )}
             </Grid>
 
@@ -263,7 +277,7 @@ function GoogleMaps() {
           </Grid>
         }
         sx={{ padding: '1em' }}
-        // title={<ColorBox />}
+      // title={<ColorBox />}
       />
       <GoogleMap
         mapContainerStyle={{
@@ -271,11 +285,23 @@ function GoogleMaps() {
           height: '100%'
         }}
         options={options}
-        center={{ lat: 30.010317, lng: 31.51263 }}
+        center={center}
         zoom={12.5}
         onLoad={onLoad}
-      >
-        {/* {polygonsData?.map((polygon, i) => {
+             >
+      
+       {selectedProject&&<>
+       {/* <Marker  animation= {window.google.maps.Animation.DROP}/> */}
+       <InfoWindow
+            position={center}
+            open={!!selectedProject}
+            onCloseClick={() => {
+              setSelectedProject(null);
+            }}
+          >
+           <InfoWindoqContent project={selectedProject}/>
+          </InfoWindow></> }
+                  {/* {polygonsData?.map((polygon, i) => {
         console.log(polygon);
         return (
           <Polygon
