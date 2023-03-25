@@ -1,7 +1,7 @@
 import React from 'react';
 import style from './googleMaps.module.css';
 
-const InfoWindoqContent = ({project}) => {
+const InfoWindowContent = ({project}) => {
     
     return (
         <div>
@@ -43,4 +43,4 @@ const InfoWindoqContent = ({project}) => {
     );
 }
 
-export  {InfoWindoqContent};
+export  {InfoWindowContent};

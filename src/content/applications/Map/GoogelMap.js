@@ -1,4 +1,4 @@
-import { GoogleMap, InfoWindow, Marker } from '@react-google-maps/api';
+import { GoogleMap, InfoWindow, Marker, Polygon } from '@react-google-maps/api';
 import React, { useEffect, useState, useRef } from 'react';
 // import { useRef, useEffect } from 'react';
 import axios from 'axios';
@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 
 import { MapSearch } from './Search/index';
-import { InfoWindoqContent } from './InfoWindoqContent';
+import { InfoWindowContent } from './InfoWindowContent';
 
 const stateColors = [
   {
@@ -74,9 +74,12 @@ function GoogleMaps() {
       });
   }
   // ----------------------------------------------------------------------------------------------
-  const selectProject = (project) => {
-    setCenter({ lat: project?.geometry?.coordinates[0][0][0], lng: project?.geometry?.coordinates[0][0][1] });
+  const selectProject = (project) => {console.log(project);
+    // setCenter({ lat: project?.geometry?.coordinates[0][0][0], lng: project?.geometry?.coordinates[0][0][1] });
     setSelectedProject(project);
+    setCenter({
+      lat:getCentroid(project?.geometry?.coordinates[0])[0]
+      ,lng:getCentroid(project?.geometry?.coordinates[0])[1]})
   }
   // ----------------------------------------------------------------------------------------------
   useEffect(() => {
@@ -93,7 +96,6 @@ function GoogleMaps() {
             strokeWeight: 0.3
           };
         }
-
         if (feature.getProperty('state') === 'under construction') {
           return {
             fillColor: 'yellow',
@@ -168,6 +170,15 @@ function GoogleMaps() {
 
   //   mapInstance.fitBounds(bounds);
   // }
+
+
+
+
+  const getCentroid = (arr)=> { 
+    return arr.reduce(function (x,y) {
+        return [x[0] + y[0]/arr.length, x[1] + y[1]/arr.length] 
+    }, [0,0]) 
+}
   const onLoad = (mapInstance) => {
     map.current = mapInstance;
 
@@ -289,9 +300,16 @@ function GoogleMaps() {
         zoom={12.5}
         onLoad={onLoad}
              >
-      
+              
        {selectedProject&&<>
-       {/* <Marker  animation= {window.google.maps.Animation.DROP}/> */}
+        <Polygon
+           paths={selectedProject?.geometry?.coordinates[0].map(el=>{return {lat:el[0],lng:el[1]}})
+           } 
+           options={{
+            strokeColor: 'red',
+            fillColor: 'yellow',
+          }}
+            />
        <InfoWindow
             position={center}
             open={!!selectedProject}
@@ -299,7 +317,7 @@ function GoogleMaps() {
               setSelectedProject(null);
             }}
           >
-           <InfoWindoqContent project={selectedProject}/>
+           <InfoWindowContent project={selectedProject}/>
           </InfoWindow></> }
                   {/* {polygonsData?.map((polygon, i) => {
         console.log(polygon);

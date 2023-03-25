@@ -69,16 +69,19 @@ function MapSearch({ projects,selectProject }) {
   const search = () => {
     let searchkeyWords = searchValue.split(' ')
     
-    let searchResultsArr = projects?.features?.map(project => {
-      let searchRank = 0;
-      searchkeyWords.forEach(searchkeyWord => {
-        if (JSON.stringify(Object.values(project?.properties)).includes(searchkeyWord)) {
-          searchRank++
-        }
-      })
-        ;
-      return { ...project, searchRank }
-    });
+    // let searchResultsArr = projects?.features?.map(project => {
+    //   let searchRank = 0;
+    //   searchkeyWords.forEach(searchkeyWord => {
+    //     if (JSON.stringify(Object.values(project?.properties)).includes(searchkeyWord)) {
+    //       searchRank++
+    //     }
+    //   })
+    //     ;
+    //   return { ...project, searchRank }
+    // });
+    let searchResultsArr = projects?.features?.filter(el=>{
+      return el?.properties?.name.includes(searchkeyWords)
+    })
     setSearchResults(searchResultsArr.sort((a, b) => { return  b.searchRank - a.searchRank }).slice(0, 9).reverse())
    
   }
