@@ -270,7 +270,7 @@ function MapSearch({ projects,selectProject }) {
                         sx={{ fontWeight: 'bold' }}
                         variant="body2"
                       >
-                        {el?.properties?.supplier}
+                        {el?.properties?.name}
                       </Link>
                     </Box>
                     <Typography
