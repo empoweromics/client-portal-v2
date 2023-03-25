@@ -11,7 +11,7 @@ import {
   Typography,
   LinearProgress
 } from '@mui/material';
-
+import { Easing, Tween, update } from "@tweenjs/tween.js";
 import { MapSearch } from './Search/index';
 import { InfoWindowContent } from './InfoWindowContent';
 
@@ -74,12 +74,61 @@ function GoogleMaps() {
       });
   }
   // ----------------------------------------------------------------------------------------------
+  const getCentroid = (arr)=> { 
+    return arr.reduce(function (x,y) {
+        return [x[0] + y[0]/arr.length, x[1] + y[1]/arr.length] 
+    }, [0,0]) 
+}
+  // ----------------------------------------------------------------------------------------------
   const selectProject = (project) => {console.log(project);
-    // setCenter({ lat: project?.geometry?.coordinates[0][0][0], lng: project?.geometry?.coordinates[0][0][1] });
     setSelectedProject(project);
     setCenter({
-      lat:getCentroid(project?.geometry?.coordinates[0])[0]
-      ,lng:getCentroid(project?.geometry?.coordinates[0])[1]})
+      lat:getCentroid(project?.geometry?.coordinates[0])[1]
+      ,lng:getCentroid(project?.geometry?.coordinates[0])[0]})
+      const cameraOptions = {
+        tilt: 0,
+        heading: 0,
+        zoom: 10,
+        center: {
+          lat:getCentroid(project?.geometry?.coordinates[0])[1]
+          ,lng:getCentroid(project?.geometry?.coordinates[0])[0]}
+        }
+     
+      // map.current.animateCamera(cameraOptions)
+
+
+
+
+
+
+
+
+      new Tween(cameraOptions) // Create a new tween that modifies 'cameraOptions'.
+      .to({ tilt: 65, heading: 90, zoom: 14 }, 1500) // Move to destination in 15 second.
+      .easing(Easing.Quadratic.Out) // Use an easing function to make the animation smooth.
+      .onUpdate(() => {
+        map.current.moveCamera(cameraOptions);
+      })
+      .start(); // Start the tween immediately.
+  
+    // Setup the animation loop.
+    function animate(time) {
+      requestAnimationFrame(animate);
+      update(time);
+    }
+  
+    requestAnimationFrame(animate);
+  
+
+
+
+
+
+
+
+
+
+
   }
   // ----------------------------------------------------------------------------------------------
   useEffect(() => {
@@ -174,11 +223,7 @@ function GoogleMaps() {
 
 
 
-  const getCentroid = (arr)=> { 
-    return arr.reduce(function (x,y) {
-        return [x[0] + y[0]/arr.length, x[1] + y[1]/arr.length] 
-    }, [0,0]) 
-}
+
   const onLoad = (mapInstance) => {
     map.current = mapInstance;
 
