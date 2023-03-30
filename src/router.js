@@ -31,6 +31,9 @@ const Messenger = Loader(
 const Opportunity = Loader(
   lazy(() => import('src/content/applications/Opportunity'))
 );
+const Transaction = Loader(
+  lazy(() => import('src/content/applications/Transaction'))
+);
 const Academy = Loader(lazy(() => import('src/content/applications/Academy')));
 const Emp = Loader(lazy(() => import('src/content/applications/Emp')));
 
@@ -120,6 +123,10 @@ const routes = (isLoggedIn) => {
         {
           path: 'opportunity',
           element: <Opportunity />
+        },
+        {
+          path: 'transaction',
+          element: <Transaction />
         },
         {
           path: 'map',

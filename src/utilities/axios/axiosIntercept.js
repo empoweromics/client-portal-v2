@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { auth } from '../firebase/firebaseConfig';
+import { getToken } from '../firebase/firebase.service';
 
 const axiosClient = axios.create({
   baseURL: process.env.REACT_APP_DEVELOP_URL
@@ -7,15 +7,15 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use(
   async function (config) {
-    const idToken = await auth.currentUser.getIdToken(true);
-    console.log(idToken);
-    //  console.log(config.mhm);
     // Do something before request is sent
-    config.headers = {
-      ...config.headers,
-      Accept: 'application/json',
-      Authorization: `Bearer ${idToken}`
-    };
+    const idToken = await getToken();
+    if (idToken) {
+      config.headers = {
+        ...config.headers,
+        Accept: 'application/json',
+        Authorization: `Bearer ${idToken}`
+      };
+    }
     return config;
   },
   function (error) {

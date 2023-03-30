@@ -79,6 +79,7 @@ function HeaderNotifications() {
           vertical: 'top',
           horizontal: 'right'
         }}
+        TransitionProps={{ timeout: 0 }}
       >
         <Box
           sx={{ p: 2 }}

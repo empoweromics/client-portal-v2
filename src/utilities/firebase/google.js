@@ -1,5 +1,9 @@
-import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
-import { auth } from './firebaseConfig';
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut
+} from 'firebase/auth';
 import { useContext } from 'react';
 import { UserContext, setUser } from 'src/contexts/UserContext';
 // import axios from 'axios';
@@ -10,6 +14,7 @@ const provider = new GoogleAuthProvider();
 // export const signInGoogle = () => signInWithPopup(auth, provider);
 
 function useGoogle() {
+  const auth = getAuth();
   const { dispatch } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -48,7 +53,7 @@ function useGoogle() {
         //   .catch((err) => {
         //     console.log(err);
         //   });
-        axiosClient.get(`/auth`).catch((err) => console.log(err));
+        // axiosClient.get(`/auth`).catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
   }

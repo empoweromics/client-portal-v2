@@ -17,6 +17,7 @@ import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork';
 import SchoolIcon from '@mui/icons-material/School';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 
 const MenuWrapper = styled(Box)(
   ({ theme }) => `
@@ -214,6 +215,17 @@ function SidebarMenu() {
                   startIcon={<MapsHomeWorkIcon />}
                 >
                   Opportunity
+                </Button>
+              </ListItem>
+              <ListItem component="div">
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
+                  to="/go/transaction"
+                  startIcon={<AccountBalanceIcon />}
+                >
+                  Transaction
                 </Button>
               </ListItem>
               <ListItem component="div">
