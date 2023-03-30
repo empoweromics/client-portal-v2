@@ -1,4 +1,4 @@
-import { GoogleMap } from '@react-google-maps/api';
+import { GoogleMap, InfoWindow, Marker, Polygon } from '@react-google-maps/api';
 import React, { useEffect, useState, useRef } from 'react';
 // import { useRef, useEffect } from 'react';
 import axios from 'axios';
@@ -11,6 +11,9 @@ import {
   Typography,
   LinearProgress
 } from '@mui/material';
+import { Easing, Tween, update } from "@tweenjs/tween.js";
+import { MapSearch } from './Search/index';
+import { InfoWindowContent } from './InfoWindowContent';
 
 const stateColors = [
   {
@@ -55,6 +58,8 @@ function ColorBox() {
 function GoogleMaps() {
   const [polygons, setPolygons] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [selectedProject, setSelectedProject] = useState();
+  const [center, setCenter] = useState({ lat: 30.010317, lng: 31.51263 });
 
   const map = useRef(null);
   function getData() {
@@ -68,6 +73,64 @@ function GoogleMaps() {
         console.log(err);
       });
   }
+  // ----------------------------------------------------------------------------------------------
+  const getCentroid = (arr)=> { 
+    return arr.reduce(function (x,y) {
+        return [x[0] + y[0]/arr.length, x[1] + y[1]/arr.length] 
+    }, [0,0]) 
+}
+  // ----------------------------------------------------------------------------------------------
+  const selectProject = (project) => {console.log(project);
+    setSelectedProject(project);
+    setCenter({
+      lat:getCentroid(project?.geometry?.coordinates[0])[1]
+      ,lng:getCentroid(project?.geometry?.coordinates[0])[0]})
+      const cameraOptions = {
+        tilt: 0,
+        heading: 0,
+        zoom: 10,
+        center: {
+          lat:getCentroid(project?.geometry?.coordinates[0])[1]
+          ,lng:getCentroid(project?.geometry?.coordinates[0])[0]}
+        }
+     
+      // map.current.animateCamera(cameraOptions)
+
+
+
+
+
+
+
+
+      new Tween(cameraOptions) // Create a new tween that modifies 'cameraOptions'.
+      .to({ tilt: 65, heading: 90, zoom: 14 }, 1500) // Move to destination in 15 second.
+      .easing(Easing.Quadratic.Out) // Use an easing function to make the animation smooth.
+      .onUpdate(() => {
+        map.current.moveCamera(cameraOptions);
+      })
+      .start(); // Start the tween immediately.
+  
+    // Setup the animation loop.
+    function animate(time) {
+      requestAnimationFrame(animate);
+      update(time);
+    }
+  
+    requestAnimationFrame(animate);
+  
+
+
+
+
+
+
+
+
+
+
+  }
+  // ----------------------------------------------------------------------------------------------
   useEffect(() => {
     if (polygons) {
       setStorage('EMap', JSON.stringify(polygons), 60 * 60 * 24); // store 1 day
@@ -82,7 +145,6 @@ function GoogleMaps() {
             strokeWeight: 0.3
           };
         }
-
         if (feature.getProperty('state') === 'under construction') {
           return {
             fillColor: 'yellow',
@@ -157,6 +219,11 @@ function GoogleMaps() {
 
   //   mapInstance.fitBounds(bounds);
   // }
+
+
+
+
+
   const onLoad = (mapInstance) => {
     map.current = mapInstance;
 
@@ -255,7 +322,10 @@ function GoogleMaps() {
               {loading ? (
                 <LinearProgress />
               ) : (
-                <Typography variant="subtitle1">E-map with Polygons</Typography>
+               <> 
+               <MapSearch selectProject={selectProject} projects={polygons} />
+                {/* <Typography variant="subtitle1">E-map with Polygons</Typography> */}
+                </>
               )}
             </Grid>
 
@@ -263,7 +333,7 @@ function GoogleMaps() {
           </Grid>
         }
         sx={{ padding: '1em' }}
-        // title={<ColorBox />}
+      // title={<ColorBox />}
       />
       <GoogleMap
         mapContainerStyle={{
@@ -271,11 +341,30 @@ function GoogleMaps() {
           height: '100%'
         }}
         options={options}
-        center={{ lat: 30.010317, lng: 31.51263 }}
+        center={center}
         zoom={12.5}
         onLoad={onLoad}
-      >
-        {/* {polygonsData?.map((polygon, i) => {
+             >
+              
+       {selectedProject&&<>
+        <Polygon
+           paths={selectedProject?.geometry?.coordinates[0].map(el=>{return {lat:el[0],lng:el[1]}})
+           } 
+           options={{
+            strokeColor: 'red',
+            fillColor: 'yellow',
+          }}
+            />
+       <InfoWindow
+            position={center}
+            open={!!selectedProject}
+            onCloseClick={() => {
+              setSelectedProject(null);
+            }}
+          >
+           <InfoWindowContent project={selectedProject}/>
+          </InfoWindow></> }
+                  {/* {polygonsData?.map((polygon, i) => {
         console.log(polygon);
         return (
           <Polygon
