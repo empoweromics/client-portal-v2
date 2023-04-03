@@ -4,6 +4,7 @@ import style from './style/googleMaps.module.css';
 import { MapSearch } from './Search/index';
 import { InfoWindowContent } from './InfoWindowContent';
 import projects from './data/projects.json';
+import { OppDialog } from './oppdialog/opp-dialog';
 
 const mapOptions = {
   streetViewControl: false,
@@ -36,6 +37,9 @@ const mapOptions = {
 };
 
 function GoogleMaps() {
+  const [dialogProjectId, setDialogProjectId] = useState();
+  const [OpenProjectDetails, setOpenProjectDetails] = useState(false);
+  
   const [selectedProject, setSelectedProject] = useState();
   const [center, setCenter] = useState({ lat: 30.010317, lng: 31.51263 });
 
@@ -107,8 +111,8 @@ function GoogleMaps() {
 
     let infowindow = new window.google.maps.InfoWindow();
     mapInstance.data.addListener('click', function ({ feature, latLng }) {
-      // console.log(feature);
-      let content = `<table class=${style.infoWindowTable}>
+      setDialogProjectId(feature?.j?.id);
+       let content = `<table class=${style.infoWindowTable}>
    <tr>
     <th>Name</th>
     <td>${feature.getProperty('name')}</td>
@@ -138,7 +142,7 @@ function GoogleMaps() {
   return (
     <>
       <MapSearch selectProject={selectProject} projects={projects} />
-
+{<OppDialog projectId={dialogProjectId} open={!!dialogProjectId} setDialogProjectId={setDialogProjectId}/>}
       <GoogleMap
         mapContainerStyle={{
           width: '100%',
