@@ -111,7 +111,10 @@ function GoogleMaps() {
 
     let infowindow = new window.google.maps.InfoWindow();
     mapInstance.data.addListener('click', function ({ feature, latLng }) {
+     if(feature.j.category!=="public_areas"){
       setDialogProjectId(feature?.j?.id);
+return
+     };
        let content = `<table class=${style.infoWindowTable}>
    <tr>
     <th>Name</th>

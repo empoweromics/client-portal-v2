@@ -30,18 +30,18 @@ const SeeMoreComponent = ({ text }) => {
   };
 
   const shortenText = (text, maxLength) => {
-    if (text.length <= maxLength) {
+    if (text?.length <= maxLength) {
       return text;
     }
 
-    const shortText = text.substr(0, maxLength);
-    const lastSpace = shortText.lastIndexOf(' ');
+    const shortText = text?.substr(0, maxLength);
+    const lastSpace = shortText?.lastIndexOf(' ');
 
     if (lastSpace === -1) {
       return shortText + '...';
     }
 
-    return shortText.substr(0, lastSpace) + '...';
+    return shortText?.substr(0, lastSpace)?shortText.substr(0, lastSpace) + '...':''
   };
 
   return (
@@ -49,7 +49,7 @@ const SeeMoreComponent = ({ text }) => {
       <Typography variant="body1" className={classes.text}>
         {expanded ? text : shortenText(text, 100)}
       </Typography>
-      {text.length > 100 && (
+      {text?.length > 100 && (
         <Button
           color="primary"
           className={classes.button}
