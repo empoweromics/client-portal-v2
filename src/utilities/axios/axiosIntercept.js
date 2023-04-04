@@ -13,7 +13,6 @@ axiosClient.interceptors.request.use(
       config.headers = {
         ...config.headers,
         Accept: 'application/json',
-
         'user': 'cXtdTSxTS0a5nyti9CpGeKokWun2'
       };
     }

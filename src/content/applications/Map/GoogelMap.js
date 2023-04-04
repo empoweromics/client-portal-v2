@@ -10,10 +10,11 @@ import {
   mapOptions,
   setStyle
 } from 'src/utilities/map/map.config';
+import { Snackbar } from '@mui/material';
 
 function GoogleMaps() {
   const [dialogProjectId, setDialogProjectId] = useState();
-
+  const [snackbarMsg, setSnackbarMsg] = useState('');
   const [selectedProject, setSelectedProject] = useState();
   const [center, setCenter] = useState({ lat: 30.010317, lng: 31.51263 });
 
@@ -70,9 +71,21 @@ function GoogleMaps() {
 
   return (
     <>
+      <Snackbar
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'center',
+      }}
+        open={!!snackbarMsg}
+        autoHideDuration={6000}
+        //   onClose={handleClose}
+        message={snackbarMsg}
+      //   action={action}
+      />
       <MapSearch selectProject={selectProject} projects={projects} />
       {
         <OppDialog
+          setSnackbarMsg={setSnackbarMsg}
           projectId={dialogProjectId}
           open={!!dialogProjectId}
           setDialogProjectId={setDialogProjectId}
