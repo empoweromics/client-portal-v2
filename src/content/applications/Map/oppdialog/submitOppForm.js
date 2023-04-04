@@ -16,9 +16,12 @@ import ArrowBackTwoToneIcon from '@mui/icons-material/ArrowBackTwoTone';
 import axiosClient from 'src/utilities/axios/axiosIntercept';
 
 const SubmitOppForm = ({
+  setErrorMsg,
+  setSnackbarMsg,
   setRenderedComponent,
   projectDetails,
-  setLoading
+  setLoading,
+  setDialogProjectId
 }) => {
   const [buyerName, setClientName] = useState('');
   const [mobile, setMobile] = useState('');
@@ -31,12 +34,11 @@ const SubmitOppForm = ({
   const [totalCost, setTotalCost] = useState(0);
   const [downPayment, setDownPayment] = useState(0);
   const [maxPerMonth, setMaxPerMonth] = useState(
-    parseInt((totalCost - downPayment) / (12 * selectedPrice.paymentYears))
+    selectedPrice?.paymentYears? parseInt((totalCost - downPayment) / (12 * selectedPrice.paymentYears)):0
   );
   const [maxDelivery, setMaxDelivery] = useState(2023);
   const [contactDirectlyWithTheClient, setContactDirectlyWithTheClient] =
     useState(true);
-  const [errorMsg, setErrorMsg] = useState('');
   const [submitLoad, setSubmitLoad] = useState(false);
 
   // ----------------------------------------------------------------------------------------------
@@ -63,6 +65,7 @@ const SubmitOppForm = ({
     try {
       const res = await axiosClient.get(
         `/client/project/project/${projectDetails._id}/units`
+        , {headers:{'user': 'cXtdTSxTS0a5nyti9CpGeKokWun2'}}
       );
       setTypes(res.data || []);
       setSelectedType(res.data[0]);
@@ -142,9 +145,14 @@ const SubmitOppForm = ({
         return;
       }
 
-      const res = await axiosClient.post('/client/opportunity/submit', body);
+      const res = await axiosClient.post('/client/opportunity/submit', body, {headers:{'user': 'cXtdTSxTS0a5nyti9CpGeKokWun2'}});
+      setSnackbarMsg('Opportunity submited successfully')
+      setTimeout(() => {
+        setSnackbarMsg();
+      }, 3000);
+      setDialogProjectId('')
     } catch (e) {
-      console.log(e);
+     
       setErrorMsg('something went wrong,please try again');
       setTimeout(() => {
         setErrorMsg();
@@ -158,15 +166,15 @@ const SubmitOppForm = ({
     if(totalCost&&!downPayment){
         setDownPayment(+totalCost/10)
       setMaxPerMonth(
-        parseInt((totalCost - (totalCost/10)) / (12 * selectedPrice.paymentYears))
+        selectedPrice?.paymentYears ?  parseInt((totalCost - (totalCost/10)) / (12 * selectedPrice.paymentYears)):0
       );
     }else if (
       parseInt(
-        (totalCost - downPayment) / (12 * selectedPrice.paymentYears)
+        selectedPrice?.paymentYears ? (totalCost - downPayment) / (12 * selectedPrice.paymentYears):0
       ) !== maxPerMonth
     )
       setMaxPerMonth(
-        parseInt((totalCost - downPayment) / (12 * selectedPrice.paymentYears))
+        selectedPrice?.paymentYears ?   parseInt((totalCost - downPayment) / (12 * selectedPrice.paymentYears)):0
       );
   }, [downPayment, totalCost]);
   // ----------------------------------------------------------------------------------------------
@@ -279,7 +287,7 @@ const SubmitOppForm = ({
         <Typography id="slider-label" gutterBottom>
           <span style={{ fontWeight: 'bold' }}> installment: </span>{' '}
           {maxPerMonth.toLocaleString()} EGP within{' '}
-          {12 * selectedPrice.paymentYears} months
+          {selectedPrice?.paymentYears ? (12 * selectedPrice.paymentYears):0} months
         </Typography>
         <Slider
           disabled={!selectedPrice}
@@ -348,16 +356,9 @@ const SubmitOppForm = ({
             Submit
           </Button>
         </div>
-        <Snackbar
-          open={!!errorMsg}
-          autoHideDuration={6000}
-          //   onClose={handleClose}
-          message={errorMsg}
-          //   action={action}
-        />
-        <div style={{ fontWeight: 'bold' }}>
+               <div style={{ fontWeight: 'bold' }}>
           *Estimated payment is based on a 10% down payment minimum{' '}
-          {selectedPrice.paymentYears && (
+          {selectedPrice?.paymentYears && (
             <span>and {selectedPrice.paymentYears} year payment plan</span>
           )}
           .
