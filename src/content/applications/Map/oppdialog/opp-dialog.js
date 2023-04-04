@@ -18,21 +18,11 @@ function SimpleDialog(props) {
     onClose();
   };
   // ----------------------------------------------------------------------------------------------
-  // const authLogin=async(user) =>{
-  //   console.log(user);
-  //   try{
-  // const res=await axios.put(`${process.env.REACT_APP_DEVELOP_URL}/client/auth/${user.uid}`,user)
-  // console.log(res);
-  //   }
-  //   catch(e){
-  // console.log(e);
-  //   }
-  // }
-  // ----------------------------------------------------------------------------------------------
 
   const getProject = async () => {
     setLoading(true);
     try {
+      console.log(projectId);
       const res = await axiosClient.get(`/client/project/project/${projectId}`);
       setProjectDetails(res.data);
     } catch (e) {

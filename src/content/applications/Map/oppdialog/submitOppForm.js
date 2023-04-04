@@ -28,7 +28,7 @@ const SubmitOppForm = ({
   const [selectedType, setSelectedType] = useState('');
   const [prices, setPrices] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState('');
-  const [totalCost, setTotalCost] = useState(10);
+  const [totalCost, setTotalCost] = useState(0);
   const [downPayment, setDownPayment] = useState(0);
   const [maxPerMonth, setMaxPerMonth] = useState(
     parseInt((totalCost - downPayment) / (12 * selectedPrice.paymentYears))
@@ -125,9 +125,8 @@ const SubmitOppForm = ({
       Object.keys(body).forEach((key) => {
         Object.keys(body[key]).forEach((minorKey) => {
           if (!body[key][minorKey] && body[key][minorKey] !== downPayment) {
-            console.log(body[key], key, body[key][minorKey], minorKey);
             if (warnningMsg) {
-              warnningMsg += `& ${minorKey}`;
+              warnningMsg += ` & ${minorKey}`;
             } else {
               warnningMsg += minorKey;
             }
@@ -144,7 +143,6 @@ const SubmitOppForm = ({
       }
 
       const res = await axiosClient.post('/client/opportunity/submit', body);
-      console.log(res);
     } catch (e) {
       console.log(e);
       setErrorMsg('something went wrong,please try again');
@@ -157,7 +155,12 @@ const SubmitOppForm = ({
   // ----------------------------------------------------------------------------------------------
 
   useEffect(() => {
-    if (
+    if(totalCost&&!downPayment){
+        setDownPayment(+totalCost/10)
+      setMaxPerMonth(
+        parseInt((totalCost - (totalCost/10)) / (12 * selectedPrice.paymentYears))
+      );
+    }else if (
       parseInt(
         (totalCost - downPayment) / (12 * selectedPrice.paymentYears)
       ) !== maxPerMonth
@@ -182,7 +185,7 @@ const SubmitOppForm = ({
           onChange={(e) => setClientName(e.target.value)}
           className={styles.text_feild}
           id="client"
-          label="Client Name"
+          label="Client Name*"
           helperText="Full name for your client"
           variant="outlined"
         />
@@ -191,7 +194,7 @@ const SubmitOppForm = ({
           onChange={(e) => setMobile(e.target.value)}
           className={styles.text_feild}
           id="Mobile"
-          label="Mobile"
+          label="Mobile*"
           variant="outlined"
         />
         <TextField
@@ -199,7 +202,7 @@ const SubmitOppForm = ({
           className={styles.text_feild}
           disabled
           id="Developer"
-          label="Developer"
+          label="Developer*"
           variant="outlined"
         />
         <TextField
@@ -207,12 +210,12 @@ const SubmitOppForm = ({
           className={styles.text_feild}
           disabled
           id="Project"
-          label="Project"
+          label="Project*"
           variant="outlined"
         />
 
         <FormControl className={styles.select}>
-          <InputLabel htmlFor="Types">Type</InputLabel>
+          <InputLabel htmlFor="Types">Type*</InputLabel>
           <Select
             disabled={!types?.length}
             labelId="Types"
@@ -234,7 +237,7 @@ const SubmitOppForm = ({
         </FormControl>
         {/*  */}
         <FormControl className={styles.select}>
-          <InputLabel htmlFor="Price">Price</InputLabel>
+          <InputLabel htmlFor="Price">Price*</InputLabel>
           <Select
             labelId="Price"
             id="Price"
