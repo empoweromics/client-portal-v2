@@ -1,4 +1,3 @@
-
 import PropTypes from 'prop-types';
 import Dialog from '@mui/material/Dialog';
 import { SubmitOppForm } from './submitOppForm';
@@ -15,7 +14,7 @@ function SimpleDialog(props) {
   const [loading, setLoading] = useState(false);
   const handleClose = () => {
     setRenderedComponent('ProJect-Details');
-    setProjectDetails()
+    setProjectDetails();
     onClose();
   };
   // ----------------------------------------------------------------------------------------------
@@ -32,61 +31,64 @@ function SimpleDialog(props) {
   // ----------------------------------------------------------------------------------------------
 
   const getProject = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
-      const res = await axiosClient.get(`/client/project/project/${projectId}`,)
-      setProjectDetails(res.data)
-    }
-    catch (e) {
+      const res = await axiosClient.get(`/client/project/project/${projectId}`);
+      setProjectDetails(res.data);
+    } catch (e) {
       console.log(e);
     }
-    setLoading(false)
-
-  }
-
+    setLoading(false);
+  };
 
   // ----------------------------------------------------------------------------------------------
 
   useEffect(() => {
-    if (projectId) getProject()
+    if (projectId) getProject();
   }, [projectId]);
   // ----------------------------------------------------------------------------------------------
 
   return (
-    <Dialog onClose={handleClose} open={open}
-      maxWidth="sm"
-      fullWidth
-    >
-      <Paper sx={{ minHeight: '300px' }}>
+    <Dialog onClose={handleClose} open={open} maxWidth="sm" fullWidth>
+      <Paper sx={{ minHeight: '320px' }}>
+        {loading && (
+          <CircularProgress
+            className={styles.centered_element}
+            color="success"
+          />
+        )}
 
-        {loading && <CircularProgress className={styles.centered_element} color="success" />}
-
-        {renderedComponent === 'Submit-Opp' && <SubmitOppForm setRenderedComponent={setRenderedComponent} projectDetails={projectDetails} setLoading={setLoading} />}
-        {renderedComponent === 'ProJect-Details' && <ProjectDetails projectDetails={projectDetails} setRenderedComponent={setRenderedComponent} />}
+        {renderedComponent === 'Submit-Opp' && (
+          <SubmitOppForm
+            setRenderedComponent={setRenderedComponent}
+            projectDetails={projectDetails}
+            setLoading={setLoading}
+          />
+        )}
+        {renderedComponent === 'ProJect-Details' && (
+          <ProjectDetails
+            projectDetails={projectDetails}
+            setRenderedComponent={setRenderedComponent}
+          />
+        )}
       </Paper>
-
     </Dialog>
   );
 }
 
 SimpleDialog.propTypes = {
   onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
+  open: PropTypes.bool.isRequired
 };
 
 export function OppDialog({ projectId, open, setDialogProjectId }) {
-
   const handleClose = () => {
     setDialogProjectId(false);
   };
 
   return (
     <div>
-      <SimpleDialog
-        projectId={projectId}
-        open={open}
-        onClose={handleClose}
-      />
+      <SimpleDialog projectId={projectId} open={open} onClose={handleClose} />
     </div>
   );
 }
