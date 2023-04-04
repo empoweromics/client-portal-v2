@@ -108,8 +108,12 @@ function MapSearch({ projects, selectProject }) {
 
   return (
     <>
-      <Tooltip arrow title="Search over projects">
-        <IconButton color="primary" onClick={handleClickOpen}>
+      <Tooltip
+        arrow
+        title="Search over projects"
+        style={{ backgroundColor: 'white' }}
+      >
+        <IconButton color="secondary" onClick={handleClickOpen}>
           <SearchTwoToneIcon />
         </IconButton>
       </Tooltip>
@@ -138,7 +142,7 @@ function MapSearch({ projects, selectProject }) {
                 </InputAdornment>
               )
             }}
-            placeholder="Search terms here..."
+            placeholder="Search for available projects..."
             fullWidth
             label="Search"
           />

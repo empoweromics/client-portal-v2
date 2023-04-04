@@ -11,6 +11,7 @@ import {
   setStyle
 } from 'src/utilities/map/map.config';
 import { Snackbar } from '@mui/material';
+import MapControl from './controller/map.controller';
 
 function GoogleMaps() {
   const [dialogProjectId, setDialogProjectId] = useState();
@@ -72,17 +73,16 @@ function GoogleMaps() {
   return (
     <>
       <Snackbar
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'center',
-      }}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center'
+        }}
         open={!!snackbarMsg}
         autoHideDuration={6000}
         //   onClose={handleClose}
         message={snackbarMsg}
-      //   action={action}
+        //   action={action}
       />
-      <MapSearch selectProject={selectProject} projects={projects} />
       {
         <OppDialog
           setSnackbarMsg={setSnackbarMsg}
@@ -101,6 +101,9 @@ function GoogleMaps() {
         zoom={12.5}
         onLoad={onLoad}
       >
+        <MapControl position="TOP_RIGHT" classNameChild={style.combinedMapForm}>
+          <MapSearch selectProject={selectProject} projects={projects} />
+        </MapControl>
         {selectedProject && (
           <>
             <Polygon

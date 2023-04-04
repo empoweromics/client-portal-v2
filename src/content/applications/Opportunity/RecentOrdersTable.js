@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { format } from 'date-fns';
 import numeral from 'numeral';
 import PropTypes from 'prop-types';
 import {
@@ -40,8 +39,8 @@ const getStatusLabel = (Opportunitiestatus) => {
       text: 'Completed',
       color: 'success'
     },
-    pending: {
-      text: 'Pending',
+    pendding: {
+      text: 'pendding',
       color: 'warning'
     }
   };
@@ -78,8 +77,8 @@ const RecentOrdersTable = ({ Opportunities }) => {
 
   const statusOptions = [
     {
-      id: 'all',
-      name: 'All'
+      id: 'pendding',
+      name: 'pendding'
     },
     {
       id: 'closed',
@@ -98,7 +97,7 @@ const RecentOrdersTable = ({ Opportunities }) => {
   const handleStatusChange = (e) => {
     let value = null;
 
-    if (e.target.value !== 'all') {
+    if (e.target.value !== 'pendding') {
       value = e.target.value;
     }
 
@@ -206,12 +205,12 @@ const RecentOrdersTable = ({ Opportunities }) => {
           <TableBody>
             {paginatedOpportunities.map((Opportunity) => {
               const isOpportunitieselected = selectedOpportunities.includes(
-                Opportunity.id
+                Opportunity._id
               );
               return (
                 <TableRow
                   hover
-                  key={Opportunity.id}
+                  key={Opportunity._id}
                   selected={isOpportunitieselected}
                 >
                   <TableCell padding="checkbox">
@@ -219,7 +218,7 @@ const RecentOrdersTable = ({ Opportunities }) => {
                       color="primary"
                       checked={isOpportunitieselected}
                       onChange={(event) =>
-                        handleSelectOneOpportunity(event, Opportunity.id)
+                        handleSelectOneOpportunity(event, Opportunity._id)
                       }
                       value={isOpportunitieselected}
                     />
@@ -232,7 +231,7 @@ const RecentOrdersTable = ({ Opportunities }) => {
                       gutterBottom
                       noWrap
                     >
-                      {Opportunity.opportunityID}
+                      {Opportunity._id}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -243,10 +242,7 @@ const RecentOrdersTable = ({ Opportunities }) => {
                       gutterBottom
                       noWrap
                     >
-                      {Opportunity.projectName}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                      {format(Opportunity.orderDate, 'MMMM dd yyyy')}
+                      {Opportunity.project.name}
                     </Typography>
                   </TableCell>
 
@@ -258,10 +254,10 @@ const RecentOrdersTable = ({ Opportunities }) => {
                       gutterBottom
                       noWrap
                     >
-                      {Opportunity.clientName}
+                      {Opportunity.client.name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {Opportunity.phone}
+                      {Opportunity.client.phone}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
@@ -272,12 +268,14 @@ const RecentOrdersTable = ({ Opportunities }) => {
                       gutterBottom
                       noWrap
                     >
-                      {numeral(Opportunity.downPayment).format(`0,0`)} EGP- Down
-                      payment
+                      {numeral(Opportunity.budget.downpayment).format(`0,0`)}{' '}
+                      EGP- Down payment
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {numeral(Opportunity.installment).format(`0,0.00`)} EGP -
-                      installment / Monthlly
+                      {numeral(Opportunity.budget.installmentAmountDue).format(
+                        `0,0.00`
+                      )}{' '}
+                      EGP - installment / Monthlly
                     </Typography>
                   </TableCell>
                   <TableCell align="right">

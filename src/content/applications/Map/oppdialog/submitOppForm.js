@@ -6,7 +6,6 @@ import {
   MenuItem,
   Select,
   Slider,
-  Snackbar,
   TextField,
   Typography
 } from '@mui/material';
@@ -34,7 +33,9 @@ const SubmitOppForm = ({
   const [totalCost, setTotalCost] = useState(0);
   const [downPayment, setDownPayment] = useState(0);
   const [maxPerMonth, setMaxPerMonth] = useState(
-    selectedPrice?.paymentYears? parseInt((totalCost - downPayment) / (12 * selectedPrice.paymentYears)):0
+    selectedPrice?.paymentYears
+      ? parseInt((totalCost - downPayment) / (12 * selectedPrice.paymentYears))
+      : 0
   );
   const [maxDelivery, setMaxDelivery] = useState(2023);
   const [contactDirectlyWithTheClient, setContactDirectlyWithTheClient] =
@@ -64,8 +65,8 @@ const SubmitOppForm = ({
     setLoading(true);
     try {
       const res = await axiosClient.get(
-        `/client/project/project/${projectDetails._id}/units`
-        , {headers:{'user': 'cXtdTSxTS0a5nyti9CpGeKokWun2'}}
+        `/client/project/project/${projectDetails._id}/units`,
+        { headers: { user: 'cXtdTSxTS0a5nyti9CpGeKokWun2' } }
       );
       setTypes(res.data || []);
       setSelectedType(res.data[0]);
@@ -145,14 +146,15 @@ const SubmitOppForm = ({
         return;
       }
 
-      const res = await axiosClient.post('/client/opportunity/submit', body, {headers:{'user': 'cXtdTSxTS0a5nyti9CpGeKokWun2'}});
-      setSnackbarMsg('Opportunity submited successfully')
+      const res = await axiosClient.post('/client/opportunity/submit', body, {
+        headers: { user: 'cXtdTSxTS0a5nyti9CpGeKokWun2' }
+      });
+      setSnackbarMsg('Opportunity submited successfully');
       setTimeout(() => {
         setSnackbarMsg();
       }, 3000);
-      setDialogProjectId('')
+      setDialogProjectId('');
     } catch (e) {
-     
       setErrorMsg('something went wrong,please try again');
       setTimeout(() => {
         setErrorMsg();
@@ -163,18 +165,28 @@ const SubmitOppForm = ({
   // ----------------------------------------------------------------------------------------------
 
   useEffect(() => {
-    if(totalCost&&!downPayment){
-        setDownPayment(+totalCost/10)
+    if (totalCost && !downPayment) {
+      setDownPayment(+totalCost / 10);
       setMaxPerMonth(
-        selectedPrice?.paymentYears ?  parseInt((totalCost - (totalCost/10)) / (12 * selectedPrice.paymentYears)):0
+        selectedPrice?.paymentYears
+          ? parseInt(
+              (totalCost - totalCost / 10) / (12 * selectedPrice.paymentYears)
+            )
+          : 0
       );
-    }else if (
+    } else if (
       parseInt(
-        selectedPrice?.paymentYears ? (totalCost - downPayment) / (12 * selectedPrice.paymentYears):0
+        selectedPrice?.paymentYears
+          ? (totalCost - downPayment) / (12 * selectedPrice.paymentYears)
+          : 0
       ) !== maxPerMonth
     )
       setMaxPerMonth(
-        selectedPrice?.paymentYears ?   parseInt((totalCost - downPayment) / (12 * selectedPrice.paymentYears)):0
+        selectedPrice?.paymentYears
+          ? parseInt(
+              (totalCost - downPayment) / (12 * selectedPrice.paymentYears)
+            )
+          : 0
       );
   }, [downPayment, totalCost]);
   // ----------------------------------------------------------------------------------------------
@@ -287,7 +299,8 @@ const SubmitOppForm = ({
         <Typography id="slider-label" gutterBottom>
           <span style={{ fontWeight: 'bold' }}> installment: </span>{' '}
           {maxPerMonth.toLocaleString()} EGP within{' '}
-          {selectedPrice?.paymentYears ? (12 * selectedPrice.paymentYears):0} months
+          {selectedPrice?.paymentYears ? 12 * selectedPrice.paymentYears : 0}{' '}
+          months
         </Typography>
         <Slider
           disabled={!selectedPrice}
@@ -356,7 +369,7 @@ const SubmitOppForm = ({
             Submit
           </Button>
         </div>
-               <div style={{ fontWeight: 'bold' }}>
+        <div style={{ fontWeight: 'bold' }}>
           *Estimated payment is based on a 10% down payment minimum{' '}
           {selectedPrice?.paymentYears && (
             <span>and {selectedPrice.paymentYears} year payment plan</span>

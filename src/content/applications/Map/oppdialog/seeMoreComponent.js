@@ -1,4 +1,4 @@
-import { Button, Collapse, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import React, { useState } from 'react';
 import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
@@ -9,16 +9,16 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
-    padding:'10px'
+    padding: '10px'
   },
   text: {
     whiteSpace: 'pre-line',
-    marginBottom: theme.spacing(1),
+    marginBottom: theme.spacing(1)
   },
   button: {
     alignSelf: 'flex-end',
-    textTransform: 'none',
-  },
+    textTransform: 'none'
+  }
 }));
 
 const SeeMoreComponent = ({ text }) => {
@@ -41,7 +41,9 @@ const SeeMoreComponent = ({ text }) => {
       return shortText + '...';
     }
 
-    return shortText?.substr(0, lastSpace)?shortText.substr(0, lastSpace) + '...':''
+    return shortText?.substr(0, lastSpace)
+      ? shortText.substr(0, lastSpace) + '...'
+      : '';
   };
 
   return (
@@ -54,7 +56,9 @@ const SeeMoreComponent = ({ text }) => {
           color="primary"
           className={classes.button}
           onClick={toggleExpanded}
-          endIcon={expanded ? <ExpandLessTwoToneIcon /> : <ExpandMoreTwoToneIcon />}
+          endIcon={
+            expanded ? <ExpandLessTwoToneIcon /> : <ExpandMoreTwoToneIcon />
+          }
         >
           {expanded ? 'See Less' : 'See More'}
         </Button>
@@ -68,4 +72,4 @@ const SeeMoreComponent = ({ text }) => {
   );
 };
 
-export  {SeeMoreComponent};
+export { SeeMoreComponent };

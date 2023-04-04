@@ -1,6 +1,4 @@
 import { Helmet } from 'react-helmet-async';
-import PageHeader from './PageHeader';
-import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import { Grid, Container } from '@mui/material';
 import Footer from 'src/components/Footer';
 
@@ -12,9 +10,7 @@ function ApplicationsOpportunity() {
       <Helmet>
         <title>Opportunity</title>
       </Helmet>
-      <PageTitleWrapper>
-        <PageHeader />
-      </PageTitleWrapper>
+
       <Container maxWidth="lg">
         <Grid
           container

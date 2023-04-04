@@ -31,3 +31,13 @@
   line-height: 30px;
   padding-left: 10px;
 }
+
+.combinedMapForm {
+  top: 0.15rem !important;
+  right: 0.8rem !important;
+  z-index: 1000 !important;
+  /* display: inline-flex;
+  gap: 0.5em;
+  width: 50%;
+  flex-wrap: wrap; */
+}
