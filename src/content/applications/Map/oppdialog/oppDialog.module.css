@@ -1,0 +1,135 @@
+.submit_button_wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.select,
+.text_feild {
+  width: calc(50% - 20px);
+  margin: 10px 0;
+}
+
+.form_wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.logo_wrapper {
+  width: 100px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  padding: 10px;
+}
+
+.project_details_wrapper {
+  padding: 15px;
+}
+
+.project_header_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.pricing_sec_wrapper {
+  display: flex;
+  background-color: #d4edda;
+  font-size: small;
+  /* margin: 10px auto; */
+  text-align: justify;
+  align-items: center;
+  /* max-width: 350px; */
+  min-width: 270px;
+  max-width: 450;
+  border-radius: 3px;
+  padding-right: 10px;
+}
+
+.project_desc {
+  position: relative;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+}
+
+.right_header_sec {
+  display: flex;
+}
+
+.centered_element {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1201;
+}
+
+/*  */
+
+@media screen and (max-width: 650px) and (min-width: 500px) {
+  .project_header_wrapper {
+    flex-direction: column;
+  }
+
+  .pricing_sec_wrapper {
+    min-width: 100%;
+    margin: 15px 0;
+  }
+
+  .right_header_sec {
+    min-width: 100%;
+  }
+
+  .text_feild {
+    width: 100%;
+    margin: 15px auto;
+  }
+
+  .submit_button_wrapper {
+    margin: 15px;
+  }
+}
+
+/*  */
+@media screen and (max-width: 500px) {
+  .project_header_wrapper {
+    flex-direction: column;
+  }
+
+  .pricing_sec_wrapper {
+    width: 100%;
+    margin: 10px;
+    font-size: 13px;
+    padding-right: 0;
+  }
+
+  .right_header_sec {
+    min-width: 100%;
+    font-size: 13px;
+  }
+
+  .text_feild {
+    width: 100%;
+    margin: 15px auto;
+  }
+
+  .submit_button_wrapper {
+    margin: 15px;
+  }
+
+  .select {
+    width: 100%;
+  }
+}

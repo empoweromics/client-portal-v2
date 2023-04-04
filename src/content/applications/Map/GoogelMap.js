@@ -4,57 +4,24 @@ import style from './style/googleMaps.module.css';
 import { MapSearch } from './Search/index';
 import { InfoWindowContent } from './InfoWindowContent';
 import projects from './data/projects.json';
-
-const mapOptions = {
-  streetViewControl: false,
-  styles: [
-    {
-      featureType: 'poi',
-      stylers: [{ visibility: 'off' }]
-    },
-    {
-      featureType: 'transit',
-      stylers: [{ visibility: 'off' }]
-    },
-    {
-      featureType: 'road.arterial',
-      stylers: [{ visibility: 'off' }]
-    },
-    {
-      featureType: 'road.highway',
-      stylers: [{ visibility: 'off' }]
-    },
-    {
-      featureType: 'road.highway.controlled_access',
-      stylers: [{ visibility: 'off' }]
-    }
-    // {
-    //   featureType: 'road.local',
-    //   stylers: [{ visibility: 'off' }]
-    // }
-  ]
-};
+import { OppDialog } from './oppdialog/opp-dialog';
+import {
+  getCentroid,
+  mapOptions,
+  setStyle
+} from 'src/utilities/map/map.config';
 
 function GoogleMaps() {
+  const [dialogProjectId, setDialogProjectId] = useState();
+
   const [selectedProject, setSelectedProject] = useState();
   const [center, setCenter] = useState({ lat: 30.010317, lng: 31.51263 });
 
   // sort project by acres from samller to larger --> to make zIndex of smaller polygon higher than larger one
-  let polygonZIndex = 99999;
   projects.features.sort((a, b) => {
     return parseFloat(a.properties.acres) - parseFloat(b.properties.acres);
   });
 
-  // ----------------------------------------------------------------------------------------------
-  const getCentroid = (arr) => {
-    return arr.reduce(
-      function (x, y) {
-        return [x[0] + y[0] / arr.length, x[1] + y[1] / arr.length];
-      },
-      [0, 0]
-    );
-  };
-  // ----------------------------------------------------------------------------------------------
   const selectProject = (project) => {
     setSelectedProject(project);
     setCenter({
@@ -67,60 +34,26 @@ function GoogleMaps() {
   const onLoad = (mapInstance) => {
     // map.current = mapInstance;
     mapInstance.data.addGeoJson(projects);
-    mapInstance.data.setStyle(function (feature) {
-      if (feature.getProperty('category') === 'residential') {
-        return {
-          fillColor: '#009A67',
-          strokeColor: 'green',
-          strokeWeight: 0.3,
-          zIndex: polygonZIndex--,
-          fillOpacity: 0.8
-        };
-      }
-
-      if (feature.getProperty('category') === 'commercial') {
-        return {
-          fillColor: 'yellow',
-          strokeColor: 'yellow',
-          strokeWeight: 0.3,
-          zIndex: polygonZIndex--,
-          fillOpacity: 0.6
-        };
-      }
-      if (feature.getProperty('category') === 'administrative') {
-        return {
-          fillColor: 'orange',
-          strokeColor: 'orange',
-          strokeWeight: 0.3,
-          zIndex: polygonZIndex--,
-          fillOpacity: 0.6
-        };
-      }
-      return {
-        fillColor: '#04516A',
-        fillOpacity: 0.2,
-        strokeColor: 'black',
-        strokeWeight: 0.1,
-        zIndex: polygonZIndex--
-      };
-    });
+    mapInstance.data.setStyle(setStyle);
 
     let infowindow = new window.google.maps.InfoWindow();
     mapInstance.data.addListener('click', function ({ feature, latLng }) {
-      // console.log(feature);
+      if (
+        feature.j.category === 'residential' ||
+        feature.j.category === 'administrative' ||
+        feature.j.category === 'commercial'
+      ) {
+        setDialogProjectId(feature?.j?.id);
+        return;
+      }
       let content = `<table class=${style.infoWindowTable}>
    <tr>
     <th>Name</th>
     <td>${feature.getProperty('name')}</td>
-  </tr>
+  </tr> 
    <tr>
-    <th>Category</th>
-    <td> ${feature.getProperty('category')}</td>
-  </tr>
-  
-   <tr>
-    <th>Area (acres)</th>
-    <td> ${feature.getProperty('acres')}</td>
+    <th>Area</th>
+    <td> ${feature.getProperty('acres')} (acres)</td>
   </tr>
  
  
@@ -138,7 +71,13 @@ function GoogleMaps() {
   return (
     <>
       <MapSearch selectProject={selectProject} projects={projects} />
-
+      {
+        <OppDialog
+          projectId={dialogProjectId}
+          open={!!dialogProjectId}
+          setDialogProjectId={setDialogProjectId}
+        />
+      }
       <GoogleMap
         mapContainerStyle={{
           width: '100%',
