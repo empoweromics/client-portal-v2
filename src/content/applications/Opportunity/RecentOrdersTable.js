@@ -244,6 +244,9 @@ const RecentOrdersTable = ({ Opportunities }) => {
                     >
                       {Opportunity.project.name}
                     </Typography>
+                    <Typography variant="body2" color="text.secondary" noWrap>
+                      {Opportunity.project.developer}
+                    </Typography>
                   </TableCell>
 
                   <TableCell>
@@ -275,7 +278,7 @@ const RecentOrdersTable = ({ Opportunities }) => {
                       {numeral(Opportunity.budget.installmentAmountDue).format(
                         `0,0.00`
                       )}{' '}
-                      EGP - installment / Monthlly
+                      EGP - installment
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
