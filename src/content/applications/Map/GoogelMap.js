@@ -1,23 +1,59 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import { GoogleMap, InfoWindow, Polygon } from '@react-google-maps/api';
 import React, { useState } from 'react';
 import style from './style/googleMaps.module.css';
 import { MapSearch } from './Search/index';
 import { InfoWindowContent } from './InfoWindowContent';
 import projects from './data/projects.json';
-import { OppDialog } from './oppdialog/opp-dialog';
 import {
   getCentroid,
+  getPolygonCenter,
   mapOptions,
   setStyle
 } from 'src/utilities/map/map.config';
 import { Snackbar } from '@mui/material';
 import MapControl from './controller/map.controller';
+import { ProjectDetailsDrawer } from './projectDetailsDrawer/projectDetailsDrawer';
+import axiosClient from 'src/utilities/axios/axiosIntercept';
+import { OppDialog } from './oppdialog/opp-dialog';
 
+// let infoWindowContent = <InfoWindowContent />
 function GoogleMaps() {
-  const [dialogProjectId, setDialogProjectId] = useState();
+  // const [dialogProjectId, setDialogProjectId] = useState();
   const [snackbarMsg, setSnackbarMsg] = useState('');
-  const [selectedProject, setSelectedProject] = useState();
+  const [openProjectDetailsDrawer, setOpenProjectDetailsDrawer] = useState();
+  const [projectDetailsWithPolygon, setProjectDetailsWithPolygon] = useState();
   const [center, setCenter] = useState({ lat: 30.010317, lng: 31.51263 });
+  const [projectDetails, setProjectDetails] = useState();
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [openDialog,setOpenDialog] = useState(false);
+    // ----------------------------------------------------------------------------------------------
+    const getProjectDetails = async (projectId ) => {
+      setLoading(true);
+      try {
+        const res = await axiosClient.get(`/client/project/project/${projectId}`, { headers: { 'user': 'cXtdTSxTS0a5nyti9CpGeKokWun2' } });
+        setProjectDetails(res.data);
+        setOpenProjectDetailsDrawer(true)
+            } catch (e) {
+        setErrorMsg('Something went wrong with getting  project details, please try again')
+      }
+      setLoading(false);
+    };
+
+    // ----------------------------------------------------------------------------------------------
+const findProjectById=(projectId)=>{
+  let projectWithPolygon=projects.features.find(project => project?.properties?.id === projectId)
+  setProjectDetailsWithPolygon(projectWithPolygon);
+getProjectDetails(projectId);
+setCenter({
+  lat: getCentroid(projectWithPolygon?.geometry?.coordinates[0])[1],
+  lng: getCentroid(projectWithPolygon?.geometry?.coordinates[0])[0]
+});
+console.log(getCentroid(projectWithPolygon?.geometry?.coordinates[0])[1])
+
+}
+    // ----------------------------------------------------------------------------------------------
 
   // sort project by acres from samller to larger --> to make zIndex of smaller polygon higher than larger one
   projects.features.sort((a, b) => {
@@ -25,48 +61,57 @@ function GoogleMaps() {
   });
 
   const selectProject = (project) => {
-    setSelectedProject(project);
-    setCenter({
-      lat: getCentroid(project?.geometry?.coordinates[0])[1],
-      lng: getCentroid(project?.geometry?.coordinates[0])[0]
-    });
+   findProjectById(project._id);
+    
   };
+  // ----------------------------------------------------------------------------------------------
+ 
   // ----------------------------------------------------------------------------------------------
 
   const onLoad = (mapInstance) => {
     // map.current = mapInstance;
     mapInstance.data.addGeoJson(projects);
     mapInstance.data.setStyle(setStyle);
-
     let infowindow = new window.google.maps.InfoWindow();
     mapInstance.data.addListener('click', function ({ feature, latLng }) {
+      const newCenter= getPolygonCenter(feature?.h?.h[0]?.h?.map(el=>{
+        return {lat:el.lat(),lng:el.lng()};
+      }))
+      setCenter(newCenter)
+      mapInstance.panTo(newCenter);
+
+     
       if (
-        feature.j.category === 'residential' ||
-        feature.j.category === 'administrative' ||
-        feature.j.category === 'commercial'
+        feature.j.category !== 'residential' &&
+        feature.j.category !== 'administrative' &&
+        feature.j.category !== 'commercial'
       ) {
-        setDialogProjectId(feature?.j?.id);
+        setOpenProjectDetailsDrawer()
         return;
       }
-      let content = `<table class=${style.infoWindowTable}>
-   <tr>
-    <th>Name</th>
-    <td>${feature.getProperty('name')}</td>
-  </tr> 
-   <tr>
-    <th>Area</th>
-    <td> ${feature.getProperty('acres')} (acres)</td>
-  </tr>
- 
- 
-</table>`;
-      infowindow.setContent(content);
-      infowindow.setPosition(latLng);
-      infowindow.open(mapInstance);
-    });
+      findProjectById(feature?.j?.id)
 
-    mapInstance.addListener('click', function () {
-      infowindow.close();
+      // setDialogProjectId(feature?.j?.id);
+
+//       let content = `<table class=${style.infoWindowTable}>
+//    <tr>
+//     <th>Name</th>
+//     <td>${feature.getProperty('name')}</td>
+//   </tr> 
+//    <tr>
+//     <th>Area</th>
+//     <td> ${feature.getProperty('acres')} (acres)</td>
+//   </tr>
+ 
+ 
+// </table>`;
+//       infowindow.setContent(content);
+//       infowindow.setPosition(latLng);
+//       infowindow.open(mapInstance);
+//     });
+
+//     mapInstance.addListener('click', function () {
+//       infowindow.close();
     });
   };
 
@@ -81,14 +126,17 @@ function GoogleMaps() {
         autoHideDuration={6000}
         //   onClose={handleClose}
         message={snackbarMsg}
-        //   action={action}
+      //   action={action}
       />
+
       {
         <OppDialog
           setSnackbarMsg={setSnackbarMsg}
-          projectId={dialogProjectId}
-          open={!!dialogProjectId}
-          setDialogProjectId={setDialogProjectId}
+          open={openDialog}
+          projectDetails={projectDetails}  
+          setProjectDetails={setProjectDetails} 
+          setOpen={setOpenDialog}
+
         />
       }
       <GoogleMap
@@ -101,13 +149,22 @@ function GoogleMaps() {
         zoom={12.5}
         onLoad={onLoad}
       >
+        <MapControl position="TOP_LEFT" classNameChild={style.combinedMapForm}>
+
+          <ProjectDetailsDrawer loading={loading} projectDetails={projectDetails}
+            setProjectDetails={setProjectDetails} errorMsg={errorMsg}
+             getProject={findProjectById}  open={openProjectDetailsDrawer}
+              setOpen={setOpenProjectDetailsDrawer} 
+          setSnackbarMsg={setSnackbarMsg}
+          />
+        </MapControl>
         <MapControl position="TOP_RIGHT" classNameChild={style.combinedMapForm}>
           <MapSearch selectProject={selectProject} projects={projects} />
         </MapControl>
-        {selectedProject && (
+        {openProjectDetailsDrawer && (
           <>
             <Polygon
-              paths={selectedProject?.geometry?.coordinates[0].map((el) => {
+              paths={openProjectDetailsDrawer?.geometry?.coordinates[0].map((el) => {
                 return { lat: el[0], lng: el[1] };
               })}
               options={{
@@ -115,17 +172,16 @@ function GoogleMaps() {
                 fillColor: 'yellow'
               }}
             />
-            <InfoWindow
-              position={center}
-              open={!!selectedProject}
-              onCloseClick={() => {
-                setSelectedProject(null);
-              }}
-            >
-              <InfoWindowContent project={selectedProject} />
-            </InfoWindow>
+          
           </>
         )}
+         { openProjectDetailsDrawer &&<InfoWindow
+              position={center}
+              open={!!openProjectDetailsDrawer}
+              options={{ disableCloseButton: true }}
+            >
+              <InfoWindowContent loading={loading}setOpenDialog={setOpenDialog} projectDetails={projectDetails} />
+            </InfoWindow>}
       </GoogleMap>
     </>
   );

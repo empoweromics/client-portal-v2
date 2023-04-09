@@ -17,10 +17,10 @@ import axiosClient from 'src/utilities/axios/axiosIntercept';
 const SubmitOppForm = ({
   setErrorMsg,
   setSnackbarMsg,
-  setRenderedComponent,
+  setOpen,
   projectDetails,
   setLoading,
-  setDialogProjectId
+  // setDialogProjectId
 }) => {
   const [buyerName, setClientName] = useState('');
   const [mobile, setMobile] = useState('');
@@ -29,18 +29,19 @@ const SubmitOppForm = ({
   const [types, setTypes] = useState([]);
   const [selectedType, setSelectedType] = useState('');
   const [prices, setPrices] = useState([]);
-  const [selectedPrice, setSelectedPrice] = useState('');
-  const [totalCost, setTotalCost] = useState(0);
+  const [selectedPrice, setSelectedPrice] = useState(0);
   const [downPayment, setDownPayment] = useState(0);
   const [maxPerMonth, setMaxPerMonth] = useState(
-    selectedPrice?.paymentYears
-      ? parseInt((totalCost - downPayment) / (12 * selectedPrice.paymentYears))
+    selectedType?.units && selectedType?.units[0]?.paymentYears
+      ? parseInt((selectedPrice - downPayment) / (12 * selectedType.units[0].paymentYears))
       : 0
   );
   const [maxDelivery, setMaxDelivery] = useState(2023);
   const [contactDirectlyWithTheClient, setContactDirectlyWithTheClient] =
     useState(true);
   const [submitLoad, setSubmitLoad] = useState(false);
+  const [priceStartPoint, setPriceStartPoint] = useState(0);
+  const [priceEndPoint, setPriceEndPoint] = useState(0);
 
   // ----------------------------------------------------------------------------------------------
   useEffect(() => {
@@ -48,9 +49,9 @@ const SubmitOppForm = ({
     return () => {
       setClientName('');
       setDownPayment(0);
-      setTotalCost(0);
+      // setTotalCost(0);
       setMaxPerMonth(0);
-      setSelectedPrice('');
+      setSelectedPrice(0);
       setPrices([]);
       setSelectedType('');
       setTypes([]);
@@ -61,18 +62,25 @@ const SubmitOppForm = ({
     };
   }, []);
   // ----------------------------------------------------------------------------------------------
+  const handleSelectPrice = (selectedType) => {
+    const sortedUnits = selectedType?.units?.sort((a, b) => a.priceBase - b.priceBase)
+    setPriceEndPoint(sortedUnits[sortedUnits.length - 1]?.priceBase)
+    setPriceStartPoint(sortedUnits[0]?.priceBase)
+    setSelectedPrice(sortedUnits[0]?.priceBase)
+  }
+  // ----------------------------------------------------------------------------------------------
+
   const getUnits = async () => {
     setLoading(true);
     try {
       const res = await axiosClient.get(
-        `/client/project/project/${projectDetails._id}/units`,
+        `/client/project/project/${projectDetails?.project?._id}/units`,
         { headers: { user: 'cXtdTSxTS0a5nyti9CpGeKokWun2' } }
       );
       setTypes(res.data || []);
       setSelectedType(res.data[0]);
-      setPrices(res.data[0]?.units || []);
-      setSelectedPrice(res.data[0]?.units[0]);
-      setTotalCost(res.data[0]?.units[0]?.priceBase);
+      handleSelectPrice(res.data[0])
+      // setTotalCost(res.data[0]?.units[0]?.priceBase);
     } catch (e) {
       console.log(e);
       setErrorMsg('Something went wrong with getting Units');
@@ -85,13 +93,13 @@ const SubmitOppForm = ({
   // ----------------------------------------------------------------------------------------------
   const handleSelectType = (value) => {
     setSelectedType(value);
-    setPrices(value.units);
+    handleSelectPrice(value)
   };
   // ----------------------------------------------------------------------------------------------
   useEffect(() => {
-    if (projectDetails) {
-      setProjectName(projectDetails?.i18n?.en?.name || '');
-      setDeveloperName(projectDetails?.developer_name || '');
+    if (projectDetails?.project) {
+      setProjectName(projectDetails?.project?.i18n?.en?.name || '');
+      setDeveloperName(projectDetails?.project?.developer_name || '');
     }
   }, [projectDetails]);
   // ----------------------------------------------------------------------------------------------
@@ -105,25 +113,24 @@ const SubmitOppForm = ({
           directly: contactDirectlyWithTheClient
         },
         project: {
-          id: projectDetails._id || '',
-          name: projectDetails?.i18n?.en?.name || '',
-          developer: projectDetails?.developer_name || ''
+          id: projectDetails?.project._id || '',
+          name: projectDetails?.project?.i18n?.en?.name || '',
+          developer: projectDetails?.project?.developer_name || ''
         },
-        unit: {
-          id: selectedPrice?.id || '',
-          priceBase: selectedPrice?.priceBase || '',
-          spaceBuildUp: selectedPrice?.spaceBuildUp || '',
-          paymentYears: selectedPrice?.paymentYears || ''
-        },
+        // unit: {
+        //   id: selectedPrice?.id || '',
+        //   priceBase: selectedPrice?.priceBase || '',
+        //   spaceBuildUp: selectedPrice?.spaceBuildUp || '',
+        //   paymentYears: selectedType?.units&&selectedType?.units[0]?.paymentYears || ''
+        // },
         budget: {
           downpayment: downPayment || 0,
           installmentAmountDue: maxPerMonth || '',
-          totalNumberOfInstallments: selectedPrice?.paymentYears
-            ? ((totalCost - downPayment) / selectedPrice.paymentYears) * 12
+          totalNumberOfInstallments: selectedType?.units && selectedType?.units[0]?.paymentYears
+            ? ((selectedPrice - downPayment) / selectedType.units[0].paymentYears) * 12
             : 0 || ''
         }
       };
-
       // validations
       let warnningMsg = '';
       Object.keys(body).forEach((key) => {
@@ -145,7 +152,7 @@ const SubmitOppForm = ({
         setSubmitLoad(false);
         return;
       }
-
+      console.log(body);
       const res = await axiosClient.post('/client/opportunity/submit', body, {
         headers: { user: 'cXtdTSxTS0a5nyti9CpGeKokWun2' }
       });
@@ -153,8 +160,9 @@ const SubmitOppForm = ({
       setTimeout(() => {
         setSnackbarMsg();
       }, 3000);
-      setDialogProjectId('');
+      setOpen(false);
     } catch (e) {
+      console.log(e);
       setErrorMsg('something went wrong,please try again');
       setTimeout(() => {
         setErrorMsg();
@@ -165,39 +173,32 @@ const SubmitOppForm = ({
   // ----------------------------------------------------------------------------------------------
 
   useEffect(() => {
-    if (totalCost && !downPayment) {
-      setDownPayment(+totalCost / 10);
+ 
       setMaxPerMonth(
-        selectedPrice?.paymentYears
+        selectedType?.units && selectedType?.units[0]?.paymentYears
           ? parseInt(
-              (totalCost - totalCost / 10) / (12 * selectedPrice.paymentYears)
-            )
+            (selectedPrice - downPayment) / (12 * selectedType.units[0].paymentYears)
+          )
           : 0
       );
-    } else if (
-      parseInt(
-        selectedPrice?.paymentYears
-          ? (totalCost - downPayment) / (12 * selectedPrice.paymentYears)
-          : 0
-      ) !== maxPerMonth
-    )
+  }, [downPayment]);
+  // ----------------------------------------------------------------------------------------------
+
+  useEffect(() => {
+    if (selectedPrice) {
+      setDownPayment(+selectedPrice / 10);
       setMaxPerMonth(
-        selectedPrice?.paymentYears
+        selectedType?.units && selectedType?.units[0]?.paymentYears
           ? parseInt(
-              (totalCost - downPayment) / (12 * selectedPrice.paymentYears)
-            )
+            (selectedPrice - selectedPrice / 10) / (12 * selectedType.units[0].paymentYears)
+          )
           : 0
       );
-  }, [downPayment, totalCost]);
+    }
+  }, [selectedPrice]);
   // ----------------------------------------------------------------------------------------------
   return (
     <div style={{ padding: '20px' }}>
-      <ArrowBackTwoToneIcon
-        style={{ cursor: 'pointer' }}
-        onClick={() => {
-          setRenderedComponent('ProJect-Details');
-        }}
-      />{' '}
       <h3>Submit Opportunity</h3>
       <div className={styles.form_wrapper}>
         <TextField
@@ -257,7 +258,7 @@ const SubmitOppForm = ({
         </FormControl>
         {/*  */}
         <FormControl className={styles.select}>
-          <InputLabel htmlFor="Price">Price*</InputLabel>
+          {/* <InputLabel htmlFor="Price">Price*</InputLabel>
           <Select
             labelId="Price"
             id="Price"
@@ -276,8 +277,26 @@ const SubmitOppForm = ({
                 </MenuItem>
               );
             })}
-          </Select>
+          </Select> */}
         </FormControl>
+        {/*  */}
+        <Typography id="slider-label" gutterBottom>
+          <span style={{ fontWeight: 'bold' }}>  </span>{' '}
+          {selectedPrice ? selectedPrice.toLocaleString() + ' EGP' : null}
+        </Typography>
+        <Slider
+          value={parseInt(selectedPrice)}
+          max={priceEndPoint}
+          aria-labelledby="price-label"
+          min={priceStartPoint}
+          aria-label="price"
+          valueLabelDisplay="off"
+          onChange={(e) => {
+            setSelectedPrice(parseInt(e.target.value));
+          }}
+          step={100000}
+          marks
+        />
         {/*  */}
         <Typography id="slider-label" gutterBottom>
           <span style={{ fontWeight: 'bold' }}> Down payment: </span>{' '}
@@ -286,7 +305,7 @@ const SubmitOppForm = ({
         <Slider
           disabled={!selectedPrice}
           value={parseInt(downPayment)}
-          max={totalCost}
+          max={selectedPrice}
           aria-labelledby="downPayment-label"
           min={0}
           aria-label="downPayment"
@@ -296,25 +315,25 @@ const SubmitOppForm = ({
           }}
         />
         {/*  */}
-        <Typography id="slider-label" gutterBottom>
+        <Typography id="slider-label2" gutterBottom>
           <span style={{ fontWeight: 'bold' }}> installment: </span>{' '}
           {maxPerMonth.toLocaleString()} EGP within{' '}
-          {selectedPrice?.paymentYears ? 12 * selectedPrice.paymentYears : 0}{' '}
+          {selectedType?.units && selectedType?.units[0]?.paymentYears ? 12 * selectedType.units[0].paymentYears : 0}{' '}
           months
         </Typography>
         <Slider
           disabled={!selectedPrice}
-          value={parseInt(totalCost - downPayment)}
-          max={totalCost}
+          value={parseInt(selectedPrice - downPayment)}
+          max={selectedPrice}
           min={0}
           aria-label="PerMonth"
           valueLabelDisplay="off"
           onChange={(e) => {
-            setDownPayment(parseInt(totalCost - e.target.value));
+            setDownPayment(parseInt(selectedPrice - e.target.value));
           }}
         />
         {/*  */}
-        <Typography id="slider-label" gutterBottom>
+        <Typography id="slider-label3" gutterBottom>
           <span style={{ fontWeight: 'bold' }}>Max delivery </span>
           {maxDelivery}
         </Typography>
@@ -326,7 +345,7 @@ const SubmitOppForm = ({
           aria-label="Max delivery"
           valueLabelDisplay="auto"
           onChange={(e) => {
-            setMaxDelivery(parseInt(totalCost - e.target.value));
+            setMaxDelivery(parseInt(selectedPrice - e.target.value));
           }}
         />
         {/*  */}
@@ -371,8 +390,8 @@ const SubmitOppForm = ({
         </div>
         <div style={{ fontWeight: 'bold' }}>
           *Estimated payment is based on a 10% down payment minimum{' '}
-          {selectedPrice?.paymentYears && (
-            <span>and {selectedPrice.paymentYears} year payment plan</span>
+          {selectedType?.units && selectedType?.units[0]?.paymentYears && (
+            <span>and {selectedType.units[0].paymentYears} year payment plan</span>
           )}
           .
         </div>
