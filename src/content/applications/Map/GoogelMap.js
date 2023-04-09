@@ -32,9 +32,9 @@ function GoogleMaps() {
     const getProjectDetails = async (projectId ) => {
       setLoading(true);
       try {
+        setOpenProjectDetailsDrawer(true)
         const res = await axiosClient.get(`/client/project/project/${projectId}`, { headers: { 'user': 'cXtdTSxTS0a5nyti9CpGeKokWun2' } });
         setProjectDetails(res.data);
-        setOpenProjectDetailsDrawer(true)
             } catch (e) {
         setErrorMsg('Something went wrong with getting  project details, please try again')
       }
