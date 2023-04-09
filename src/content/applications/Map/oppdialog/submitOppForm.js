@@ -126,9 +126,8 @@ const SubmitOppForm = ({
         budget: {
           downpayment: downPayment || 0,
           installmentAmountDue: maxPerMonth || '',
-          totalNumberOfInstallments: selectedType?.units && selectedType?.units[0]?.paymentYears
-            ? ((selectedPrice - downPayment) / selectedType.units[0].paymentYears) * 12
-            : 0 || ''
+          totalNumberOfInstallments: (selectedType?.units[0]?.paymentYears||8) * 12
+           
         }
       };
       // validations
