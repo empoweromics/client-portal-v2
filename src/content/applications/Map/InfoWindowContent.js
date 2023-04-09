@@ -23,11 +23,11 @@ const InfoWindowContent = (
           NET Cash</div>
         <button onClick={()=>{setOpenDialog(true)}} type='button' className={styles.btn + ' ' + styles.btn_success} style={{ margin: '10px auto' }}>Submit Opportunity</button>
         <div className={styles.InfoWindowContent_footer} >*Average commission in EGP on currently available units at
-          *project Name*
+          {projectDetails?.project?.i18n?.en?.name}
           {projectDetails?.project?.developer_name}</div></>
           :<>
           
-{projectDetails?.project?.developer_name&&   <div style={{textTransform:'capitalize'}}>*Project Name* {projectDetails?.project?.area} ({projectDetails?.project?.developer_name})</div>
+{projectDetails?.project?.developer_name&&   <div style={{textTransform:'capitalize'}}>{projectDetails?.project?.i18n?.en?.name} {projectDetails?.project?.area} ({projectDetails?.project?.developer_name})</div>
 }      {projectDetails?.project?.developer_name&&   <div> -{projectDetails?.project?.state}</div>}
           </>}
     </div >
