@@ -1,4 +1,4 @@
-export const getCentroid = (arr=[]) => {
+export const getCentroid = (arr = []) => {
   return arr.reduce(
     function (x, y) {
       return [x[0] + y[0] / arr.length, x[1] + y[1] / arr.length];
@@ -8,16 +8,16 @@ export const getCentroid = (arr=[]) => {
 };
 
 export const mapOptions = {
-  streetViewControl: false,
+  streetViewControl: true,
   styles: [
     {
       featureType: 'poi',
       stylers: [{ visibility: 'off' }]
     },
-    {
-      featureType: 'transit',
-      stylers: [{ visibility: 'off' }]
-    },
+    // {
+    //   featureType: 'transit',
+    //   stylers: [{ visibility: 'off' }]
+    // },
     {
       featureType: 'road.arterial',
       stylers: [{ visibility: 'off' }]
@@ -76,8 +76,6 @@ export const mapOptions = {
 //   };
 // };
 
-
-
 export const setStyle = (feature) => {
   let polygonZIndex = 99999;
   if (feature.getProperty('category') === 'police') {
@@ -86,7 +84,7 @@ export const setStyle = (feature) => {
       strokeColor: '#f7ac6e',
       strokeWeight: 0.3,
       zIndex: polygonZIndex--,
-      fillOpacity: 0.8
+      fillOpacity: 0.5
     };
   }
 
@@ -95,21 +93,23 @@ export const setStyle = (feature) => {
       fillColor: '#3282a4',
       strokeColor: '#3282a4',
       strokeWeight: 0.3,
-      zIndex: polygonZIndex--,
-      fillOpacity: 0.6
+      fillOpacity: 0.2
     };
   }
-  if (feature.getProperty('category') === 'residential'||feature.getProperty('category') === 'Constructed'||feature.getProperty('category') === 'res. & comm') {
-if(feature.j.units>0)  { 
-  return {
-      fillColor: '#02692f',
-      strokeColor: '#02692f',
-      strokeWeight: 0.3,
-      zIndex: polygonZIndex--,
-      fillOpacity: 0.6
-    };
-  // eslint-disable-next-line no-else-return
-  }else{
+  if (
+    feature.getProperty('category') === 'residential' ||
+    feature.getProperty('category') === 'Constructed' ||
+    feature.getProperty('category') === 'res. & comm'
+  ) {
+    if (feature.j.units > 0) {
+      return {
+        fillColor: '#02692f',
+        strokeColor: '#02692f',
+        strokeWeight: 0.8,
+        fillOpacity: 0.6
+      };
+      // eslint-disable-next-line no-else-return
+    } else {
       return {
         fillColor: '#04b479',
         strokeColor: '#04b479',
@@ -160,6 +160,5 @@ export function getPolygonCenter(polygon) {
 
   const center = { lat: centerX, lng: centerY };
 
- 
-  return center
+  return center;
 }
