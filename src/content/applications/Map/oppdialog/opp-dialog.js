@@ -1,30 +1,33 @@
 import PropTypes from 'prop-types';
 import Dialog from '@mui/material/Dialog';
 import { SubmitOppForm } from './submitOppForm';
-import { useEffect, useState } from 'react';
-import axiosClient from 'src/utilities/axios/axiosIntercept';
+import { useState } from 'react';
 import { CircularProgress, Paper, Snackbar } from '@mui/material';
 import styles from './oppDialog.module.css';
 
 function SimpleDialog(props) {
-  const { onClose,setSnackbarMsg,  open,  projectDetails,  setProjectDetails,  setOpen} = props;
+  const {
+    onClose,
+    setSnackbarMsg,
+    open,
+    projectDetails,
+    setProjectDetails,
+    setOpen
+  } = props;
 
   const [renderedComponent, setRenderedComponent] = useState('ProJect-Details');
   // const [projectDetails, setProjectDetails] = useState();
   const [errorMsg, setErrorMsg] = useState('');
   const [loading, setLoading] = useState(false);
-  
+
   const handleClose = () => {
     onClose();
   };
   // ----------------------------------------------------------------------------------------------
- 
-  // ----------------------------------------------------------------------------------------------
-
-  
 
   // ----------------------------------------------------------------------------------------------
 
+  // ----------------------------------------------------------------------------------------------
 
   // ----------------------------------------------------------------------------------------------
 
@@ -37,27 +40,27 @@ function SimpleDialog(props) {
             color="success"
           />
         )}
- <Snackbar
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'center',
-      }}
-        open={!!errorMsg}
-        autoHideDuration={6000}
-        //   onClose={handleClose}
-        message={errorMsg}
-      //   action={action}
-      />
-     
-          <SubmitOppForm
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center'
+          }}
+          open={!!errorMsg}
+          autoHideDuration={6000}
+          //   onClose={handleClose}
+          message={errorMsg}
+          //   action={action}
+        />
+
+        <SubmitOppForm
           setOpen={setOpen}
           setErrorMsg={setErrorMsg}
           setSnackbarMsg={setSnackbarMsg}
-            setRenderedComponent={setRenderedComponent}
-            projectDetails={projectDetails}
-            setLoading={setLoading}
-          />
-        
+          setRenderedComponent={setRenderedComponent}
+          projectDetails={projectDetails}
+          setLoading={setLoading}
+        />
+
         {/* {renderedComponent === 'ProJect-Details' && (
           <ProjectDetails
             projectDetails={projectDetails}
@@ -74,14 +77,27 @@ SimpleDialog.propTypes = {
   open: PropTypes.bool.isRequired
 };
 
-export function OppDialog({setSnackbarMsg,  open,  projectDetails,  setProjectDetails,  setOpen}) {
+export function OppDialog({
+  setSnackbarMsg,
+  open,
+  projectDetails,
+  setProjectDetails,
+  setOpen
+}) {
   const handleClose = () => {
     setOpen(false);
   };
 
   return (
     <div>
-      <SimpleDialog setSnackbarMsg={setSnackbarMsg} open={open} onClose={handleClose}  projectDetails={projectDetails}  setProjectDetails={setProjectDetails} setOpen={setOpen} />
+      <SimpleDialog
+        setSnackbarMsg={setSnackbarMsg}
+        open={open}
+        onClose={handleClose}
+        projectDetails={projectDetails}
+        setProjectDetails={setProjectDetails}
+        setOpen={setOpen}
+      />
     </div>
   );
 }

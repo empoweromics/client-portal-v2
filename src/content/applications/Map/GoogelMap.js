@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import style from './style/googleMaps.module.css';
 import { MapSearch } from './Search/index';
 import { InfoWindowContent } from './InfoWindowContent';
-import projects from './data/projects.json';
+import projects from 'src/data/projects.json';
 import {
   getCentroid,
   getPolygonCenter,
@@ -27,33 +27,39 @@ function GoogleMaps() {
   const [projectDetails, setProjectDetails] = useState();
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
-  const [openDialog,setOpenDialog] = useState(false);
-    // ----------------------------------------------------------------------------------------------
-    const getProjectDetails = async (projectId ) => {
-      setLoading(true);
-      try {
-        setOpenProjectDetailsDrawer(true)
-        const res = await axiosClient.get(`/client/project/project/${projectId}`, { headers: { 'user': 'cXtdTSxTS0a5nyti9CpGeKokWun2' } });
-        setProjectDetails(res.data);
-            } catch (e) {
-        setErrorMsg('Something went wrong with getting  project details, please try again')
-      }
-      setLoading(false);
-    };
+  const [openDialog, setOpenDialog] = useState(false);
+  // ----------------------------------------------------------------------------------------------
+  const getProjectDetails = async (projectId) => {
+    setLoading(true);
+    try {
+      setOpenProjectDetailsDrawer(true);
+      const res = await axiosClient.get(
+        `/client/project/project/${projectId}`,
+        { headers: { user: 'cXtdTSxTS0a5nyti9CpGeKokWun2' } }
+      );
+      setProjectDetails(res.data);
+    } catch (e) {
+      setErrorMsg(
+        'Something went wrong with getting  project details, please try again'
+      );
+    }
+    setLoading(false);
+  };
 
-    // ----------------------------------------------------------------------------------------------
-const findProjectById=(projectId)=>{
-  let projectWithPolygon=projects.features.find(project => project?.properties?.id === projectId)
-  setProjectDetailsWithPolygon(projectWithPolygon);
-getProjectDetails(projectId);
-setCenter({
-  lat: getCentroid(projectWithPolygon?.geometry?.coordinates[0])[1],
-  lng: getCentroid(projectWithPolygon?.geometry?.coordinates[0])[0]
-});
-console.log(getCentroid(projectWithPolygon?.geometry?.coordinates[0])[1])
-
-}
-    // ----------------------------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------------------------
+  const findProjectById = (projectId) => {
+    let projectWithPolygon = projects.features.find(
+      (project) => project?.properties?.id === projectId
+    );
+    setProjectDetailsWithPolygon(projectWithPolygon);
+    getProjectDetails(projectId);
+    setCenter({
+      lat: getCentroid(projectWithPolygon?.geometry?.coordinates[0])[1],
+      lng: getCentroid(projectWithPolygon?.geometry?.coordinates[0])[0]
+    });
+    console.log(getCentroid(projectWithPolygon?.geometry?.coordinates[0])[1]);
+  };
+  // ----------------------------------------------------------------------------------------------
 
   // sort project by acres from samller to larger --> to make zIndex of smaller polygon higher than larger one
   projects.features.sort((a, b) => {
@@ -61,57 +67,55 @@ console.log(getCentroid(projectWithPolygon?.geometry?.coordinates[0])[1])
   });
 
   const selectProject = (project) => {
-   findProjectById(project._id);
-    
+    findProjectById(project._id);
   };
   // ----------------------------------------------------------------------------------------------
- 
+
   // ----------------------------------------------------------------------------------------------
 
   const onLoad = (mapInstance) => {
     // map.current = mapInstance;
     mapInstance.data.addGeoJson(projects);
     mapInstance.data.setStyle(setStyle);
-    let infowindow = new window.google.maps.InfoWindow();
     mapInstance.data.addListener('click', function ({ feature, latLng }) {
-      const newCenter= getPolygonCenter(feature?.h?.h[0]?.h?.map(el=>{
-        return {lat:el.lat(),lng:el.lng()};
-      }))
-      setCenter(newCenter)
+      const newCenter = getPolygonCenter(
+        feature?.h?.h[0]?.h?.map((el) => {
+          return { lat: el.lat(), lng: el.lng() };
+        })
+      );
+      setCenter(newCenter);
       mapInstance.panTo(newCenter);
 
-     
       if (
         feature.j.category !== 'residential' &&
         feature.j.category !== 'administrative' &&
         feature.j.category !== 'commercial'
       ) {
-        setOpenProjectDetailsDrawer()
+        setOpenProjectDetailsDrawer();
         return;
       }
-      findProjectById(feature?.j?.id)
+      findProjectById(feature?.j?.id);
 
       // setDialogProjectId(feature?.j?.id);
 
-//       let content = `<table class=${style.infoWindowTable}>
-//    <tr>
-//     <th>Name</th>
-//     <td>${feature.getProperty('name')}</td>
-//   </tr> 
-//    <tr>
-//     <th>Area</th>
-//     <td> ${feature.getProperty('acres')} (acres)</td>
-//   </tr>
- 
- 
-// </table>`;
-//       infowindow.setContent(content);
-//       infowindow.setPosition(latLng);
-//       infowindow.open(mapInstance);
-//     });
+      //       let content = `<table class=${style.infoWindowTable}>
+      //    <tr>
+      //     <th>Name</th>
+      //     <td>${feature.getProperty('name')}</td>
+      //   </tr>
+      //    <tr>
+      //     <th>Area</th>
+      //     <td> ${feature.getProperty('acres')} (acres)</td>
+      //   </tr>
 
-//     mapInstance.addListener('click', function () {
-//       infowindow.close();
+      // </table>`;
+      //       infowindow.setContent(content);
+      //       infowindow.setPosition(latLng);
+      //       infowindow.open(mapInstance);
+      //     });
+
+      //     mapInstance.addListener('click', function () {
+      //       infowindow.close();
     });
   };
 
@@ -126,17 +130,16 @@ console.log(getCentroid(projectWithPolygon?.geometry?.coordinates[0])[1])
         autoHideDuration={6000}
         //   onClose={handleClose}
         message={snackbarMsg}
-      //   action={action}
+        //   action={action}
       />
 
       {
         <OppDialog
           setSnackbarMsg={setSnackbarMsg}
           open={openDialog}
-          projectDetails={projectDetails}  
-          setProjectDetails={setProjectDetails} 
+          projectDetails={projectDetails}
+          setProjectDetails={setProjectDetails}
           setOpen={setOpenDialog}
-
         />
       }
       <GoogleMap
@@ -150,12 +153,15 @@ console.log(getCentroid(projectWithPolygon?.geometry?.coordinates[0])[1])
         onLoad={onLoad}
       >
         <MapControl position="TOP_LEFT" classNameChild={style.combinedMapForm}>
-
-          <ProjectDetailsDrawer loading={loading} projectDetails={projectDetails}
-            setProjectDetails={setProjectDetails} errorMsg={errorMsg}
-             getProject={findProjectById}  open={openProjectDetailsDrawer}
-              setOpen={setOpenProjectDetailsDrawer} 
-          setSnackbarMsg={setSnackbarMsg}
+          <ProjectDetailsDrawer
+            loading={loading}
+            projectDetails={projectDetails}
+            setProjectDetails={setProjectDetails}
+            errorMsg={errorMsg}
+            getProject={findProjectById}
+            open={openProjectDetailsDrawer}
+            setOpen={setOpenProjectDetailsDrawer}
+            setSnackbarMsg={setSnackbarMsg}
           />
         </MapControl>
         <MapControl position="TOP_RIGHT" classNameChild={style.combinedMapForm}>
@@ -164,24 +170,31 @@ console.log(getCentroid(projectWithPolygon?.geometry?.coordinates[0])[1])
         {openProjectDetailsDrawer && (
           <>
             <Polygon
-              paths={openProjectDetailsDrawer?.geometry?.coordinates[0].map((el) => {
-                return { lat: el[0], lng: el[1] };
-              })}
+              paths={openProjectDetailsDrawer?.geometry?.coordinates[0].map(
+                (el) => {
+                  return { lat: el[0], lng: el[1] };
+                }
+              )}
               options={{
                 strokeColor: 'red',
                 fillColor: 'yellow'
               }}
             />
-          
           </>
         )}
-         { openProjectDetailsDrawer &&<InfoWindow
-              position={center}
-              open={!!openProjectDetailsDrawer}
-              options={{ disableCloseButton: true }}
-            >
-              <InfoWindowContent loading={loading}setOpenDialog={setOpenDialog} projectDetails={projectDetails} />
-            </InfoWindow>}
+        {openProjectDetailsDrawer && (
+          <InfoWindow
+            position={center}
+            open={!!openProjectDetailsDrawer}
+            options={{ disableCloseButton: true }}
+          >
+            <InfoWindowContent
+              loading={loading}
+              setOpenDialog={setOpenDialog}
+              projectDetails={projectDetails}
+            />
+          </InfoWindow>
+        )}
       </GoogleMap>
     </>
   );

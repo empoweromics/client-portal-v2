@@ -175,10 +175,10 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/go"
+                  to="/"
                   startIcon={<DashboardIcon />}
                 >
-                  Overview
+                  Home
                 </Button>
               </ListItem>
             </List>

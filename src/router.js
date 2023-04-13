@@ -17,6 +17,7 @@ const Loader = (Component) => (props) =>
 
 const Home = Loader(lazy(() => import('src/content/home')));
 
+const EmpHome = Loader(lazy(() => import('src/content/EmpHome')));
 // Dashboards
 
 const Overview = Loader(
@@ -55,7 +56,6 @@ const Status500 = Loader(
 const StatusMaintenance = Loader(
   lazy(() => import('src/content/pages/Status/Maintenance'))
 );
-
 const routes = (isLoggedIn) => {
   const location = useLocation();
 
@@ -67,6 +67,10 @@ const routes = (isLoggedIn) => {
         {
           path: '/',
           element: <Home />
+        },
+        {
+          path: 'empHome',
+          element: <EmpHome />
         },
         // {
         //   path: 'home',

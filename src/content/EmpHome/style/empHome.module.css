@@ -1,0 +1,25 @@
+.customerTitle {
+  border: 3px solid #2ab574;
+  display: block;
+  padding: 2em;
+  position: relative;
+  margin: 2em 0;
+}
+.customerTitle ::after {
+  position: absolute;
+  top: -0.5em;
+  left: 5%;
+  background-color: white;
+  content: 'Developed For صممت لـ';
+  font-size: medium;
+  padding: 0 0.5em;
+  font-weight: 500;
+  color: #2ab574;
+}
+
+.projectNo {
+  border: 1px solid #2ab574;
+  display: inline-block;
+  padding: 0.3em 0.4em;
+  margin: 0 0.3em;
+}

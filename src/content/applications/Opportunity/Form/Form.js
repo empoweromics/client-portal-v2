@@ -9,7 +9,6 @@ import {
   FormControlLabel,
   Checkbox,
   Button,
-  InputAdornment,
   DialogTitle,
   Alert
 } from '@mui/material';

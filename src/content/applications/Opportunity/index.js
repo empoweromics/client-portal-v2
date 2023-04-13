@@ -3,6 +3,8 @@ import { Grid, Container } from '@mui/material';
 import Footer from 'src/components/Footer';
 
 import MyOpportunities from './MyOpportunities';
+import PageTitleWrapper from 'src/components/PageTitleWrapper';
+import PageHeader from './PageHeader';
 
 function ApplicationsOpportunity() {
   return (
@@ -10,7 +12,9 @@ function ApplicationsOpportunity() {
       <Helmet>
         <title>Opportunity</title>
       </Helmet>
-
+      <PageTitleWrapper>
+        <PageHeader />
+      </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid
           container
