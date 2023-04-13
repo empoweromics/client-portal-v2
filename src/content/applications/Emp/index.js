@@ -33,7 +33,7 @@ function EmpPage() {
       <PageTitleWrapper >
         <PageHeader />
         <EmpForm setEmpLinks={setEmpLinks}/>
-        <EmpTable setEmpLinks={setEmpLinks} empLinks={empLinks} />
+      {empLinks.length>0&&  <EmpTable setEmpLinks={setEmpLinks} empLinks={empLinks} />}
       </PageTitleWrapper>
     </>
   );

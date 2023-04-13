@@ -5,11 +5,7 @@ import { DeleteConfirmationDialog } from './deleteConfirmationDialog';
 
 const EmpTable = ({ empLinks, setEmpLinks }) => {
     const [openSnackbar, setOpenSnackbar] = useState(false);
-    const agents = [
-        { name: 'John Smith', email: 'john@example.com', phone: '555-1234', experience: '5 years', recentSales: '12' },
-        { name: 'Jane Doe', email: 'jane@example.com', phone: '555-5678', experience: '10 years', recentSales: '22' },
-        { name: 'Bob Johnson', email: 'bob@example.com', phone: '555-9012', experience: '3 years', recentSales: '6' },
-    ];
+  
     function handleCopy(link) {
         navigator.clipboard.writeText(`https://empoweromics-dev.web.app/empHome/${link}`);
         setOpenSnackbar(true);
@@ -23,7 +19,8 @@ const EmpTable = ({ empLinks, setEmpLinks }) => {
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell>Url</TableCell>
+                    <TableCell>Url</TableCell>
+                    <TableCell>Views</TableCell>
                         <TableCell>Copy</TableCell>
                         <TableCell>Delete</TableCell>
                     </TableRow>
@@ -32,6 +29,7 @@ const EmpTable = ({ empLinks, setEmpLinks }) => {
                     {empLinks.map((el) => (
                         <TableRow key={el._id}>
                             <TableCell >https://empoweromics-dev.web.app/empHome/{el._id}</TableCell>
+                            <TableCell >{el.views}</TableCell>
                             <TableCell ><ContentCopyTwoToneIcon onClick={() => { handleCopy(el._id) }}
                                 sx={{ color: '#009A67', cursor: 'pointer' }} />
                             </TableCell>

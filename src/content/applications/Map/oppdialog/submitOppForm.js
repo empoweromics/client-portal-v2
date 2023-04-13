@@ -249,7 +249,7 @@ const SubmitOppForm = ({
             {types?.map((type, i) => {
               return (
                 <MenuItem key={i} value={type}>
-                  {type._id}
+                  {type._id}{''} ({type.count})
                 </MenuItem>
               );
             })}
@@ -257,6 +257,25 @@ const SubmitOppForm = ({
         </FormControl>
         {/*  */}
         <FormControl className={styles.select}>
+        <div
+          style={{
+            height:'100%',
+            display: 'flex',
+            alignItems: 'center'
+          }}
+        >
+          <input
+            style={{ marginRight: '10px', width: '1.2rem', height: '1.2rem' }}
+            type="checkbox"
+            id="ContactClientDirectly"
+            checked={contactDirectlyWithTheClient}
+            onChange={() => {
+              setContactDirectlyWithTheClient((prev) => !prev);
+            }}
+            disabled
+          />
+          <label htmlFor="ContactClientDirectly">Contact Client Directly</label>
+        </div>
           {/* <InputLabel htmlFor="Price">Price*</InputLabel>
           <Select
             labelId="Price"
@@ -348,29 +367,11 @@ const SubmitOppForm = ({
           }}
         />
         {/*  */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center'
-          }}
-        >
-          <input
-            style={{ marginRight: '10px', width: '1.2rem', height: '1.2rem' }}
-            type="checkbox"
-            id="ContactClientDirectly"
-            checked={contactDirectlyWithTheClient}
-            onChange={() => {
-              setContactDirectlyWithTheClient((prev) => !prev);
-            }}
-            disabled
-          />
-          <label htmlFor="ContactClientDirectly">Contact Client Directly</label>
-        </div>
+        
         {/*  */}
-        <Typography color="error" variant="h5">
+        {/* <Typography color="error" variant="h5">
           This account is not onboarded yet.
-        </Typography>
+        </Typography> */}
         <div className={styles.submit_button_wrapper}>
           {' '}
           <Button variant="contained" onClick={handleSubmit}>

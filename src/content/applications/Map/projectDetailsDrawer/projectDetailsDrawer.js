@@ -12,10 +12,9 @@ import { PricingCard } from './pricingCard';
 import { SeeMoreComponent } from './seeMoreComponent';
 import { OtherProjects } from './otherProjects';
 
-export function ProjectDetailsDrawer({ open, setOpen, getProject, loading,projectDetails, setProjectDetails,errorMsg }) {
+export function ProjectDetailsDrawer({ open, setOpen, getProject, loading, projectDetails, setProjectDetails, errorMsg }) {
   // ----------------------------------------------------------------------------------------------
 
-  
   // ----------------------------------------------------------------------------------------------
 
   // React.useEffect(() => {
@@ -37,7 +36,10 @@ export function ProjectDetailsDrawer({ open, setOpen, getProject, loading,projec
       sx={{ width: 400 }}
       role="presentation"
       onClick={toggleDrawer(false)}
-      onKeyDown={toggleDrawer(false)}
+      onKeyDown={() => {
+        console.log('clicked');
+        toggleDrawer(false)
+      }}
     >
       .    </Box>
   );
@@ -59,9 +61,11 @@ export function ProjectDetailsDrawer({ open, setOpen, getProject, loading,projec
             sx={{ maxWidth: '450px !important', position: 'relative' }}
             anchor={anchor}
             open={open}
-            onClose={() => {
+            onClose={(e) => {
+              if (e.key === 'Escape') {
+              return
+              } toggleDrawer(false)
               setProjectDetails()
-              toggleDrawer(false)
             }}
             BackdropProps={{ open: false }}
           >
