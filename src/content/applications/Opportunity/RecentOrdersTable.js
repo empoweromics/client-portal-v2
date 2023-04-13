@@ -57,7 +57,6 @@ const applyFilters = (Opportunities, filters) => {
     if (filters.status && Opportunity.status !== filters.status) {
       matches = false;
     }
-
     return matches;
   });
 };

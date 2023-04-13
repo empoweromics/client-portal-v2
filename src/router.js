@@ -39,6 +39,7 @@ const Academy = Loader(lazy(() => import('src/content/applications/Academy')));
 const Emp = Loader(lazy(() => import('src/content/applications/Emp')));
 
 const MapBox = Loader(lazy(() => import('src/content/applications/Map')));
+const Mapbox = Loader(lazy(() => import('src/content/applications/Map/Mapbox/MapBox')));
 
 const UserSettings = Loader(
   lazy(() => import('src/content/applications/Users/settings'))
@@ -135,6 +136,10 @@ const routes = (isLoggedIn) => {
         {
           path: 'map',
           element: <MapBox />
+        },
+        {
+          path: 'mapbox',
+          element: <Mapbox />
         },
         {
           path: 'profile',
