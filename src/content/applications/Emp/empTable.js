@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Snackbar } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Snackbar, CircularProgress } from '@mui/material';
 import ContentCopyTwoToneIcon from '@mui/icons-material/ContentCopyTwoTone';
 import { DeleteConfirmationDialog } from './deleteConfirmationDialog';
+import { TablePagination } from '@mui/material';
+import styles  from './emp.module.css'
 
 const EmpTable = ({ empLinks, setEmpLinks }) => {
     const [openSnackbar, setOpenSnackbar] = useState(false);
-  
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+
     function handleCopy(link) {
         navigator.clipboard.writeText(`https://empoweromics-dev.web.app/empHome/${link}`);
         setOpenSnackbar(true);
@@ -19,26 +23,42 @@ const EmpTable = ({ empLinks, setEmpLinks }) => {
             <Table>
                 <TableHead>
                     <TableRow>
-                    <TableCell>Url</TableCell>
-                    <TableCell>Views</TableCell>
+                        <TableCell className={styles.url_column}>Url</TableCell>
+                        <TableCell>Client Name</TableCell>
+                        <TableCell>Views</TableCell>
                         <TableCell>Copy</TableCell>
-                        <TableCell>Delete</TableCell>
+                        <TableCell>Remove</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {empLinks.map((el) => (
-                        <TableRow key={el._id}>
-                            <TableCell >https://empoweromics-dev.web.app/empHome/{el._id}</TableCell>
-                            <TableCell >{el.views}</TableCell>
-                            <TableCell ><ContentCopyTwoToneIcon onClick={() => { handleCopy(el._id) }}
-                                sx={{ color: '#009A67', cursor: 'pointer' }} />
-                            </TableCell>
-                            <TableCell><DeleteConfirmationDialog setEmpLinks={setEmpLinks} id={el._id} /></TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
 
+                    {empLinks?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        ?.map((el) => (
+                            <TableRow key={el._id}>
+                                <TableCell className={styles.url_column}>https://empoweromics-dev.web.app/empHome/{el._id}</TableCell>
+                                <TableCell >{el.inputs?.clientname}</TableCell>
+                                <TableCell >{el.views}</TableCell>
+                                <TableCell ><ContentCopyTwoToneIcon onClick={() => { handleCopy(el._id) }}
+                                    sx={{ color: '#009A67', cursor: 'pointer' }} />
+                                </TableCell>
+                                <TableCell><DeleteConfirmationDialog setEmpLinks={setEmpLinks} id={el._id} /></TableCell>
+                            </TableRow>
+                        ))}
+                </TableBody>
+                
+            </Table>
+            <TablePagination
+                    rowsPerPageOptions={[5, 10, 25]}
+                    component="div"
+                    count={empLinks.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={(event, newPage) => setPage(newPage)}
+                    onRowsPerPageChange={(event) => {
+                        setRowsPerPage(parseInt(event.target.value, 10));
+                        setPage(0);
+                    }}
+                />
             <Snackbar
                 anchorOrigin={{
                     vertical: 'bottom',

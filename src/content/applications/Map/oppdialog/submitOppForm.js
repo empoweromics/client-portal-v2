@@ -11,7 +11,6 @@ import {
 } from '@mui/material';
 import styles from './oppDialog.module.css';
 import { useEffect, useState } from 'react';
-import ArrowBackTwoToneIcon from '@mui/icons-material/ArrowBackTwoTone';
 import axiosClient from 'src/utilities/axios/axiosIntercept';
 
 const SubmitOppForm = ({
@@ -94,6 +93,8 @@ const SubmitOppForm = ({
   const handleSelectType = (value) => {
     setSelectedType(value);
     handleSelectPrice(value)
+    console.log(value);
+    console.log(projectDetails);
   };
   // ----------------------------------------------------------------------------------------------
   useEffect(() => {
@@ -126,8 +127,8 @@ const SubmitOppForm = ({
         budget: {
           downpayment: downPayment || 0,
           installmentAmountDue: maxPerMonth || '',
-          totalNumberOfInstallments: (selectedType?.units[0]?.paymentYears||8) * 12
-           
+          totalNumberOfInstallments: (selectedType?.units[0]?.paymentYears || 8) * 12
+
         }
       };
       // validations
@@ -172,14 +173,14 @@ const SubmitOppForm = ({
   // ----------------------------------------------------------------------------------------------
 
   useEffect(() => {
- 
-      setMaxPerMonth(
-        selectedType?.units && selectedType?.units[0]?.paymentYears
-          ? parseInt(
-            (selectedPrice - downPayment) / (12 * selectedType.units[0].paymentYears)
-          )
-          : 0
-      );
+
+    setMaxPerMonth(
+      selectedType?.units && selectedType?.units[0]?.paymentYears
+        ? parseInt(
+          (selectedPrice - downPayment) / (12 * selectedType.units[0].paymentYears)
+        )
+        : 0
+    );
   }, [downPayment]);
   // ----------------------------------------------------------------------------------------------
 
@@ -257,45 +258,26 @@ const SubmitOppForm = ({
         </FormControl>
         {/*  */}
         <FormControl className={styles.select}>
-        <div
-          style={{
-            height:'100%',
-            display: 'flex',
-            alignItems: 'center'
-          }}
-        >
-          <input
-            style={{ marginRight: '10px', width: '1.2rem', height: '1.2rem' }}
-            type="checkbox"
-            id="ContactClientDirectly"
-            checked={contactDirectlyWithTheClient}
-            onChange={() => {
-              setContactDirectlyWithTheClient((prev) => !prev);
+          <div
+            style={{
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center'
             }}
-            disabled
-          />
-          <label htmlFor="ContactClientDirectly">Contact Client Directly</label>
-        </div>
-          {/* <InputLabel htmlFor="Price">Price*</InputLabel>
-          <Select
-            labelId="Price"
-            id="Price"
-            value={selectedPrice}
-            label="Price"
-            onChange={(e) => {
-              setSelectedPrice(e.target.value);
-              setTotalCost(e.target.value.priceBase);
-            }}
-            disabled={!prices?.length}
           >
-            {prices?.map((price, i) => {
-              return (
-                <MenuItem key={i} value={price}>
-                  {price?.priceBase.toLocaleString()}
-                </MenuItem>
-              );
-            })}
-          </Select> */}
+            <input
+              style={{ marginRight: '10px', width: '1.2rem', height: '1.2rem' }}
+              type="checkbox"
+              id="ContactClientDirectly"
+              checked={contactDirectlyWithTheClient}
+              onChange={() => {
+                setContactDirectlyWithTheClient((prev) => !prev);
+              }}
+              disabled
+            />
+            <label htmlFor="ContactClientDirectly">Contact Client Directly</label>
+          </div>
+
         </FormControl>
         {/*  */}
         <Typography id="slider-label" gutterBottom>
@@ -366,15 +348,15 @@ const SubmitOppForm = ({
             setMaxDelivery(parseInt(selectedPrice - e.target.value));
           }}
         />
-        {/*  */}
-        
-        {/*  */}
+
         {/* <Typography color="error" variant="h5">
           This account is not onboarded yet.
         </Typography> */}
         <div className={styles.submit_button_wrapper}>
           {' '}
-          <Button variant="contained" onClick={handleSubmit}>
+          <Button
+            sx={{ marginTop: '10px' }} variant="contained"
+            onClick={handleSubmit}>
             {submitLoad && (
               <CircularProgress
                 color="inherit"
