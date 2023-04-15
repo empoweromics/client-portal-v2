@@ -10,6 +10,8 @@ import {
 
 import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork';
 import SchoolIcon from '@mui/icons-material/School';
+import { useEffect, useState } from 'react';
+import axiosClient from 'src/utilities/axios/axiosIntercept';
 
 const AvatarPrimary = styled(Avatar)(
   ({ theme }) => `
@@ -21,6 +23,20 @@ const AvatarPrimary = styled(Avatar)(
 );
 
 function RecentActivity() {
+  const [account, setAccount] = useState();
+  // ----------------------------------------------------------------------------------------------
+  const getAccount = async () => {
+    try {
+      const res = await axiosClient('/client/account');
+      setAccount(res.data);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  // ----------------------------------------------------------------------------------------------
+  useEffect(() => {
+    getAccount()
+  }, []);
   return (
     <Card sx={{ paddingBottom: '1em' }}>
       <CardHeader title="Recent Activity" />
@@ -33,24 +49,16 @@ function RecentActivity() {
           <Typography variant="h4">Opportunities</Typography>
 
           <Box pt={2} display="flex">
-            <Box pr={8}>
-              <Typography gutterBottom variant="caption">
-                Total
-              </Typography>
-              <Typography variant="h3">0</Typography>
-            </Box>
-            <Box pr={8}>
-              <Typography gutterBottom variant="caption">
-                Failed
-              </Typography>
-              <Typography variant="h3">0</Typography>
-            </Box>
-            <Box>
-              <Typography gutterBottom variant="caption">
-                Done
-              </Typography>
-              <Typography variant="h3">0</Typography>
-            </Box>
+            {account?.opportunity?.map(el => {
+              return <Box key={el._id} pr={8}>
+                <Typography gutterBottom variant="caption">
+                  {el._id}
+                </Typography>
+                <Typography variant="h3">{el.count}</Typography>
+              </Box>
+            })}
+
+            
           </Box>
         </Box>
       </Box>
@@ -67,13 +75,13 @@ function RecentActivity() {
               <Typography gutterBottom variant="caption">
                 Totla
               </Typography>
-              <Typography variant="h3">10</Typography>
+              <Typography variant="h3">{account?.academy?.total}</Typography>
             </Box>
             <Box pr={8}>
               <Typography gutterBottom variant="caption">
                 Level
               </Typography>
-              <Typography variant="h3">A1</Typography>
+              <Typography variant="h3">{account?.academy?.level}</Typography>
             </Box>
           </Box>
         </Box>

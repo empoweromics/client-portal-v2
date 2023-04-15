@@ -22,7 +22,7 @@ export function DeleteConfirmationDialog({ id,setEmpLinks }) {
     // ------------------------------------------------------------------------------------------------
     const deleteLink = async () => {
         try {
-            const res = await axiosClient.delete(`${process.env.REACT_APP_DEVELOP_URL}/${id}`)
+            const res = await axiosClient.delete(`${process.env.REACT_APP_DEVELOP_URL}/client/emp/${id}`)
             setEmpLinks(prev=>prev.filter(el=>el._id!==id))
             handleClose()
         } catch (e) {

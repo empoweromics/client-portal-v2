@@ -12,7 +12,7 @@ const OtherProjects = ({ projectDetails, getProject }) => {
           <div
             key={project._id}
             onClick={() => getProject(project._id)}
-            onKeyDown={() => {}}
+            onKeyDown={() => {console.log('clicked');}}
           >
             <img
               className={styles.other_projects_img}
