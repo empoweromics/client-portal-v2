@@ -246,7 +246,7 @@ const RecentTransactionsTable = ({ Transactions }) => {
                       gutterBottom
                       noWrap
                     >
-                      {transaction.ref}
+                      ... {transaction.ref.slice(-10)}
                     </Typography>
                     {/* <Typography variant="body2" color="text.secondary" noWrap> */}
                     {/* {format(transaction.orderDate, 'MMMM dd yyyy')} */}

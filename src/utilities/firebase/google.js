@@ -12,15 +12,17 @@ import axiosClient from '../axios/axiosIntercept';
 
 const provider = new GoogleAuthProvider();
 // export const signInGoogle = () => signInWithPopup(auth, provider);
-// const authLogin=async(user) =>{
-//   try{
-// const res=await axiosClient.put(`${process.env.REACT_APP_DEVELOP_URL}/client/auth/${user.uid}`,user)
-// console.log(res);
-//   }
-//   catch(e){
-// console.log(e);
-//   }
-// }
+const authLogin = async (user) => {
+  try {
+    const res = await axiosClient.put(
+      `${process.env.REACT_APP_DEVELOP_URL}/client/auth/${user}`,
+      user
+    );
+    console.log(res);
+  } catch (e) {
+    console.log(e);
+  }
+};
 // ----------------------------------------------------------------------------------------------
 
 function useGoogle() {
@@ -31,7 +33,6 @@ function useGoogle() {
   function signInGoogle() {
     signInWithPopup(auth, provider)
       .then(({ user }) => {
-        // authLogin(user)
         localStorage.setItem(
           'user',
           JSON.stringify({
@@ -51,20 +52,6 @@ function useGoogle() {
           }
         });
         navigate('/go');
-        auth.currentUser
-          .getIdToken(true)
-          .then((idToken) => {
-            axiosClient.put(`/auth/${idToken}`);
-            // axios
-            //   .get(`${process.env.REACT_APP_DEVELOP_URL}/auth`, {
-            //     headers: { Authorization: `Bearer ${idToken}` }
-            //   })
-            // .catch((err) => console.log(err));
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-        axiosClient.get(`/auth`).catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
   }
