@@ -70,7 +70,7 @@ const routes = (isLoggedIn) => {
           element: <Home />
         },
         {
-          path: 'empHome',
+          path: 'empHome/:id',
           element: <EmpHome />
         },
         // {

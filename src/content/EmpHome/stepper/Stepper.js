@@ -15,14 +15,15 @@ import Financials from './pages/Financials';
 import Project from './pages/Project';
 import Unit from './pages/Unit';
 
-const steps = [
-  { stepName: 'Developer', component: <Developer /> },
-  { stepName: 'Project', component: <Project /> },
-  { stepName: 'Unit', component: <Unit /> },
-  { stepName: 'Financials', component: <Financials /> }
-];
 
-export default function StepperPages() {
+export default function StepperPages({empData}) {
+  const steps = [
+    { stepName: 'Developer', component: <Developer empData={empData}/> },
+    { stepName: 'Project', component: <Project empData={empData}/> },
+    { stepName: 'Unit', component: <Unit empData={empData}/> },
+    { stepName: 'Financials', component: <Financials empData={empData}/> }
+  ];
+  
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {

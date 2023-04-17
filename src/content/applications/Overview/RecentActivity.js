@@ -73,7 +73,7 @@ function RecentActivity() {
           <Box pt={2} display="flex">
             <Box pr={8}>
               <Typography gutterBottom variant="caption">
-                Totla
+                total
               </Typography>
               <Typography variant="h3">{account?.academy?.total}</Typography>
             </Box>

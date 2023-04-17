@@ -1,9 +1,11 @@
 import { Typography, Grid, Divider, Box } from '@mui/material';
 import React from 'react';
 import styles from '../../style/empHome.module.css';
-import { developerData } from './data';
+// import { developerData } from './data';
 
-export default function Developer() {
+export default function Developer({empData}) {
+  const developerData = Object.values(empData?.outputs || {}).map(el=>el.developer)
+
   return (
     <>
       {/* <TableContainer>
@@ -190,9 +192,9 @@ export default function Developer() {
                   flexDirection="column"
                 >
                   <Box>
-                    <img alt={item.name} height={100} src={item.avatar} />
-                    <p style={{ textAlign: 'left' }}>{item.eng}</p>
-                    <p style={{ textAlign: 'right' }}>{item.arabic}</p>
+                    <img alt={item.name} height={100} src={`https://empoweromics.com/app/dl/${item?.logo}`} />
+                    <p style={{ textAlign: 'left' }}>{item?.i18n?.en?.description}</p>
+                    {/* <p style={{ textAlign: 'right' }}>{item.arabic}</p> */}
                   </Box>
                   <Box>
                     <Typography
@@ -200,7 +202,7 @@ export default function Developer() {
                       component="p"
                       variant="h1"
                     >
-                      {item.projects}
+                      {/* {item.projects} */}0
                     </Typography>
                     <Typography component="span" variant="h6">
                       projects
