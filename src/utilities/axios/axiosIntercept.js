@@ -12,10 +12,10 @@ axiosClient.interceptors.request.use(
     if (idToken) {
       config.headers = {
         ...config.headers,
-        Accept: 'application/json',
+        Accept: 'application/json'
       };
     }
-  config.headers.user='cXtdTSxTS0a5nyti9CpGeKokWun2'
+    config.headers.user = JSON.parse(localStorage.getItem('user')).id;
 
     return config;
   },

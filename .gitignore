@@ -4,7 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
-.env
+
 # testing
 /coverage
 
@@ -14,7 +14,6 @@
 # misc
 .DS_Store
 
-/.env.production.local
 .idea
 features.html
 
@@ -23,3 +22,4 @@ yarn-debug.log*
 yarn-error.log*
 
 .firebase
+.env

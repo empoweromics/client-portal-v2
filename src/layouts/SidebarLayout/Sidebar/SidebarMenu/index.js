@@ -206,17 +206,7 @@ function SidebarMenu() {
                   E-Map
                 </Button>
               </ListItem>
-              <ListItem component="div">
-                <Button
-                  disableRipple
-                  component={RouterLink}
-                  onClick={closeSidebar}
-                  to="/go/mapbox"
-                  startIcon={<MapIcon />}
-                >
-                  Map Box
-                </Button>
-              </ListItem>
+
               <ListItem component="div">
                 <Button
                   disableRipple

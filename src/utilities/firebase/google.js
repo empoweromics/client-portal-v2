@@ -10,18 +10,18 @@ import { UserContext, setUser } from 'src/contexts/UserContext';
 import { useNavigate } from 'react-router';
 import axiosClient from '../axios/axiosIntercept';
 
-const provider = new GoogleAuthProvider(); 
+const provider = new GoogleAuthProvider();
 // export const signInGoogle = () => signInWithPopup(auth, provider);
-  // const authLogin=async(user) =>{
-  //   try{
-  // const res=await axiosClient.put(`${process.env.REACT_APP_DEVELOP_URL}/client/auth/${user.uid}`,user)
-  // console.log(res);
-  //   }
-  //   catch(e){
-  // console.log(e);
-  //   }
-  // }
-  // ----------------------------------------------------------------------------------------------
+// const authLogin=async(user) =>{
+//   try{
+// const res=await axiosClient.put(`${process.env.REACT_APP_DEVELOP_URL}/client/auth/${user.uid}`,user)
+// console.log(res);
+//   }
+//   catch(e){
+// console.log(e);
+//   }
+// }
+// ----------------------------------------------------------------------------------------------
 
 function useGoogle() {
   const auth = getAuth();
@@ -51,20 +51,20 @@ function useGoogle() {
           }
         });
         navigate('/go');
-        // auth.currentUser
-        //   .getIdToken(true)
-        //   .then((idToken) => {
-        //     axiosClient.get('/auth', { mhm: idToken });
-        //     // axios
-        //     //   .get(`${process.env.REACT_APP_DEVELOP_URL}/auth`, {
-        //     //     headers: { Authorization: `Bearer ${idToken}` }
-        //     //   })
-        //     // .catch((err) => console.log(err));
-        //   })
-        //   .catch((err) => {
-        //     console.log(err);
-        //   });
-        // axiosClient.get(`/auth`).catch((err) => console.log(err));
+        auth.currentUser
+          .getIdToken(true)
+          .then((idToken) => {
+            axiosClient.put(`/auth/${idToken}`);
+            // axios
+            //   .get(`${process.env.REACT_APP_DEVELOP_URL}/auth`, {
+            //     headers: { Authorization: `Bearer ${idToken}` }
+            //   })
+            // .catch((err) => console.log(err));
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        axiosClient.get(`/auth`).catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
   }
