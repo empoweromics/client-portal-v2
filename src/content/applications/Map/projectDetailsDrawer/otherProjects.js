@@ -5,14 +5,16 @@ const OtherProjects = ({ projectDetails, getProject }) => {
   return (
     <div className={styles.other_projects_wrapper}>
       <div className={styles.other_projects_header}>
-        Other projects by {projectDetails.project?.developer_name}{' '}
+        Other projects by {projectDetails.project?.developer.name}{' '}
       </div>
       {projectDetails?.developer_projects?.map((project) => {
         return (
           <div
             key={project._id}
             onClick={() => getProject(project._id)}
-            onKeyDown={() => {console.log('clicked');}}
+            onKeyDown={() => {
+              console.log('clicked');
+            }}
           >
             <img
               className={styles.other_projects_img}

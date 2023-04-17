@@ -21,7 +21,9 @@ import {
   MenuItem,
   Typography,
   useTheme,
-  CardHeader
+  CardHeader,
+  Avatar,
+  Grid
 } from '@mui/material';
 
 import Label from 'src/components/Label';
@@ -33,7 +35,7 @@ const getStatusLabel = (Opportunitiestatus) => {
   console.log(Opportunitiestatus);
   const map = {
     failure: {
-      text: 'Failed',
+      text: 'Failure',
       color: 'error'
     },
     success: {
@@ -41,11 +43,10 @@ const getStatusLabel = (Opportunitiestatus) => {
       color: 'success'
     },
     pendding: {
-      text: 'pendding',
+      text: 'In review',
       color: 'warning'
     }
   };
-
 
   const { text, color } = map[Opportunitiestatus];
 
@@ -78,27 +79,31 @@ const RecentOrdersTable = ({ Opportunities }) => {
 
   const statusOptions = [
     {
+      id: 'all',
+      name: 'All status'
+    },
+    {
       id: 'pendding',
-      name: 'pendding'
+      name: 'In review'
     },
     {
       id: 'closed',
       name: 'Closed'
     },
     {
-      id: 'open',
+      id: 'success',
       name: 'Open'
     },
     {
-      id: 'failed',
-      name: 'Failed'
+      id: 'failure',
+      name: 'Failure'
     }
   ];
 
   const handleStatusChange = (e) => {
     let value = null;
 
-    if (e.target.value !== 'pendding') {
+    if (e.target.value !== 'all') {
       value = e.target.value;
     }
 
@@ -194,7 +199,7 @@ const RecentOrdersTable = ({ Opportunities }) => {
                   onChange={handleSelectAllOpportunities}
                 />
               </TableCell>
-              <TableCell>Opportunity ID</TableCell>
+              <TableCell>ID</TableCell>
               <TableCell>Project Name</TableCell>
 
               <TableCell>Client</TableCell>
@@ -232,22 +237,34 @@ const RecentOrdersTable = ({ Opportunities }) => {
                       gutterBottom
                       noWrap
                     >
-                      {Opportunity._id}
+                      ...{Opportunity._id.slice(-6)}
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {Opportunity.project.name}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                      {Opportunity.project.developer}
-                    </Typography>
+                    <Grid container spacing={2}>
+                      <Grid item xs={4}>
+                        <Avatar
+                          variant="square"
+                          alt="Remy Sharp"
+                          src={
+                            process.env.REACT_APP_OLD_DOMAIN_URL +
+                            '/app/pl/' +
+                            Opportunity.project.logo
+                          }
+                        />
+                      </Grid>
+                      <Grid item xs={8}>
+                        <Typography
+                          variant="body1"
+                          fontWeight="bold"
+                          color="text.primary"
+                          gutterBottom
+                          noWrap
+                        >
+                          {Opportunity.project.name}
+                        </Typography>
+                      </Grid>
+                    </Grid>
                   </TableCell>
 
                   <TableCell>

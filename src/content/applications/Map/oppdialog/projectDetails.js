@@ -22,7 +22,7 @@ const ProjectDetails = ({ setRenderedComponent, projectDetails }) => {
           </div>
           <div style={{ marginLeft: '15px', fontWeight: 'bold' }}>
             <div> {projectDetails?.i18n?.en?.name}</div>
-            <div> {projectDetails?.developer_name}</div>
+            <div> {projectDetails?.developer.name}</div>
             <div> {projectDetails?.state}</div>
             <div> {projectDetails?.units.total} Units</div>
             <Rating

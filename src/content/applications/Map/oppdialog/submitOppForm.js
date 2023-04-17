@@ -18,7 +18,7 @@ const SubmitOppForm = ({
   setSnackbarMsg,
   setOpen,
   projectDetails,
-  setLoading,
+  setLoading
   // setDialogProjectId
 }) => {
   const [buyerName, setClientName] = useState('');
@@ -32,7 +32,10 @@ const SubmitOppForm = ({
   const [downPayment, setDownPayment] = useState(0);
   const [maxPerMonth, setMaxPerMonth] = useState(
     selectedType?.units && selectedType?.units[0]?.paymentYears
-      ? parseInt((selectedPrice - downPayment) / (12 * selectedType.units[0].paymentYears))
+      ? parseInt(
+          (selectedPrice - downPayment) /
+            (12 * selectedType.units[0].paymentYears)
+        )
       : 0
   );
   const [maxDelivery, setMaxDelivery] = useState(2023);
@@ -62,11 +65,13 @@ const SubmitOppForm = ({
   }, []);
   // ----------------------------------------------------------------------------------------------
   const handleSelectPrice = (selectedType) => {
-    const sortedUnits = selectedType?.units?.sort((a, b) => a.priceBase - b.priceBase)
-    setPriceEndPoint(sortedUnits[sortedUnits.length - 1]?.priceBase)
-    setPriceStartPoint(sortedUnits[0]?.priceBase)
-    setSelectedPrice(sortedUnits[0]?.priceBase)
-  }
+    const sortedUnits = selectedType?.units?.sort(
+      (a, b) => a.priceBase - b.priceBase
+    );
+    setPriceEndPoint(sortedUnits[sortedUnits.length - 1]?.priceBase);
+    setPriceStartPoint(sortedUnits[0]?.priceBase);
+    setSelectedPrice(sortedUnits[0]?.priceBase);
+  };
   // ----------------------------------------------------------------------------------------------
 
   const getUnits = async () => {
@@ -78,7 +83,7 @@ const SubmitOppForm = ({
       );
       setTypes(res.data || []);
       setSelectedType(res.data[0]);
-      handleSelectPrice(res.data[0])
+      handleSelectPrice(res.data[0]);
       // setTotalCost(res.data[0]?.units[0]?.priceBase);
     } catch (e) {
       console.log(e);
@@ -92,7 +97,7 @@ const SubmitOppForm = ({
   // ----------------------------------------------------------------------------------------------
   const handleSelectType = (value) => {
     setSelectedType(value);
-    handleSelectPrice(value)
+    handleSelectPrice(value);
     console.log(value);
     console.log(projectDetails);
   };
@@ -100,7 +105,7 @@ const SubmitOppForm = ({
   useEffect(() => {
     if (projectDetails?.project) {
       setProjectName(projectDetails?.project?.i18n?.en?.name || '');
-      setDeveloperName(projectDetails?.project?.developer_name || '');
+      setDeveloperName(projectDetails?.project?.developer.name || '');
     }
   }, [projectDetails]);
   // ----------------------------------------------------------------------------------------------
@@ -116,7 +121,7 @@ const SubmitOppForm = ({
         project: {
           id: projectDetails?.project._id || '',
           name: projectDetails?.project?.i18n?.en?.name || '',
-          developer: projectDetails?.project?.developer_name || ''
+          developer: projectDetails?.project?.developer.name || ''
         },
         // unit: {
         //   id: selectedPrice?.id || '',
@@ -127,8 +132,8 @@ const SubmitOppForm = ({
         budget: {
           downpayment: downPayment || 0,
           installmentAmountDue: maxPerMonth || '',
-          totalNumberOfInstallments: (selectedType?.units[0]?.paymentYears || 8) * 12
-
+          totalNumberOfInstallments:
+            (selectedType?.units[0]?.paymentYears || 8) * 12
         }
       };
       // validations
@@ -173,12 +178,12 @@ const SubmitOppForm = ({
   // ----------------------------------------------------------------------------------------------
 
   useEffect(() => {
-
     setMaxPerMonth(
       selectedType?.units && selectedType?.units[0]?.paymentYears
         ? parseInt(
-          (selectedPrice - downPayment) / (12 * selectedType.units[0].paymentYears)
-        )
+            (selectedPrice - downPayment) /
+              (12 * selectedType.units[0].paymentYears)
+          )
         : 0
     );
   }, [downPayment]);
@@ -190,8 +195,9 @@ const SubmitOppForm = ({
       setMaxPerMonth(
         selectedType?.units && selectedType?.units[0]?.paymentYears
           ? parseInt(
-            (selectedPrice - selectedPrice / 10) / (12 * selectedType.units[0].paymentYears)
-          )
+              (selectedPrice - selectedPrice / 10) /
+                (12 * selectedType.units[0].paymentYears)
+            )
           : 0
       );
     }
@@ -250,7 +256,8 @@ const SubmitOppForm = ({
             {types?.map((type, i) => {
               return (
                 <MenuItem key={i} value={type}>
-                  {type._id}{''} ({type.count})
+                  {type._id}
+                  {''} ({type.count})
                 </MenuItem>
               );
             })}
@@ -275,13 +282,14 @@ const SubmitOppForm = ({
               }}
               disabled
             />
-            <label htmlFor="ContactClientDirectly">Contact Client Directly</label>
+            <label htmlFor="ContactClientDirectly">
+              Contact Client Directly
+            </label>
           </div>
-
         </FormControl>
         {/*  */}
         <Typography id="slider-label" gutterBottom>
-          <span style={{ fontWeight: 'bold' }}>  </span>{' '}
+          <span style={{ fontWeight: 'bold' }}> </span>{' '}
           {selectedPrice ? selectedPrice.toLocaleString() + ' EGP' : null}
         </Typography>
         <Slider
@@ -318,7 +326,9 @@ const SubmitOppForm = ({
         <Typography id="slider-label2" gutterBottom>
           <span style={{ fontWeight: 'bold' }}> installment: </span>{' '}
           {maxPerMonth.toLocaleString()} EGP within{' '}
-          {selectedType?.units && selectedType?.units[0]?.paymentYears ? 12 * selectedType.units[0].paymentYears : 0}{' '}
+          {selectedType?.units && selectedType?.units[0]?.paymentYears
+            ? 12 * selectedType.units[0].paymentYears
+            : 0}{' '}
           months
         </Typography>
         <Slider
@@ -355,8 +365,10 @@ const SubmitOppForm = ({
         <div className={styles.submit_button_wrapper}>
           {' '}
           <Button
-            sx={{ marginTop: '10px' }} variant="contained"
-            onClick={handleSubmit}>
+            sx={{ marginTop: '10px' }}
+            variant="contained"
+            onClick={handleSubmit}
+          >
             {submitLoad && (
               <CircularProgress
                 color="inherit"
@@ -373,7 +385,9 @@ const SubmitOppForm = ({
         <div style={{ fontWeight: 'bold' }}>
           *Estimated payment is based on a 10% down payment minimum{' '}
           {selectedType?.units && selectedType?.units[0]?.paymentYears && (
-            <span>and {selectedType.units[0].paymentYears} year payment plan</span>
+            <span>
+              and {selectedType.units[0].paymentYears} year payment plan
+            </span>
           )}
           .
         </div>

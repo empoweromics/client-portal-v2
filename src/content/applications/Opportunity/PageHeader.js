@@ -1,19 +1,6 @@
-import { Typography, Button, Grid } from '@mui/material';
-
-import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
-import { useState } from 'react';
-import Form from './Form/Form';
+import { Typography, Grid } from '@mui/material';
 
 function PageHeader() {
-  const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
   return (
     <>
       <Grid container justifyContent="space-between" alignItems="center">
@@ -25,18 +12,7 @@ function PageHeader() {
             Get empowered & Start selling
           </Typography>
         </Grid>
-        <Grid item>
-          <Button
-            sx={{ mt: { xs: 2, md: 0 } }}
-            variant="contained"
-            startIcon={<AddTwoToneIcon fontSize="small" />}
-            onClick={handleClickOpen}
-          >
-            Submit Opportunity
-          </Button>
-        </Grid>
       </Grid>
-      {open && <Form open={open} handleClose={handleClose} />}
     </>
   );
 }

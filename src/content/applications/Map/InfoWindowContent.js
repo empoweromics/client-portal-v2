@@ -50,19 +50,19 @@ const InfoWindowContent = ({ projectDetails, setOpenDialog, loading }) => {
           <div className={styles.InfoWindowContent_footer}>
             *Average commission in EGP on currently available units at
             {projectDetails?.project?.i18n?.en?.name}
-            {projectDetails?.project?.developer_name}
+            {projectDetails?.project?.developer.name}
           </div>
         </>
       ) : (
         <>
-          {projectDetails?.project?.developer_name && (
+          {projectDetails?.project?.developer.name && (
             <div style={{ textTransform: 'capitalize' }}>
               {projectDetails?.project?.i18n?.en?.name}{' '}
               {projectDetails?.project?.area} (
-              {projectDetails?.project?.developer_name})
+              {projectDetails?.project?.developer.name})
             </div>
           )}{' '}
-          {projectDetails?.project?.developer_name && (
+          {projectDetails?.project?.developer.name && (
             <div> -{projectDetails?.project?.state}</div>
           )}
         </>

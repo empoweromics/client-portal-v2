@@ -46,7 +46,7 @@ const ImgsSection = ({ projectDetails }) => {
             alignItems: 'flex-end'
           }}
         >
-          By {projectDetails?.project?.developer_name}
+          By {projectDetails?.project?.developer.name}
           <Rating
             name="read-only"
             value={projectDetails?.project?.rating || 0}

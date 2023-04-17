@@ -13,7 +13,6 @@ function MyOpportunities() {
     if (axios.data) {
       setLoading(false);
     }
-    console.log(axios.data);
   }, []);
 
   return (
