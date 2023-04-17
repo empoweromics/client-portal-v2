@@ -63,39 +63,41 @@ function TopDeveloper() {
       avatar: '/static/images/developers/deaf0266.jpeg'
     }
   ];
-// ------------------------------------------------------------------------------------------------
-const getTopDevelopers=async()=>{
-  try{
-    const res=await axiosClient(`/client/account/top-developers?city=${currentCity}`);
-    setTopDevelopers(res.data);
-    console.log(res.data);
-  }catch(e){
-    console.log(e);
-  }
-}
-// ------------------------------------------------------------------------------------------------
-// useEffect(() => {
-//   navigator.geolocation.getCurrentPosition((position) => {
-//     const latitude = position.coords.latitude;
-//     const longitude = position.coords.longitude;
+  // ------------------------------------------------------------------------------------------------
+  const getTopDevelopers = async () => {
+    try {
+      const res = await axiosClient(
+        `/client/account/top-developers?city=${currentCity}`
+      );
+      setTopDevelopers(res.data);
+      console.log(res.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  // ------------------------------------------------------------------------------------------------
+  // useEffect(() => {
+  //   navigator.geolocation.getCurrentPosition((position) => {
+  //     const latitude = position.coords.latitude;
+  //     const longitude = position.coords.longitude;
 
-//     // Call a reverse geocoding API to get the city name from the coordinates
-//     fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=YOUR_API_KEY`)
-//       .then((response) => response.json())
-//       .then((data) => {
-//         // Extract the city name from the API response
-//         const city = data.results[0].components.city;
-//         setCurrentCity(city);
-//       })
-//       .catch((error) => console.error(error));
-//   });
-// }, []);
-// ------------------------------------------------------------------------------------------------
-useEffect(() => {
-  getTopDevelopers()
-}, []);
-// ------------------------------------------------------------------------------------------------
-return (
+  //     // Call a reverse geocoding API to get the city name from the coordinates
+  //     fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=YOUR_API_KEY`)
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         // Extract the city name from the API response
+  //         const city = data.results[0].components.city;
+  //         setCurrentCity(city);
+  //       })
+  //       .catch((error) => console.error(error));
+  //   });
+  // }, []);
+  // ------------------------------------------------------------------------------------------------
+  useEffect(() => {
+    getTopDevelopers();
+  }, []);
+  // ------------------------------------------------------------------------------------------------
+  return (
     <Card>
       <CardHeader title="Top Developers" />
       <Divider />
@@ -104,16 +106,23 @@ return (
           {topDevelopers.map((topDeveloper) => (
             <Grid key={topDeveloper._id} item>
               <Box p={3} display="flex" alignItems="flex-start">
-                <Avatar sx={{ width: 56, height: 56 }} src={topDeveloper.logo?`https://empoweromics.com/app/dl/${topDeveloper.logo}`:emLogo} />
+                <Avatar
+                  sx={{ width: 56, height: 56 }}
+                  src={
+                    topDeveloper.logo
+                      ? `https://empoweromics.com/app/dl/${topDeveloper.logo}`
+                      : emLogo
+                  }
+                />
                 <Box pl={2}>
                   <Typography gutterBottom variant="subtitle2">
-                    {/* {_feed.projects} project */}
+                    {Number(topDeveloper?.rating).toFixed(2)}
                     <Rating
-              name="read-only"
-              value={topDeveloper?.rating || 0}
-              precision={0.5}
-              readOnly
-            />
+                      name="read-only"
+                      value={Number(topDeveloper?.rating) || 0}
+                      precision={0.1}
+                      readOnly
+                    />
                   </Typography>
                   <Typography variant="h4" gutterBottom>
                     {topDeveloper.name}

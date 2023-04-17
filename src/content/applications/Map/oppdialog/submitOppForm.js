@@ -119,7 +119,7 @@ const SubmitOppForm = ({
           directly: contactDirectlyWithTheClient
         },
         project: {
-          id: projectDetails?.project._id || '',
+          _id: projectDetails?.project._id || '',
           name: projectDetails?.project?.i18n?.en?.name || '',
           developer: projectDetails?.project?.developer.name || ''
         },

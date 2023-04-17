@@ -7,12 +7,11 @@ import Footer from 'src/components/Footer';
 import AccountBalance from './AccountBalance';
 import TopDeveloper from './TopDeveloper';
 import RecentActivity from './RecentActivity';
-import { InfoWindowContent } from '../Map/InfoWindowContent';
 
 function DashboardCrypto() {
   return (
     <>
-    {/* <InfoWindowContent/> */}
+      {/* <InfoWindowContent/> */}
       <Helmet>
         <title>empoweromics Dashboard</title>
       </Helmet>
