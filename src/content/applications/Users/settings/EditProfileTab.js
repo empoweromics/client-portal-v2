@@ -12,6 +12,7 @@ import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DoneTwoToneIcon from '@mui/icons-material/DoneTwoTone';
 import Text from 'src/components/Text';
 import Label from 'src/components/Label';
+import { PersonalDetailsDialog } from './personalDetailsDialog';
 
 function EditProfileTab() {
   return (
@@ -32,9 +33,8 @@ function EditProfileTab() {
                 Manage informations related to your personal details
               </Typography>
             </Box>
-            <Button variant="text" startIcon={<EditTwoToneIcon />}>
-              Edit
-            </Button>
+            <PersonalDetailsDialog/>
+            
           </Box>
           <Divider />
           <CardContent sx={{ p: 4 }}>

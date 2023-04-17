@@ -34,7 +34,7 @@ function GoogleMaps() {
     try {
       setOpenProjectDetailsDrawer(true);
       const res = await axiosClient.get(
-        `/client/project/project/${projectId}`,
+        `/client/project/${projectId}`,
         { headers: { user: 'cXtdTSxTS0a5nyti9CpGeKokWun2' } }
       );
       setProjectDetails(res.data);

@@ -16,7 +16,7 @@ const InfoWindowContent = ({ projectDetails, setOpenDialog, loading }) => {
         src={`https://empoweromics.com/app/pl/${projectDetails?.project?.logo}`}
         alt=""
       />
-      {projectDetails?.project?.units?.totla > 0 ? (
+      {projectDetails?.project?.units?.total > 0 ? (
         <>
           <div
             style={{

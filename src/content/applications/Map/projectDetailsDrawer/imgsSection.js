@@ -58,7 +58,7 @@ const ImgsSection = ({ projectDetails }) => {
       </div>
       <div className={styles.sub_title_text + ' ' + styles.units_div}>
         {' '}
-        {projectDetails?.project?.units?.totla} Units
+        {projectDetails?.project?.units?.total} Units
       </div>
     </div>
   );

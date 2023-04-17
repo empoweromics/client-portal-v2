@@ -11,8 +11,23 @@ import {
   Box
 } from '@mui/material';
 import { finData } from './data';
+import { format } from 'date-fns';
 
-export default function Financials() {
+const formatDate=(date,addedMonthes)=>{
+  const dateObj = new Date(date);
+  dateObj.setUTCMonth(dateObj.getUTCMonth()+addedMonthes );
+  const day = dateObj.getUTCDate();
+  const month = dateObj.getUTCMonth() + 1;
+  const year = dateObj.getUTCFullYear();
+  const formattedDate = `${day}/${month}/${year}`;
+  return formattedDate
+}
+
+export default function Financials({empData}) {
+  const results = Object.values(empData?.outputs || {})
+
+ 
+// console.log(unit -unit*.1 / in);
   return (
     <>
       <Grid
@@ -21,7 +36,7 @@ export default function Financials() {
         justifyContent="space-evenly"
         rowGap={5}
       >
-        {finData.map((item) => {
+        {results.map((item) => {
           return (
             <>
               <Grid item md={5} lg={4}>
@@ -30,15 +45,15 @@ export default function Financials() {
                     variant="body1"
                     fontWeight="bold"
                     color="text.primary"
-                  >
-                    No. of installment: {item.InstallmentNo}
+                  >No. of installment: {(item?.unit?.paymentYears||0)*4}
+                    {/* No. of installment: {item.InstallmentNo} */}
                   </Typography>
                   <Typography
                     variant="body1"
                     fontWeight="bold"
                     color="text.primary"
                   >
-                    Years: {item.years}
+                    Years: {item.unit?.paymentYears}
                   </Typography>
                 </Box>
                 <TableContainer sx={{ marginY: '0.4em' }}>
@@ -46,13 +61,64 @@ export default function Financials() {
                     <TableHead>
                       <TableRow>
                         <TableCell>D.P.</TableCell>
-                        <TableCell>{item.percent}</TableCell>
-                        <TableCell>{item.cash}</TableCell>
-                        <TableCell>{item.date}</TableCell>
+                        <TableCell>10%</TableCell>
+                        <TableCell>{(item.unit.priceBase*.1).toLocaleString()}</TableCell>
+                        <TableCell>{formatDate(empData?.createdAt,0)}</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {item.data.map((row, i) => {
+                     { Array.from({length:item.unit.paymentYears*4}).map((el,i)=>{
+                     
+                      return(
+                        <TableRow hover key={i}>
+                          <TableCell>
+                            <Typography
+                              // variant="body1"
+                              // fontWeight="bold"
+                              color="text.primary"
+                              gutterBottom
+                              noWrap
+                            >
+                              {i + 1}
+                            </Typography>
+                          </TableCell>
+
+                          <TableCell>
+                            <Typography
+                              variant="body1"
+                              fontWeight="bold"
+                              color="text.primary"
+                              gutterBottom
+                              noWrap
+                            >
+                              {/* {row.percent} */}{(100-10)/(item.unit.paymentYears*4)}%
+                            </Typography>
+                          </TableCell>
+                          <TableCell>
+                            <Typography
+                              variant="body1"
+                              fontWeight="bold"
+                              color="text.primary"
+                              gutterBottom
+                              noWrap
+                            >
+                              {/* {row.cash} */}{Number(((((100-10)/(item.unit.paymentYears*4))/100)*item.unit.priceBase).toFixed(1)).toLocaleString()}                            </Typography>
+                          </TableCell>
+                          <TableCell>
+                            <Typography
+                              variant="body1"
+                              fontWeight="bold"
+                              color="text.primary"
+                              gutterBottom
+                              noWrap
+                            >
+                              {/* {row.date} */}{formatDate(empData.createdAt,(i+1)*3)}
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                      {/* {item.data.map((row, i) => {
                         return (
                           <TableRow hover key={i}>
                             <TableCell>
@@ -102,7 +168,7 @@ export default function Financials() {
                             </TableCell>
                           </TableRow>
                         );
-                      })}
+                      })} */}
                     </TableBody>
                   </Table>
                 </TableContainer>
@@ -113,7 +179,7 @@ export default function Financials() {
                   my={2}
                   textAlign="center"
                 >
-                  Total: {item.total}
+                  Total: {item?.unit?.priceBase?.toLocaleString()}
                 </Typography>
                 <Typography
                   variant="body1"
@@ -121,7 +187,7 @@ export default function Financials() {
                   color="text.primary"
                   textAlign="center"
                 >
-                  Mentainance: {item.mentainance}
+                  Mentainance???: {item.mentainance}
                 </Typography>
               </Grid>
               {/* {index !== 2 && (

@@ -24,7 +24,7 @@ const ProjectDetails = ({ setRenderedComponent, projectDetails }) => {
             <div> {projectDetails?.i18n?.en?.name}</div>
             <div> {projectDetails?.developer_name}</div>
             <div> {projectDetails?.state}</div>
-            <div> {projectDetails?.units.totla} Units</div>
+            <div> {projectDetails?.units.total} Units</div>
             <Rating
               name="read-only"
               value={projectDetails?.rating || 0}
@@ -67,7 +67,7 @@ const ProjectDetails = ({ setRenderedComponent, projectDetails }) => {
         <SeeMoreComponent text={projectDetails?.i18n?.en?.description} />
       </div>
       {/*  */}
-      {projectDetails?.units.totla ? (
+      {projectDetails?.units.total ? (
         <Button
           style={{ marginTop: '10px' }}
           onClick={() => {

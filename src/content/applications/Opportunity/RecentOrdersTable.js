@@ -30,12 +30,13 @@ import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import BulkActions from './BulkActions';
 
 const getStatusLabel = (Opportunitiestatus) => {
+  console.log(Opportunitiestatus);
   const map = {
-    failed: {
+    failure: {
       text: 'Failed',
       color: 'error'
     },
-    completed: {
+    success: {
       text: 'Completed',
       color: 'success'
     },
@@ -44,6 +45,7 @@ const getStatusLabel = (Opportunitiestatus) => {
       color: 'warning'
     }
   };
+
 
   const { text, color } = map[Opportunitiestatus];
 

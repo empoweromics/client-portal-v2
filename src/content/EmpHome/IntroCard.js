@@ -35,7 +35,16 @@ const data = [
     ]
   }
 ];
-export default function IntroCard() {
+
+
+
+export default function IntroCard({ empData }) {
+  const outputs = Object.values(empData?.outputs || {})
+  const createdAtDate = new Date(empData?.createdAt);
+  const createdAttimeString = createdAtDate.toLocaleTimeString("en-US", { hour12: true, hour: "numeric", minute: "numeric", second: "numeric" });
+  const offsetHours = createdAtDate.getTimezoneOffset() / -60;
+  const finalString = `@${createdAttimeString} UTC${offsetHours > 0 ? "+" : "-"}${Math.abs(offsetHours)}`;
+
   return (
     <Box padding={{ sm: '2em 1em', md: '2em 5em' }}>
       <Card
@@ -51,9 +60,9 @@ export default function IntroCard() {
                     <Typography
                       component="p"
                       variant="h3"
-                      // sx={{ fontWeight: 'light' }}
+                    // sx={{ fontWeight: 'light' }}
                     >
-                      by Salma Fikry
+                      by {empData?.user?.displayName}
                     </Typography>
                     <Typography component="p" variant="body1">
                       Property Consultant
@@ -74,22 +83,21 @@ export default function IntroCard() {
                     >
                       <Box>
                         <Typography component="p" variant="h2">
-                          13
+                          {empData?.createdAt && new Date(empData?.createdAt).getDate()}
                         </Typography>
                         <Typography component="p" variant="h2">
-                          12
+                          {empData?.createdAt && new Date(empData?.createdAt).getMonth()}
                         </Typography>
                       </Box>
                       <Box paddingLeft={1} textAlign="center">
                         <Typography component="p" variant="h1">
-                          2021
+                          {empData?.createdAt && new Date(empData?.createdAt).getFullYear()}
                         </Typography>
                         <Typography
                           component="span"
                           variant="subtitle2"
                           fontSize="small"
-                        >
-                          @4:26PM UTC+2
+                        >{finalString}
                         </Typography>
                       </Box>
                     </Box>
@@ -108,7 +116,7 @@ export default function IntroCard() {
                 Developed For صممت لـ
               </span> */}
                   <Typography component="h2" variant="h2">
-                    Dr. Mahmoud Sami Gad
+                    {empData?.inputs?.clientname}
                   </Typography>
                 </Box>
               </Grid>
@@ -124,12 +132,12 @@ export default function IntroCard() {
           <Divider sx={{ marginY: '2em' }} variant="middle" flexItem />
           <Box padding={{ sm: '0.5em', md: '1em' }}>
             <Typography component="p" variant="body1">
-              Dear Dr.Gad
+              Dear {empData?.inputs?.clientname}
             </Typography>
             <p>
-              Based on your request for a residential property in 6th October
-              with a budget of EGP 5.4 Million for a ground floor apartment and
-              an average area of 200 SQM. I am pleased to present to you the
+              Based on your request for a {empData?.inputs?.category} property in {empData?.inputs?.area}{' '}
+              with a budget of EGP {((empData?.inputs?.budget || 0) / 1000000).toFixed(1)} Million for a {empData?.inputs?.type} and
+              an average area of {empData?.inputs?.sqm} SQM. I am pleased to present to you the
               following 3 best fit options specifically developed to your
               requirements: After analyzing 67,000+ available units from 749+
               developers, in 1,944+ projects, valued at over EGP 521 Billion.
@@ -141,7 +149,7 @@ export default function IntroCard() {
               749 مطور عقاري بأكثر من 944,1 مشروع مقدرة بأكثر من 521 مليار
             </p>
             <Grid padding={5} container spacing={3} justifyContent="center">
-              {data.map((ele) => {
+              {outputs?.map((el) => {
                 return (
                   <Grid
                     item
@@ -153,22 +161,22 @@ export default function IntroCard() {
                   >
                     <img
                       style={{ display: 'block', margin: '0.5em 0' }}
-                      src={ele.avatars[0]}
-                      alt="project"
+                      src={`https://empoweromics.com/app/dl/${el?.developer?.logo}`}
+                      alt="developer"
                       height={100}
                     />
                     <img
                       style={{ display: 'block', margin: '0.5em 0' }}
-                      src={ele.avatars[1]}
+                      src={`https://empoweromics.com/app/pl/${el?.project?.logo}`}
                       alt="project"
                       height={100}
                     />
                     <Typography component="p" variant="subtitle2">
-                      {ele.desc}
+                      {el?.project?.i18n?.en?.description}
                     </Typography>
-                    <Typography component="p" variant="h4">
-                      {ele.number}
-                    </Typography>
+                    {/* <Typography component="p" variant="h4">
+                      {el.number}
+                    </Typography> */}
                   </Grid>
                 );
               })}
@@ -190,14 +198,14 @@ export default function IntroCard() {
               <Grid container justifyContent="space-between">
                 <Grid item>
                   <Typography component="p" variant="body1">
-                    Salma Fikry
+                 {empData?.user?.displayName}
                   </Typography>
                   <Typography component="p" variant="body1">
                     Property Consultant
                   </Typography>
                   <Typography component="p" variant="body1">
-                    +201009800884
-                  </Typography>
+                  {empData?.user?.phone}
+                   </Typography>
                 </Grid>
                 <Grid item sx={{ textAlign: 'right' }}>
                   <Typography component="p" variant="body1">

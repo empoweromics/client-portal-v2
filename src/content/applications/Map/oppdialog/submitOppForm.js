@@ -73,7 +73,7 @@ const SubmitOppForm = ({
     setLoading(true);
     try {
       const res = await axiosClient.get(
-        `/client/project/project/${projectDetails?.project?._id}/units`,
+        `/client/project/${projectDetails?.project?._id}/units`,
         { headers: { user: 'cXtdTSxTS0a5nyti9CpGeKokWun2' } }
       );
       setTypes(res.data || []);

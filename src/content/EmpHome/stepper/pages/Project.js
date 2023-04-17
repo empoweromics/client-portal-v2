@@ -1,8 +1,10 @@
 import React from 'react';
 import { Typography, Grid, Divider, Box } from '@mui/material';
-import { projectsData } from './data';
+// import { projectsData } from './data';
 
-export default function Project() {
+export default function Project({empData}) {
+  const projectsData = Object.values(empData?.outputs || {})
+
   return (
     <>
       {/* <TableContainer>
@@ -203,16 +205,16 @@ export default function Project() {
                   flexDirection="column"
                 >
                   <Box>
-                    <img alt={item.name} height={100} src={item.avatar} />
-                    <p style={{ textAlign: 'left' }}>{item.eng}</p>
-                    <p style={{ textAlign: 'right' }}>{item.arabic}</p>
+                    <img alt={item?.project.name} height={100} src={`https://empoweromics.com/app/pl/${item?.project?.logo}`} />
+                    <p style={{ textAlign: 'left' }}>{item?.project?.i18n?.en?.description}</p>
+                    {/* <p style={{ textAlign: 'right' }}>{item.arabic}</p> */}
                   </Box>
                   <Box>
                     <Typography component="p" variant="h6" marginY={2}>
-                      {item.category}
+                      {item?.unit?.category}
                     </Typography>
                     <Typography component="p" variant="h6">
-                      {item.status}
+                      {item?.project?.state}
                     </Typography>
                   </Box>
                 </Box>
