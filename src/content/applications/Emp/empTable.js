@@ -20,7 +20,9 @@ const EmpTable = ({ empLinks, setEmpLinks }) => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   function handleCopy(id) {
-    navigator.clipboard.writeText(`${process.env.REACT_APP_DOMAIN_URL}/${id}`);
+    navigator.clipboard.writeText(
+      `${process.env.REACT_APP_DOMAIN_URL}/emp/${id}`
+    );
     setOpenSnackbar(true);
     setTimeout(() => {
       setOpenSnackbar(false);
@@ -32,8 +34,8 @@ const EmpTable = ({ empLinks, setEmpLinks }) => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell className={styles.url_column}>Url</TableCell>
-            <TableCell>Client Name</TableCell>
+            <TableCell className={styles.url_column}>Client</TableCell>
+            <TableCell>Date</TableCell>
             <TableCell>Views</TableCell>
             <TableCell>Copy</TableCell>
             <TableCell>Remove</TableCell>
@@ -44,10 +46,8 @@ const EmpTable = ({ empLinks, setEmpLinks }) => {
             ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             ?.map((el) => (
               <TableRow key={el._id}>
-                <TableCell className={styles.url_column}>
-                  https://empoweromics-dev.web.app/emp/{el._id}
-                </TableCell>
                 <TableCell>{el.inputs?.clientname}</TableCell>
+                <TableCell>{el.createdAt}</TableCell>
                 <TableCell>{el.views}</TableCell>
                 <TableCell>
                   <ContentCopyTwoToneIcon

@@ -6,7 +6,6 @@ import {
   Divider,
   Avatar,
   Grid,
-  AvatarGroup,
   Rating
 } from '@mui/material';
 import { useEffect } from 'react';
@@ -18,51 +17,6 @@ function TopDeveloper() {
   const [topDevelopers, setTopDevelopers] = useState([]);
   const [currentCity, setCurrentCity] = useState('cairo');
 
-  const feed = [
-    {
-      name: 'Developer A',
-      website: 'www.developersite.com',
-      projects: '10',
-      avatar: '/static/images/developers/3ac2bdf5.jpeg'
-    },
-    {
-      name: 'Developer B',
-      website: 'www.developersite.com',
-      projects: '86',
-      avatar: '/static/images/developers/5b856fc7.jpeg'
-    },
-    {
-      name: 'Developer C',
-      website: 'www.developersite.com',
-      projects: '30',
-      avatar: '/static/images/developers/5ced0591.jpeg'
-    },
-    {
-      name: 'Developer D',
-      website: 'www.developersite.com',
-      projects: '78',
-      avatar: '/static/images/developers/77961aac.jpeg'
-    },
-    {
-      name: 'Developer E',
-      website: 'www.developersite.com',
-      projects: '30',
-      avatar: '/static/images/developers/86764b4d.jpeg'
-    },
-    {
-      name: 'Developer G',
-      website: 'www.developersite.com',
-      projects: '55',
-      avatar: '/static/images/developers/a581bc53.jpeg'
-    },
-
-    {
-      name: 'Developer O',
-      website: 'www.developersite.com',
-      projects: '74',
-      avatar: '/static/images/developers/deaf0266.jpeg'
-    }
-  ];
   // ------------------------------------------------------------------------------------------------
   const getTopDevelopers = async () => {
     try {
@@ -126,9 +80,6 @@ function TopDeveloper() {
                   </Typography>
                   <Typography variant="h4" gutterBottom>
                     {topDeveloper.name}
-                  </Typography>
-                  <Typography color="text.primary" sx={{ pb: 2 }}>
-                    {topDeveloper.website}
                   </Typography>
                 </Box>
               </Box>
