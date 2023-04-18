@@ -52,19 +52,6 @@ function useGoogle() {
             avatar: user.photoURL
           }
         });
-
-        auth.currentUser
-          .getIdToken(true)
-          .then((idToken) => {
-            // axios
-            //   .get(`${process.env.REACT_APP_DEVELOP_URL}/auth`, {
-            //     headers: { Authorization: `Bearer ${idToken}` }
-            //   })
-            // .catch((err) => console.log(err));
-          })
-          .catch((err) => {
-            console.log(err);
-          });
       })
       .catch((err) => console.log(err));
   }

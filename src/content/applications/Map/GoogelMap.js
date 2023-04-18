@@ -33,10 +33,9 @@ function GoogleMaps() {
     setLoading(true);
     try {
       setOpenProjectDetailsDrawer(true);
-      const res = await axiosClient.get(
-        `/client/project/${projectId}`,
-        { headers: { user: 'cXtdTSxTS0a5nyti9CpGeKokWun2' } }
-      );
+      const res = await axiosClient.get(`/client/project/${projectId}`, {
+        headers: { user: 'cXtdTSxTS0a5nyti9CpGeKokWun2' }
+      });
       setProjectDetails(res.data);
     } catch (e) {
       setErrorMsg(
@@ -77,7 +76,7 @@ function GoogleMaps() {
     // map.current = mapInstance;
     mapInstance.data.addGeoJson(projects);
     mapInstance.data.setStyle(setStyle);
-    mapInstance.data.addListener('click', function ({ feature, latLng }) {
+    mapInstance.data.addListener('click', function ({ feature }) {
       const newCenter = getPolygonCenter(
         feature?.h?.h[0]?.h?.map((el) => {
           return { lat: el.lat(), lng: el.lng() };

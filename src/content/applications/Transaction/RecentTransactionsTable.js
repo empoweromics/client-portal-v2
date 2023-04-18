@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { format } from 'date-fns';
-import numeral from 'numeral';
+
 import PropTypes from 'prop-types';
 import {
   Tooltip,

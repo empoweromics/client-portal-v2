@@ -8,20 +8,18 @@ import {
   Grid,
   Rating
 } from '@mui/material';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axiosClient from 'src/utilities/axios/axiosIntercept';
 import emLogo from '../../../assets/images/dark_emp_logo.png';
 
 function TopDeveloper() {
   const [topDevelopers, setTopDevelopers] = useState([]);
-  const [currentCity, setCurrentCity] = useState('cairo');
-
+  const currentCity = useRef('cairo');
   // ------------------------------------------------------------------------------------------------
   const getTopDevelopers = async () => {
     try {
       const res = await axiosClient(
-        `/client/account/top-developers?city=${currentCity}`
+        `/client/account/top-developers?city=${currentCity.current}`
       );
       setTopDevelopers(res.data);
       console.log(res.data);
@@ -61,6 +59,7 @@ function TopDeveloper() {
             <Grid key={topDeveloper._id} item>
               <Box p={3} display="flex" alignItems="flex-start">
                 <Avatar
+                  variant="square"
                   sx={{ width: 56, height: 56 }}
                   src={
                     topDeveloper.logo

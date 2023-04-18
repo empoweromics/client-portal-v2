@@ -70,15 +70,17 @@ function MapSearch({ projects, selectProject }) {
   const [isLoading, setIsLoading] = useState(false);
   // ------------------------------------------------------------------------------------------------
   const search = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
-      const res = await axiosClient(`/client/project/search?text=${searchValue}`)
+      const res = await axiosClient(
+        `/client/project/search?text=${searchValue}`
+      );
       console.log(res);
       setSearchResults(res.data);
     } catch (e) {
       console.log(e);
     }
-    setIsLoading(false)
+    setIsLoading(false);
   };
 
   // ------------------------------------------------------------------------------------------------
@@ -152,8 +154,15 @@ function MapSearch({ projects, selectProject }) {
 
         {openSearchResults && (
           <DialogContent>
-            <Typography sx={{ display:'flex'}}>
-             {isLoading?<CircularProgress/>:<span> We recommend {searchResults?.length} project for you{' '}</span>}
+            <Typography sx={{ display: 'flex' }}>
+              {isLoading ? (
+                <CircularProgress />
+              ) : (
+                <span>
+                  {' '}
+                  We recommend {searchResults?.length} project for you{' '}
+                </span>
+              )}
             </Typography>
             <Divider sx={{ my: 1 }} />
             <List disablePadding>
@@ -169,7 +178,12 @@ function MapSearch({ projects, selectProject }) {
                     <Hidden smDown>
                       <ListItemAvatar>
                         <Avatar
-                          src={el.logo ? `${process.env.REACT_APP_OLD_DOMAIN_URL}pl/${el.logo}` : emLogo}
+                          variant="square"
+                          src={
+                            el.logo
+                              ? `${process.env.REACT_APP_OLD_DOMAIN_URL}/app/pl/${el.logo}`
+                              : emLogo
+                          }
                           sx={{
                             background: (theme) => theme.palette.secondary.main
                           }}
@@ -206,7 +220,6 @@ function MapSearch({ projects, selectProject }) {
                         }}
                       >
                         ({el?.units?.total} unit)
-
                         {/* {el?.searchRank} */}
                       </Typography>
                       <Typography
@@ -217,8 +230,6 @@ function MapSearch({ projects, selectProject }) {
                             lighten(theme.palette.secondary.main, 0.5)
                         }}
                       >
-
-
                         {/* {el?.searchRank} */}
                       </Typography>
                     </Box>

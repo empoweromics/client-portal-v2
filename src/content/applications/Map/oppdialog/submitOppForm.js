@@ -27,7 +27,7 @@ const SubmitOppForm = ({
   const [developerName, setDeveloperName] = useState('');
   const [types, setTypes] = useState([]);
   const [selectedType, setSelectedType] = useState('');
-  const [prices, setPrices] = useState([]);
+  // const [prices, setPrices] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState(0);
   const [downPayment, setDownPayment] = useState(0);
   const [maxPerMonth, setMaxPerMonth] = useState(
@@ -54,7 +54,7 @@ const SubmitOppForm = ({
       // setTotalCost(0);
       setMaxPerMonth(0);
       setSelectedPrice(0);
-      setPrices([]);
+      // setPrices([]);
       setSelectedType('');
       setTypes([]);
       setDeveloperName('');

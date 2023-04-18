@@ -5,12 +5,10 @@ import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import { Container, Tabs, Tab, Grid, styled, Snackbar } from '@mui/material';
 import Footer from 'src/components/Footer';
 
-import {EditProfileTab} from './EditProfileTab';
+import { EditProfileTab } from './EditProfileTab';
 import NotificationsTab from './NotificationsTab';
-import SecurityTab from './SecurityTab';
 import { useEffect } from 'react';
 import axiosClient from 'src/utilities/axios/axiosIntercept';
-import { ErrorOutlineTwoTone } from '@mui/icons-material';
 
 const TabsWrapper = styled(Tabs)(
   () => `
@@ -21,7 +19,6 @@ const TabsWrapper = styled(Tabs)(
 );
 
 function ManagementUserSettings() {
-
   // ----------------------------------------------------------------------------------------------
   const [currentTab, setCurrentTab] = useState('edit_profile');
   const [currentUser, setCurrentUser] = useState();
@@ -29,8 +26,7 @@ function ManagementUserSettings() {
 
   const tabs = [
     { value: 'edit_profile', label: 'Edit Profile' },
-    { value: 'notifications', label: 'Notifications' },
-    // { value: 'security', label: 'Passwords/Security' }
+    { value: 'notifications', label: 'Notifications' }
   ];
 
   const handleTabsChange = (event, value) => {
@@ -41,14 +37,13 @@ function ManagementUserSettings() {
     try {
       const res = await axiosClient.put('/client/account');
       setCurrentUser(res.data);
-    }
-    catch (err) {
+    } catch (err) {
       console.log(err);
     }
-  }
+  };
   // ----------------------------------------------------------------------------------------------
   useEffect(() => {
-    getCurrentUser()
+    getCurrentUser();
   }, []);
   // ----------------------------------------------------------------------------------------------
 
@@ -83,19 +78,30 @@ function ManagementUserSettings() {
             </TabsWrapper>
           </Grid>
           <Grid item xs={12}>
-          <Snackbar
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center'
-          }}
-          open={!!snackBarMsg}
-          autoHideDuration={6000}
-          //   onClose={handleClose}
-          message={snackBarMsg}
-          //   action={action}
-        />
-            {currentTab === 'edit_profile' && <EditProfileTab setSnackBarMsg={setSnackBarMsg} setCurrentUser={setCurrentUser} currentUser={currentUser} />}
-            {currentTab === 'notifications' && <NotificationsTab setCurrentUser={setCurrentUser} currentUser={currentUser} />}
+            <Snackbar
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center'
+              }}
+              open={!!snackBarMsg}
+              autoHideDuration={6000}
+              //   onClose={handleClose}
+              message={snackBarMsg}
+              //   action={action}
+            />
+            {currentTab === 'edit_profile' && (
+              <EditProfileTab
+                setSnackBarMsg={setSnackBarMsg}
+                setCurrentUser={setCurrentUser}
+                currentUser={currentUser}
+              />
+            )}
+            {currentTab === 'notifications' && (
+              <NotificationsTab
+                setCurrentUser={setCurrentUser}
+                currentUser={currentUser}
+              />
+            )}
             {/* {currentTab === 'security' && <SecurityTab />} */}
           </Grid>
         </Grid>
