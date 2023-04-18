@@ -4,7 +4,7 @@ import axiosClient from 'src/utilities/axios/axiosIntercept';
 import styles from './emp.module.css';
 import { useEffect } from 'react';
 
-const EmpForm = ({ getLinks,isLoading }) => {
+const EmpForm = ({ getLinks, isLoading }) => {
     const [types, setTypes] = useState([]);
     const [categories, setCategories] = useState([]);
     const [areas, setAreas] = useState([]);
@@ -49,10 +49,21 @@ const EmpForm = ({ getLinks,isLoading }) => {
     // --------------------------------------------------------------------------------------------
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
+       
+
         try {
             const res = await axiosClient.post(`${process.env.REACT_APP_DEVELOP_URL}/client/emp/submit`, empForm)
             console.log(res);
+            setEmpForm({
+                category: '',
+                area: "",
+                type: "",
+                sqm: '',
+                budget: '',
+                clientphone: '',
+                clientname: ''
+            })
             getLinks()
         } catch (e) {
             console.log(e);
@@ -161,9 +172,9 @@ const EmpForm = ({ getLinks,isLoading }) => {
                 value={empForm.clientname}
                 onChange={e => setEmpForm(prev => ({ ...prev, clientname: e.target.value }))}
             />
-            <div style={{ width: '100%', marginLeft: '10px' }}>  
-             <Button disabled={isLoading} type='submit' sx={{ marginY: '5px' }} variant='contained'>
-                Generate Emp links</Button></div>
+            <div style={{ width: '100%', marginLeft: '10px' }}>
+                <Button disabled={isLoading} type='submit' sx={{ marginY: '5px' }} variant='contained'>
+                    Generate Emp links</Button></div>
         </form>
     );
 }

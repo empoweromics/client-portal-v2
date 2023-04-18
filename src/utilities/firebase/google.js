@@ -12,46 +12,29 @@ import axiosClient from '../axios/axiosIntercept';
 
 const provider = new GoogleAuthProvider();
 // export const signInGoogle = () => signInWithPopup(auth, provider);
-const authLogin = async (user) => {
-  try {
-    const res = await axiosClient.put(
-      `${process.env.REACT_APP_DEVELOP_URL}/client/auth/${user}`,
-      user
-    );
-    console.log(res);
-  } catch (e) {
-    console.log(e);
-  }
-};
-// ----------------------------------------------------------------------------------------------
+ 
 
 function useGoogle() {
   const auth = getAuth();
   const { dispatch } = useContext(UserContext);
   const navigate = useNavigate();
 
+  const authLogin=async(user) =>{
+    try{
+  const res=await axiosClient.put(`/client/auth/${user.uid}`,{...user,firebaseId:user.uid})
+  console.log(res);
+  navigate('/go');
+    }
+    catch(e){
+  console.log(e);
+    }
+  }
+  // ----------------------------------------------------------------------------------------------
+  
   function signInGoogle() {
     signInWithPopup(auth, provider)
       .then(({ user }) => {
-        localStorage.setItem(
-          'user',
-          JSON.stringify({
-            id: user.uid,
-            name: user.displayName,
-            email: user.email,
-            avatar: user.photoURL
-          })
-        );
-        dispatch({
-          type: setUser,
-          payload: {
-            id: user.uid,
-            name: user.displayName,
-            email: user.email,
-            avatar: user.photoURL
-          }
-        });
-        navigate('/go');
+         authLogin(user)
       })
       .catch((err) => console.log(err));
   }

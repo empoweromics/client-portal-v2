@@ -45,7 +45,7 @@ const EmpTable = ({ empLinks, setEmpLinks }) => {
             ?.map((el) => (
               <TableRow key={el._id}>
                 <TableCell className={styles.url_column}>
-                  https://empoweromics-dev.web.app/empHome/{el._id}
+                  https://empoweromics-dev.web.app/emp/{el._id}
                 </TableCell>
                 <TableCell>{el.inputs?.clientname}</TableCell>
                 <TableCell>{el.views}</TableCell>

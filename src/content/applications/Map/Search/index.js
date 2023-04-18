@@ -18,12 +18,16 @@ import {
   DialogTitle,
   Slide,
   Hidden,
-  styled
+  styled,
+  Rating,
+  CircularProgress
 } from '@mui/material';
 import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
 import HolidayVillageIcon from '@mui/icons-material/HolidayVillage';
 import ChevronRightTwoToneIcon from '@mui/icons-material/ChevronRightTwoTone';
 import { useDebounce } from 'use-lodash-debounce';
+import axiosClient from 'src/utilities/axios/axiosIntercept';
+import emLogo from '../../../../assets/images/dark_emp_logo.png';
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -61,23 +65,20 @@ const DialogTitleWrapper = styled(DialogTitle)(
 function MapSearch({ projects, selectProject }) {
   const [openSearchResults, setOpenSearchResults] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const [searchResults, setSearchResults] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
   const debouncedSearchKey = useDebounce(searchValue, 800);
+  const [isLoading, setIsLoading] = useState(false);
   // ------------------------------------------------------------------------------------------------
-  const search = () => {
-    let searchkeyWords = searchValue.split(' ');
-
-    let searchResultsArr = projects?.features?.filter((el) => {
-      return el?.properties?.name.includes(searchkeyWords);
-    });
-    setSearchResults(
-      searchResultsArr
-        .sort((a, b) => {
-          return b.searchRank - a.searchRank;
-        })
-        .slice(0, 9)
-        .reverse()
-    );
+  const search = async () => {
+    setIsLoading(true)
+    try {
+      const res = await axiosClient(`/client/project/search?text=${searchValue}`)
+      console.log(res);
+      setSearchResults(res.data);
+    } catch (e) {
+      console.log(e);
+    }
+    setIsLoading(false)
   };
 
   // ------------------------------------------------------------------------------------------------
@@ -151,12 +152,12 @@ function MapSearch({ projects, selectProject }) {
 
         {openSearchResults && (
           <DialogContent>
-            <Typography>
-              We recommend {searchResults.length} project for you{' '}
+            <Typography sx={{ display:'flex'}}>
+             {isLoading?<CircularProgress/>:<span> We recommend {searchResults?.length} project for you{' '}</span>}
             </Typography>
             <Divider sx={{ my: 1 }} />
             <List disablePadding>
-              {searchResults.map((el, i) => {
+              {searchResults?.map((el, i) => {
                 return (
                   <ListItem
                     key={i}
@@ -168,12 +169,14 @@ function MapSearch({ projects, selectProject }) {
                     <Hidden smDown>
                       <ListItemAvatar>
                         <Avatar
+                          src={el.logo ? `${process.env.REACT_APP_OLD_DOMAIN_URL}pl/${el.logo}` : emLogo}
                           sx={{
                             background: (theme) => theme.palette.secondary.main
                           }}
-                        >
-                          <HolidayVillageIcon />
-                        </Avatar>
+                        />
+                        {/* <img  src={el.logo?`${process.env.REACT_APP_OLD_DOMAIN_URL}pl/${el.logo}`:emLogo} alt=''/> */}
+                        {/* <HolidayVillageIcon /> */}
+                        {/* </Avatar> */}
                       </ListItemAvatar>
                     </Hidden>
                     <Box flex="1">
@@ -181,10 +184,17 @@ function MapSearch({ projects, selectProject }) {
                         <Link
                           href="#"
                           underline="hover"
-                          sx={{ fontWeight: 'bold' }}
+                          sx={{ fontWeight: 'bold', display: 'flex' }}
                           variant="body2"
                         >
-                          {el?.properties?.name}
+                          {el?.name}
+                          <Rating
+                            name="read-only"
+                            value={el?.rating || 0}
+                            precision={0.5}
+                            readOnly
+                            sx={{ marginX: '10px' }}
+                          />
                         </Link>
                       </Box>
                       <Typography
@@ -195,7 +205,19 @@ function MapSearch({ projects, selectProject }) {
                             lighten(theme.palette.secondary.main, 0.5)
                         }}
                       >
-                        {el?.properties?.area}
+                        ({el?.units?.total} unit)
+
+                        {/* {el?.searchRank} */}
+                      </Typography>
+                      <Typography
+                        component="span"
+                        variant="body2"
+                        sx={{
+                          color: (theme) =>
+                            lighten(theme.palette.secondary.main, 0.5)
+                        }}
+                      >
+
 
                         {/* {el?.searchRank} */}
                       </Typography>
