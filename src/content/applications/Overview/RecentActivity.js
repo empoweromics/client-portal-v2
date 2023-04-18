@@ -5,7 +5,8 @@ import {
   CardHeader,
   Divider,
   Avatar,
-  styled
+  styled,
+  Rating
 } from '@mui/material';
 
 import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork';
@@ -32,36 +33,43 @@ function RecentActivity() {
     } catch (e) {
       console.log(e);
     }
-  }
+  };
   // ----------------------------------------------------------------------------------------------
   useEffect(() => {
-    getAccount()
+    getAccount();
   }, []);
   return (
     <Card sx={{ paddingBottom: '1em' }}>
       <CardHeader title="Recent Activity" />
       <Divider />
       <Box px={2} py={2} display="flex" alignItems="flex-start">
-        <AvatarPrimary>
-          <MapsHomeWorkIcon />
-        </AvatarPrimary>
-        <Box pl={1} flex={1}>
-          <Typography variant="h4">Opportunities</Typography>
-
-          <Box pt={2} display="flex">
-            {account?.opportunity?.map(el => {
-              return <Box key={el._id} pr={8}>
-                <Typography gutterBottom variant="caption">
-                  {el._id}
-                </Typography>
-                <Typography variant="h3">{el.count}</Typography>
-              </Box>
-            })}
-
-            
+        <Rating name="read-only" value={3.6} precision={0.1} readOnly />
+        <Typography variant="h3">({3.6})</Typography>
+      </Box>
+      <Divider />
+      {account?.opportunity.length > 0 && (
+        <Box px={2} py={2} display="flex" alignItems="flex-start">
+          <AvatarPrimary>
+            <MapsHomeWorkIcon />
+          </AvatarPrimary>
+          <Box pl={1} flex={1}>
+            <Typography variant="h4">Opportunities</Typography>
+            <Box pt={2} display="flex">
+              {account?.opportunity?.map((el) => {
+                return (
+                  <Box key={el._id} pr={8}>
+                    <Typography gutterBottom variant="caption">
+                      {el._id}
+                    </Typography>
+                    <Typography variant="h3">{el.count}</Typography>
+                  </Box>
+                );
+              })}
+            </Box>
           </Box>
         </Box>
-      </Box>
+      )}
+
       <Divider />
       <Box px={2} py={2} display="flex" alignItems="flex-start">
         <AvatarPrimary>

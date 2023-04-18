@@ -1,5 +1,4 @@
 import { Card } from '@mui/material';
-import { subDays } from 'date-fns';
 import RecentTransactionsTable from './RecentTransactionsTable';
 
 function Transactions() {

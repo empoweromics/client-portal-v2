@@ -22,7 +22,7 @@ function PageHeader() {
             Transactions
           </Typography>
           <Typography variant="subtitle2">
-            Get empowered & Start selling
+            Check your valid Transactions
           </Typography>
         </Grid>
         <Grid item>
@@ -32,7 +32,7 @@ function PageHeader() {
             startIcon={<AddTwoToneIcon fontSize="small" />}
             onClick={handleClickOpen}
           >
-            Submit Transaction
+            Withdraw
           </Button>
         </Grid>
       </Grid>
