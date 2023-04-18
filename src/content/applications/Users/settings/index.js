@@ -2,12 +2,15 @@ import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import PageHeader from './PageHeader';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
-import { Container, Tabs, Tab, Grid, styled } from '@mui/material';
+import { Container, Tabs, Tab, Grid, styled, Snackbar } from '@mui/material';
 import Footer from 'src/components/Footer';
 
-import EditProfileTab from './EditProfileTab';
+import {EditProfileTab} from './EditProfileTab';
 import NotificationsTab from './NotificationsTab';
 import SecurityTab from './SecurityTab';
+import { useEffect } from 'react';
+import axiosClient from 'src/utilities/axios/axiosIntercept';
+import { ErrorOutlineTwoTone } from '@mui/icons-material';
 
 const TabsWrapper = styled(Tabs)(
   () => `
@@ -21,16 +24,33 @@ function ManagementUserSettings() {
 
   // ----------------------------------------------------------------------------------------------
   const [currentTab, setCurrentTab] = useState('edit_profile');
+  const [currentUser, setCurrentUser] = useState();
+  const [snackBarMsg, setSnackBarMsg] = useState();
 
   const tabs = [
     { value: 'edit_profile', label: 'Edit Profile' },
     { value: 'notifications', label: 'Notifications' },
-    { value: 'security', label: 'Passwords/Security' }
+    // { value: 'security', label: 'Passwords/Security' }
   ];
 
   const handleTabsChange = (event, value) => {
     setCurrentTab(value);
   };
+  // ----------------------------------------------------------------------------------------------
+  const getCurrentUser = async () => {
+    try {
+      const res = await axiosClient.put('/client/account');
+      setCurrentUser(res.data);
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
+  // ----------------------------------------------------------------------------------------------
+  useEffect(() => {
+    getCurrentUser()
+  }, []);
+  // ----------------------------------------------------------------------------------------------
 
   return (
     <>
@@ -63,9 +83,20 @@ function ManagementUserSettings() {
             </TabsWrapper>
           </Grid>
           <Grid item xs={12}>
-            {currentTab === 'edit_profile' && <EditProfileTab />}
-            {currentTab === 'notifications' && <NotificationsTab />}
-            {currentTab === 'security' && <SecurityTab />}
+          <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center'
+          }}
+          open={!!snackBarMsg}
+          autoHideDuration={6000}
+          //   onClose={handleClose}
+          message={snackBarMsg}
+          //   action={action}
+        />
+            {currentTab === 'edit_profile' && <EditProfileTab setSnackBarMsg={setSnackBarMsg} setCurrentUser={setCurrentUser} currentUser={currentUser} />}
+            {currentTab === 'notifications' && <NotificationsTab setCurrentUser={setCurrentUser} currentUser={currentUser} />}
+            {/* {currentTab === 'security' && <SecurityTab />} */}
           </Grid>
         </Grid>
       </Container>

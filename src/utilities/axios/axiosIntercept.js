@@ -16,7 +16,6 @@ axiosClient.interceptors.request.use(
       };
     }
     config.headers.user = JSON.parse(localStorage.getItem('user')).id;
-
     return config;
   },
   function (error) {

@@ -181,14 +181,14 @@ export default function Financials({empData}) {
                 >
                   Total: {item?.unit?.priceBase?.toLocaleString()}
                 </Typography>
-                <Typography
+                {/* <Typography
                   variant="body1"
                   fontWeight="bold"
                   color="text.primary"
                   textAlign="center"
                 >
-                  Mentainance???: {item.mentainance}
-                </Typography>
+                  Mentainance= {item.mentainance}
+                </Typography> */}
               </Grid>
               {/* {index !== 2 && (
                 <Divider orientation="vertical" variant="middle" flexItem />

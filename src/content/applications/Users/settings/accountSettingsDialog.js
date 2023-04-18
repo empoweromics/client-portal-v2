@@ -17,13 +17,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export function PersonalDetailsDialog({ setCurrentUser, currentUser, setSnackBarMsg }) {
-    const [personalDetails, setpersonalDetails] = React.useState({
-        displayName: '',
-        address: '',
-        dateOfbirth: new Date(),
-        phone: ''
-    });
+export function AccountSettingsDialog({ setCurrentUser, currentUser,setSnackBarMsg }) {
+    const [language, setLanguage] = React.useState('');
     const [isloading, setIsloading] = React.useState(false);
     // --------------------------------------------------------------------------------------------
     const [open, setOpen] = React.useState(false);
@@ -37,30 +32,20 @@ export function PersonalDetailsDialog({ setCurrentUser, currentUser, setSnackBar
     };
     //
     React.useEffect(() => {
-        setpersonalDetails({
-            displayName: currentUser?.displayName,
-            address: currentUser?.address,
-            dateOfbirth: new Date(currentUser?.dateOfbirth),
-            phone: currentUser?.phone
-        })
+        setLanguage(currentUser?.language)
     }, [currentUser]);
     // --------------------------------------------------------------------------------------------
     const handleSubmit = async () => {
-        let body = { ...personalDetails, dateOfbirth: personalDetails.dateOfbirth ? format(personalDetails.dateOfbirth, 'dd MMMM yyyy') : '' }
-        setIsloading(true)
-        // eslint-disable-next-line no-restricted-syntax
-        for (let key in body) {
-            if (!body[key]) {
-                delete body[key]
-            }
-        }
+       
         try {
-            const res = await axiosClient.put('/client/account', body);
+            const res = await axiosClient.put('/client/account', {language});
             setCurrentUser(res.data);
+            handleClose()
             setSnackBarMsg('your Profile  updated successfully')
             setTimeout(() => {
                 setSnackBarMsg()
             }, 2000);
+
         } catch (e) {
             console.log(e);
         }
@@ -83,42 +68,12 @@ export function PersonalDetailsDialog({ setCurrentUser, currentUser, setSnackBar
                 <DialogTitle>{"Update Personal Details "}</DialogTitle>
                 <DialogContent sx={{ padding: '24px !important', width: '100%', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
 
-                    <TextField sx={{ minWidth: '47%' }} onChange={(e) => setpersonalDetails(prev => {
-                        return { ...prev, displayName: e.target.value }
-                    })} value={personalDetails.displayName}
-                        id="displayName" label="Display Name"
+                    <TextField sx={{ minWidth: '47%' }} onChange={(e) => setLanguage( e.target.value )}
+                        value={language}
+                        id="language" label="Language"
                         variant="outlined" />
 
-                    <TextField sx={{ minWidth: '47%' }} onChange={(e) => setpersonalDetails(prev => {
-                        return { ...prev, phone: e.target.value }
-                    })} value={personalDetails.phone}
-                        id="PhoneNumber" label="Phone Number"
-                        variant="outlined" />
 
-                    <DatePicker
-
-                        onChange={(date) => setpersonalDetails(prev => {
-                            return { ...prev, dateOfbirth: date }
-                        })}
-                        value={personalDetails.dateOfbirth}
-                        format="yyyy-MM-dd"
-                        label="Date Of Birth"
-                        renderInput={(params) => <TextField sx={{
-                            margin: '15px 0 !important'
-                        }} {...params}
-                            error={false} />}
-                    />
-
-                    <TextField
-                        onChange={(e) => setpersonalDetails(prev => {
-                            return { ...prev, address: e.target.value }
-                        })} value={personalDetails.address}
-                        style={{ width: '190%', margin: '0 ' }}
-                        placeholder="Address"
-                        multiline
-                        rows={2}
-                    // maxRows={4}
-                    />
 
                 </DialogContent>
                 <DialogActions>

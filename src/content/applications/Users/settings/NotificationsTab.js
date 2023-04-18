@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Box,
   Typography,
@@ -8,26 +8,45 @@ import {
   List,
   ListItemText,
   Divider,
-  Switch
+  Switch,
+  CircularProgress
 } from '@mui/material';
+import axiosClient from 'src/utilities/axios/axiosIntercept';
 
-function NotificationsTab() {
+function NotificationsTab({currentUser,setCurrentUser}) {
+  const [isloading, setIsloading] = useState(false);
   const [state, setState] = useState({
-    checkedA: true,
-    checkedB: false,
-    checkedC: true,
-    checkedD: false
+    widthdraw: false,
+    weeklyReport: false,
+    failedOpportunity: false,
+    opportunityStatusUpdate: false
   });
 
-  const handleChange = (event) => {
-    setState({
-      ...state,
-      [event.target.name]: event.target.checked
-    });
+  const handleChange = async (event) => {
+    setIsloading(true)
+    const body = {
+      notifications: {
+        ...state,
+        [event.target.name]: event.target.checked
+      }
+    }
+    try {
+      const res = await axiosClient.put('/client/account', body)
+      setState(res.data.notifications);
+      setCurrentUser(res.data)
+    } catch (e) {
+      console.log(e);
+    }
+    setIsloading(false)
   };
-
-  return (
+// ------------------------------------------------------------------------------------------------
+useEffect(() => {
+  setState(currentUser?.notifications)
+}, [currentUser]);
+// ------------------------------------------------------------------------------------------------
+return (
     <Grid container spacing={3}>
+      {isloading&&<CircularProgress sx={{position:'absolute',top:'50%',left:'50%',transform:'transulate(-50%,-50%'}}/>}
       <Grid item xs={12}>
         <Box pb={2}>
           <Typography variant="h3">Account</Typography>
@@ -48,10 +67,11 @@ function NotificationsTab() {
                 secondary="Receive an email when a widthdrawal is made"
               />
               <Switch
+              disabled={isloading}
                 color="primary"
-                checked={state.checkedA}
+                checked={state.widthdraw}
                 onChange={handleChange}
-                name="checkedA"
+                name="widthdraw"
               />
             </ListItem>
             <Divider component="li" />
@@ -66,10 +86,11 @@ function NotificationsTab() {
                 secondary="Receive account status weekly report in your inbox"
               />
               <Switch
+              disabled={isloading}
                 color="primary"
-                checked={state.checkedB}
+                checked={state.weeklyReport}
                 onChange={handleChange}
-                name="checkedB"
+                name="weeklyReport"
               />
             </ListItem>
           </List>
@@ -95,10 +116,11 @@ function NotificationsTab() {
                 secondary="Get a message when a payment fails"
               />
               <Switch
+              disabled={isloading}
                 color="primary"
-                checked={state.checkedC}
+                checked={state.failedOpportunity}
                 onChange={handleChange}
-                name="checkedC"
+                name="failedOpportunity"
               />
             </ListItem>
             <Divider component="li" />
@@ -113,10 +135,11 @@ function NotificationsTab() {
                 secondary="Whenever an order is updated, get a notification on your phone"
               />
               <Switch
+              disabled={isloading}
                 color="primary"
-                checked={state.checkedD}
+                checked={state.opportunityStatusUpdate}
                 onChange={handleChange}
-                name="checkedD"
+                name="opportunityStatusUpdate"
               />
             </ListItem>
           </List>
