@@ -9,41 +9,19 @@ import {
 import styles from './style/empHome.module.css';
 import React from 'react';
 
-const data = [
-  {
-    desc: 'Apartment 193m2 + 137m2 (Garden)',
-    number: '5.6M',
-    avatars: [
-      '/static/images/developers/77961aac.jpeg',
-      '/static/images/developers/5ced0591.jpeg'
-    ]
-  },
-  {
-    desc: 'Apartment 193m2 + 137m2 (Garden)',
-    number: '5.6M',
-    avatars: [
-      '/static/images/developers/a581bc53.jpeg',
-      '/static/images/developers/5b856fc7.jpeg'
-    ]
-  },
-  {
-    desc: 'Apartment 193m2 + 137m2 (Garden)',
-    number: '5.6M',
-    avatars: [
-      '/static/images/developers/deaf0266.jpeg',
-      '/static/images/developers/3ac2bdf5.jpeg'
-    ]
-  }
-];
-
-
-
 export default function IntroCard({ empData }) {
-  const outputs = Object.values(empData?.outputs || {})
+  const outputs = Object.values(empData?.outputs || {});
   const createdAtDate = new Date(empData?.createdAt);
-  const createdAttimeString = createdAtDate.toLocaleTimeString("en-US", { hour12: true, hour: "numeric", minute: "numeric", second: "numeric" });
+  const createdAttimeString = createdAtDate.toLocaleTimeString('en-US', {
+    hour12: true,
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric'
+  });
   const offsetHours = createdAtDate.getTimezoneOffset() / -60;
-  const finalString = `@${createdAttimeString} UTC${offsetHours > 0 ? "+" : "-"}${Math.abs(offsetHours)}`;
+  const finalString = `@${createdAttimeString} UTC${
+    offsetHours > 0 ? '+' : '-'
+  }${Math.abs(offsetHours)}`;
 
   return (
     <Box padding={{ sm: '2em 1em', md: '2em 5em' }}>
@@ -60,7 +38,7 @@ export default function IntroCard({ empData }) {
                     <Typography
                       component="p"
                       variant="h3"
-                    // sx={{ fontWeight: 'light' }}
+                      // sx={{ fontWeight: 'light' }}
                     >
                       by {empData?.user?.displayName}
                     </Typography>
@@ -83,21 +61,25 @@ export default function IntroCard({ empData }) {
                     >
                       <Box>
                         <Typography component="p" variant="h2">
-                          {empData?.createdAt && new Date(empData?.createdAt).getDate()}
+                          {empData?.createdAt &&
+                            new Date(empData?.createdAt).getDate()}
                         </Typography>
                         <Typography component="p" variant="h2">
-                          {empData?.createdAt && new Date(empData?.createdAt).getMonth()}
+                          {empData?.createdAt &&
+                            new Date(empData?.createdAt).getMonth()}
                         </Typography>
                       </Box>
                       <Box paddingLeft={1} textAlign="center">
                         <Typography component="p" variant="h1">
-                          {empData?.createdAt && new Date(empData?.createdAt).getFullYear()}
+                          {empData?.createdAt &&
+                            new Date(empData?.createdAt).getFullYear()}
                         </Typography>
                         <Typography
                           component="span"
                           variant="subtitle2"
                           fontSize="small"
-                        >{finalString}
+                        >
+                          {finalString}
                         </Typography>
                       </Box>
                     </Box>
@@ -112,11 +94,8 @@ export default function IntroCard({ empData }) {
                   دراسة السوق حسب طلبكم
                 </Typography>
                 <Box className={styles.customerTitle}>
-                  {/* <span className={styles.customerSubTitle}>
-                Developed For صممت لـ
-              </span> */}
                   <Typography component="h2" variant="h2">
-                    {empData?.inputs?.clientname}
+                    <b>{empData?.inputs?.clientname}</b>
                   </Typography>
                 </Box>
               </Grid>
@@ -132,15 +111,37 @@ export default function IntroCard({ empData }) {
           <Divider sx={{ marginY: '2em' }} variant="middle" flexItem />
           <Box padding={{ sm: '0.5em', md: '1em' }}>
             <Typography component="p" variant="body1">
-              Dear {empData?.inputs?.clientname}
+              Dear{' '}
+              <b>
+                {' '}
+                <u>{empData?.inputs?.clientname}</u>
+              </b>
             </Typography>
             <p>
-              Based on your request for a {empData?.inputs?.category} property in {empData?.inputs?.area}{' '}
-              with a budget of EGP {((empData?.inputs?.budget || 0) / 1000000).toFixed(1)} Million for a {empData?.inputs?.type} and
-              an average area of {empData?.inputs?.sqm} SQM. I am pleased to present to you the
-              following 3 best fit options specifically developed to your
-              requirements: After analyzing 67,000+ available units from 749+
-              developers, in 1,944+ projects, valued at over EGP 521 Billion.
+              Based on your request for a{' '}
+              <b>
+                <u>{empData?.inputs?.category}</u>
+              </b>{' '}
+              property in{' '}
+              <b>
+                <u>{empData?.inputs?.area}</u>
+              </b>{' '}
+              with a budget of EGP{' '}
+              <b>
+                <u>
+                  {((empData?.inputs?.budget || 0) / 1000000).toFixed(1)}{' '}
+                  Million
+                </u>
+              </b>
+              for a{' '}
+              <b>
+                <u>{empData?.inputs?.type}</u>
+              </b>{' '}
+              and an average area of {empData?.inputs?.sqm} SQM. I am pleased to
+              present to you the following 3 best fit options specifically
+              developed to your requirements: After analyzing 67,000+ available
+              units from 749+ developers, in 1,944+ projects, valued at over EGP
+              521 Billion.
             </p>
             <p style={{ textAlign: 'right' }}>
               بناءاً على طلبك لوحدة سكنية في مدينة السادس من أكتوبر بميزانية 4.5
@@ -198,14 +199,14 @@ export default function IntroCard({ empData }) {
               <Grid container justifyContent="space-between">
                 <Grid item>
                   <Typography component="p" variant="body1">
-                 {empData?.user?.displayName}
+                    {empData?.user?.displayName}
                   </Typography>
                   <Typography component="p" variant="body1">
                     Property Consultant
                   </Typography>
                   <Typography component="p" variant="body1">
-                  {empData?.user?.phone}
-                   </Typography>
+                    {empData?.user?.phone}
+                  </Typography>
                 </Grid>
                 <Grid item sx={{ textAlign: 'right' }}>
                   <Typography component="p" variant="body1">
