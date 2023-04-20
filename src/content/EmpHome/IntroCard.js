@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import styles from './style/empHome.module.css';
 import React from 'react';
+import { SeeMoreComponent } from '../../components/SeeMore/seeMoreComponent';
 
 export default function IntroCard({ empData }) {
   const outputs = Object.values(empData?.outputs || {});
@@ -173,7 +174,9 @@ export default function IntroCard({ empData }) {
                       height={100}
                     />
                     <Typography component="p" variant="subtitle2">
-                      {el?.project?.i18n?.en?.description}
+                      <SeeMoreComponent
+                        text={el?.project?.i18n?.en?.description}
+                      />
                     </Typography>
                     {/* <Typography component="p" variant="h4">
                       {el.number}

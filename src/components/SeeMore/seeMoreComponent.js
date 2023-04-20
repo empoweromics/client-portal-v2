@@ -6,6 +6,13 @@ import ExpandLessTwoToneIcon from '@mui/icons-material/ExpandLessTwoTone';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    marginTop: '10px',
+    wordWrap: ' break-word',
+    backgroundColor: '#fff',
+    backgroundClip: 'border-box',
+    border: '1px solid rgba(0,0,0,.125)',
+    borderRadius: ' 0.25rem',
+
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
@@ -49,10 +56,11 @@ const SeeMoreComponent = ({ text }) => {
   return (
     <div className={classes.root}>
       <Typography variant="body1" className={classes.text}>
-        {expanded ? text : shortenText(text, 100)}
+        {expanded ? text : shortenText(text, 250)}
       </Typography>
-      {text?.length > 100 && (
+      {text?.length > 250 && (
         <Button
+          sx={{ padding: '0 !important' }}
           color="primary"
           className={classes.button}
           onClick={toggleExpanded}
@@ -63,11 +71,6 @@ const SeeMoreComponent = ({ text }) => {
           {expanded ? 'See Less' : 'See More'}
         </Button>
       )}
-      {/* <Collapse in={expanded}>
-        <Typography variant="body1" className={classes.text}>
-          {text}
-        </Typography>
-      </Collapse> */}
     </div>
   );
 };

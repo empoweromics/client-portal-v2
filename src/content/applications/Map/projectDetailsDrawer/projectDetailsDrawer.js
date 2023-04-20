@@ -7,7 +7,7 @@ import { ImgsSection } from './imgsSection';
 import MenuIcon from '@mui/icons-material/Menu';
 // import { MapSearch } from '../Search';
 import { PricingCard } from './pricingCard';
-import { SeeMoreComponent } from './seeMoreComponent';
+import { SeeMoreComponent } from '../../../../components/SeeMore/seeMoreComponent';
 import { OtherProjects } from './otherProjects';
 
 export function ProjectDetailsDrawer({
