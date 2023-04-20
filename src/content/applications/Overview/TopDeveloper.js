@@ -63,7 +63,7 @@ function TopDeveloper() {
                   sx={{ width: 56, height: 56 }}
                   src={
                     topDeveloper.logo
-                      ? `https://empoweromics.com/app/dl/${topDeveloper.logo}`
+                      ? `${process.env.REACT_APP_OLD_DOMAIN_URL}/app/dl/${topDeveloper.logo}`
                       : emLogo
                   }
                 />

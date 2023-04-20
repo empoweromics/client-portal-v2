@@ -88,25 +88,31 @@ export default function IntroCard({ empData }) {
                 </Box>
               </Grid>
               <Grid item>
-                <Typography component="p" variant="h3" fontWeight="light">
-                  Comparative Market Analysis
-                </Typography>
-                <Typography component="p" variant="h3" fontWeight="light">
-                  دراسة السوق حسب طلبكم
-                </Typography>
-                <Box className={styles.customerTitle}>
-                  <Typography component="h2" variant="h2">
-                    <b>{empData?.inputs?.clientname}</b>
-                  </Typography>
-                </Box>
+                <Grid container justifyContent="space-evenly" spacing={3}>
+                  <Grid item>
+                    <Typography component="p" variant="h3" fontWeight="light">
+                      Comparative Market Analysis
+                    </Typography>
+                    <Typography component="p" variant="h3" fontWeight="light">
+                      دراسة السوق حسب طلبكم
+                    </Typography>
+                    <Box className={styles.customerTitle}>
+                      <Typography component="h2" variant="h2">
+                        <b>{empData?.inputs?.clientname}</b>
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid item>
+                    <img
+                      style={{ margin: 'auto', display: 'block' }}
+                      alt="logo"
+                      height={200}
+                      src="/static/images/logo/logo.png"
+                    />
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
-            <img
-              style={{ margin: 'auto', display: 'block' }}
-              alt="logo"
-              height={100}
-              src="/static/images/logo/logo.png"
-            />
           </Box>
 
           <Divider sx={{ marginY: '2em' }} variant="middle" flexItem />
@@ -163,13 +169,13 @@ export default function IntroCard({ empData }) {
                   >
                     <img
                       style={{ display: 'block', margin: '0.5em 0' }}
-                      src={`https://empoweromics.com/app/dl/${el?.developer?.logo}`}
+                      src={`${process.env.REACT_APP_OLD_DOMAIN_URL}/app/dl/${el?.developer?.logo}`}
                       alt="developer"
                       height={100}
                     />
                     <img
                       style={{ display: 'block', margin: '0.5em 0' }}
-                      src={`https://empoweromics.com/app/pl/${el?.project?.logo}`}
+                      src={`${process.env.REACT_APP_OLD_DOMAIN_URL}/app/pl/${el?.project?.logo}`}
                       alt="project"
                       height={100}
                     />

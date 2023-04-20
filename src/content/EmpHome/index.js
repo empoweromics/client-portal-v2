@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import StepperPages from './stepper/Stepper';
 import IntroCard from './IntroCard';
 import { useParams } from 'react-router';
 import { useEffect } from 'react';
 import { CircularProgress } from '@mui/material';
 import axios from 'axios';
+import EMPDeveloperSection from './stepper/pages/Developer';
+import EMPProjectSection from './stepper/pages/Project';
+import EMPUnitSection from './stepper/pages/Unit';
+import EMPFinancialsSection from './stepper/pages/Financials';
 
 export default function EmpHome() {
   const [empData, setEmpData] = useState();
@@ -41,7 +44,10 @@ export default function EmpHome() {
         />
       )}
       <IntroCard empData={empData} />
-      <StepperPages empData={empData} />
+      <EMPDeveloperSection empData={empData} />
+      <EMPProjectSection empData={empData} />
+      <EMPUnitSection empData={empData} />
+      <EMPFinancialsSection empData={empData} />
     </>
   );
 }

@@ -13,7 +13,7 @@ const InfoWindowContent = ({ projectDetails, setOpenDialog, loading }) => {
       )}
       <img
         className={styles.logo_img}
-        src={`https://empoweromics.com/app/pl/${projectDetails?.project?.logo}`}
+        src={`${process.env.REACT_APP_OLD_DOMAIN_URL}/app/pl/${projectDetails?.project?.logo}`}
         alt=""
       />
       {projectDetails?.project?.units?.total > 0 ? (

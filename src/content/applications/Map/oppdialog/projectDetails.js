@@ -15,7 +15,7 @@ const ProjectDetails = ({ setRenderedComponent, projectDetails }) => {
               style={{ width: '100%' }}
               src={
                 projectDetails?.logo
-                  ? `https://empoweromics.com/app/pl/${projectDetails?.logo}`
+                  ? `${process.env.REACT_APP_OLD_DOMAIN_URL}/app/pl/${projectDetails?.logo}`
                   : emLogo
               }
             />

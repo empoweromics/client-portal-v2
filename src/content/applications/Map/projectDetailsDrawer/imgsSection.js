@@ -12,12 +12,12 @@ const ImgsSection = ({ projectDetails }) => {
         onError={handleError}
         className={styles.cover_img}
         alt=""
-        src={`https://empoweromics.com/app/pp/${projectDetails?.project?.logo}`}
+        src={`${process.env.REACT_APP_OLD_DOMAIN_URL}/app/pp/${projectDetails?.project?.logo}`}
       />
       <div className={` ${styles.upper_logo_wrapper}`}>
         <img
           alt=""
-          src={`https://empoweromics.com/app/pl/${projectDetails?.project?.logo}`}
+          src={`${process.env.REACT_APP_OLD_DOMAIN_URL}/app/pl/${projectDetails?.project?.logo}`}
           className={styles.top_logo}
         />
         <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -54,7 +54,7 @@ const ImgsSection = ({ projectDetails }) => {
             readOnly
           />
         </div>
-        {/* <img alt='' src={`https://empoweromics.com/app/dl/${projectDetails?.project?.developer?.split('-')[1]}`} className={styles.bottom_logo} /> */}
+        {/* <img alt='' src={`${process.env.REACT_APP_OLD_DOMAIN_URL}/app/dl/${projectDetails?.project?.developer?.split('-')[1]}`} className={styles.bottom_logo} /> */}
       </div>
       <div className={styles.sub_title_text + ' ' + styles.units_div}>
         {' '}

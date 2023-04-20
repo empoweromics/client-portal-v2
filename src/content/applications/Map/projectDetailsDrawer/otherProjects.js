@@ -18,7 +18,7 @@ const OtherProjects = ({ projectDetails, getProject }) => {
           >
             <img
               className={styles.other_projects_img}
-              src={`https://empoweromics.com/app/pl/${project?.logo}`}
+              src={`${process.env.REACT_APP_OLD_DOMAIN_URL}/app/pl/${project?.logo}`}
               alt=""
             />
           </div>
