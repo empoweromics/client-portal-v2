@@ -4,8 +4,7 @@ import {
   CardContent,
   Card,
   Box,
-  Divider,
-  Button
+  Divider
 } from '@mui/material';
 
 import Text from 'src/components/Text';

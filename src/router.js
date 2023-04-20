@@ -12,9 +12,6 @@ const Loader = (Component) => (props) =>
       <Component {...props} />
     </Suspense>
   );
-
-// Pages
-
 const Home = Loader(lazy(() => import('src/content/home')));
 
 const EmpHome = Loader(lazy(() => import('src/content/EmpHome')));
@@ -72,10 +69,6 @@ const routes = (isLoggedIn) => {
           path: 'emp/:id',
           element: <EmpHome />
         },
-        // {
-        //   path: 'home',
-        //   element: <Navigate to="/" replace />
-        // },
         {
           path: 'status',
           children: [

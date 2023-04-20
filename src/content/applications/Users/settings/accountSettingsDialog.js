@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import { TextField } from '@mui/material';
+import { MenuItem, Select, TextField } from '@mui/material';
 
 import axiosClient from 'src/utilities/axios/axiosIntercept';
 
@@ -78,14 +78,16 @@ export function AccountSettingsDialog({
             justifyContent: 'space-between'
           }}
         >
-          <TextField
-            sx={{ minWidth: '47%' }}
-            onChange={(e) => setLanguage(e.target.value)}
-            value={language}
+          <Select
+            labelId="demo-simple-select-label"
             id="language"
             label="Language"
-            variant="outlined"
-          />
+            value={language}
+            onChange={(e) => setLanguage(e.target.value)}
+          >
+            <MenuItem value={'English'}>English</MenuItem>
+            <MenuItem value={'Arabic'}>Arabic</MenuItem>
+          </Select>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

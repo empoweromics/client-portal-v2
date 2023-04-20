@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import axiosClient from 'src/utilities/axios/axiosIntercept';
 
-function NotificationsTab({currentUser,setCurrentUser}) {
+function NotificationsTab({ currentUser, setCurrentUser }) {
   const [isloading, setIsloading] = useState(false);
   const [state, setState] = useState({
     widthdraw: false,
@@ -23,30 +23,39 @@ function NotificationsTab({currentUser,setCurrentUser}) {
   });
 
   const handleChange = async (event) => {
-    setIsloading(true)
+    setIsloading(true);
     const body = {
       notifications: {
         ...state,
         [event.target.name]: event.target.checked
       }
-    }
+    };
     try {
-      const res = await axiosClient.put('/client/account', body)
+      const res = await axiosClient.put('/client/account', body);
       setState(res.data.notifications);
-      setCurrentUser(res.data)
+      setCurrentUser(res.data);
     } catch (e) {
       console.log(e);
     }
-    setIsloading(false)
+    setIsloading(false);
   };
-// ------------------------------------------------------------------------------------------------
-useEffect(() => {
-  setState(currentUser?.notifications)
-}, [currentUser]);
-// ------------------------------------------------------------------------------------------------
-return (
+  // ------------------------------------------------------------------------------------------------
+  useEffect(() => {
+    setState(currentUser?.notifications);
+  }, [currentUser]);
+  // ------------------------------------------------------------------------------------------------
+  return (
     <Grid container spacing={3}>
-      {isloading&&<CircularProgress sx={{position:'absolute',top:'50%',left:'50%',transform:'transulate(-50%,-50%'}}/>}
+      {isloading && (
+        <CircularProgress
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'transulate(-50%,-50%'
+          }}
+        />
+      )}
       <Grid item xs={12}>
         <Box pb={2}>
           <Typography variant="h3">Account</Typography>
@@ -67,7 +76,7 @@ return (
                 secondary="Receive an email when a widthdrawal is made"
               />
               <Switch
-              disabled={isloading}
+                disabled={isloading}
                 color="primary"
                 checked={state.widthdraw}
                 onChange={handleChange}
@@ -86,7 +95,7 @@ return (
                 secondary="Receive account status weekly report in your inbox"
               />
               <Switch
-              disabled={isloading}
+                disabled={isloading}
                 color="primary"
                 checked={state.weeklyReport}
                 onChange={handleChange}
@@ -98,9 +107,9 @@ return (
       </Grid>
       <Grid item xs={12}>
         <Box pb={2}>
-          <Typography variant="h3">Orders</Typography>
+          <Typography variant="h3">Opportunities</Typography>
           <Typography variant="subtitle2">
-            Receive email notifications related to your orders activity
+            Receive email notifications related to your Opportunity activity
           </Typography>
         </Box>
         <Card>
@@ -112,11 +121,11 @@ return (
                   variant: 'subtitle2',
                   lineHeight: 1
                 }}
-                primary="Failed Payment"
-                secondary="Get a message when a payment fails"
+                primary="Failed Opportunity"
+                secondary="Get a message when a Opportunity fails"
               />
               <Switch
-              disabled={isloading}
+                disabled={isloading}
                 color="primary"
                 checked={state.failedOpportunity}
                 onChange={handleChange}
@@ -131,11 +140,11 @@ return (
                   variant: 'subtitle2',
                   lineHeight: 1
                 }}
-                primary="Order Status Update"
-                secondary="Whenever an order is updated, get a notification on your phone"
+                primary="Opportunity Status Update"
+                secondary="Whenever an Opportunity is updated, get a notification on your phone"
               />
               <Switch
-              disabled={isloading}
+                disabled={isloading}
                 color="primary"
                 checked={state.opportunityStatusUpdate}
                 onChange={handleChange}
