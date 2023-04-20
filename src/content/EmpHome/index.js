@@ -8,6 +8,7 @@ import EMPDeveloperSection from './stepper/pages/Developer';
 import EMPProjectSection from './stepper/pages/Project';
 import EMPUnitSection from './stepper/pages/Unit';
 import EMPFinancialsSection from './stepper/pages/Financials';
+import { Helmet } from 'react-helmet-async';
 
 export default function EmpHome() {
   const [empData, setEmpData] = useState();
@@ -33,6 +34,9 @@ export default function EmpHome() {
 
   return (
     <>
+      <Helmet>
+        <title>Comparative Market Analysis دراسة السوق حسب طلبكم</title>
+      </Helmet>
       {isloading && (
         <CircularProgress
           sx={{
