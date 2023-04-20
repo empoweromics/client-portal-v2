@@ -10,9 +10,6 @@ const useStyles = makeStyles((theme) => ({
     wordWrap: ' break-word',
     backgroundColor: '#fff',
     backgroundClip: 'border-box',
-    border: '1px solid rgba(0,0,0,.125)',
-    borderRadius: ' 0.25rem',
-
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',

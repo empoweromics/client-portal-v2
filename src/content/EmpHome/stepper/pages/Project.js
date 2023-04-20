@@ -7,6 +7,7 @@ import {
   Card,
   CardContent
 } from '@mui/material';
+import { SeeMoreComponent } from 'src/components/SeeMore/seeMoreComponent';
 
 export default function EMPProjectSection({ empData }) {
   const projectsData = Object.values(empData?.outputs || {});
@@ -44,11 +45,12 @@ export default function EMPProjectSection({ empData }) {
                           height={190}
                           src={`${process.env.REACT_APP_OLD_DOMAIN_URL}/app/pp/${item?.project?.logo}`}
                         />
-                        <p style={{ textAlign: 'left' }}>
-                          {item?.project?.i18n?.en?.description}
-                        </p>
 
-                        {/* <p style={{ textAlign: 'right' }}>{item.arabic}</p> */}
+                        <p style={{ textAlign: 'left' }}>
+                          <SeeMoreComponent
+                            text={item?.project?.i18n?.en?.description}
+                          />
+                        </p>
                       </Box>
                       <Box>
                         <Typography component="p" variant="h6" marginY={2}>

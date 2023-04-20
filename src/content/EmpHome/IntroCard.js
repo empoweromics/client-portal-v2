@@ -179,14 +179,9 @@ export default function IntroCard({ empData }) {
                       alt="project"
                       height={100}
                     />
-                    <Typography component="p" variant="subtitle2">
-                      <SeeMoreComponent
-                        text={el?.project?.i18n?.en?.description}
-                      />
-                    </Typography>
-                    {/* <Typography component="p" variant="h4">
-                      {el.number}
-                    </Typography> */}
+                    <SeeMoreComponent
+                      text={el?.project?.i18n?.en?.description}
+                    />
                   </Grid>
                 );
               })}

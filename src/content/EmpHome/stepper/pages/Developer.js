@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import styles from '../../style/empHome.module.css';
+import { SeeMoreComponent } from 'src/components/SeeMore/seeMoreComponent';
 
 export default function EMPDeveloperSection({ empData }) {
   const developerData = Object.values(empData?.outputs || {}).map(
@@ -43,8 +44,11 @@ export default function EMPDeveloperSection({ empData }) {
                             height={100}
                             src={`${process.env.REACT_APP_OLD_DOMAIN_URL}/app/dl/${item?.logo}`}
                           />
+
                           <p style={{ textAlign: 'left' }}>
-                            {item?.i18n?.en?.description}
+                            <SeeMoreComponent
+                              text={item?.i18n?.en?.description}
+                            />
                           </p>
                           {/* <p style={{ textAlign: 'right' }}>{item.arabic}</p> */}
                         </Box>
