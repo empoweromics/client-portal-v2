@@ -6,16 +6,8 @@ import { CircularProgress, Paper, Snackbar } from '@mui/material';
 import styles from './oppDialog.module.css';
 
 function SimpleDialog(props) {
-  const {
-    onClose,
-    setSnackbarMsg,
-    open,
-    projectDetails,
-    setProjectDetails,
-    setOpen
-  } = props;
+  const { onClose, setSnackbarMsg, open, projectDetails, setOpen } = props;
 
-  const [renderedComponent, setRenderedComponent] = useState('ProJect-Details');
   // const [projectDetails, setProjectDetails] = useState();
   const [errorMsg, setErrorMsg] = useState('');
   const [loading, setLoading] = useState(false);
@@ -56,17 +48,9 @@ function SimpleDialog(props) {
           setOpen={setOpen}
           setErrorMsg={setErrorMsg}
           setSnackbarMsg={setSnackbarMsg}
-          setRenderedComponent={setRenderedComponent}
           projectDetails={projectDetails}
           setLoading={setLoading}
         />
-
-        {/* {renderedComponent === 'ProJect-Details' && (
-          <ProjectDetails
-            projectDetails={projectDetails}
-            setRenderedComponent={setRenderedComponent}
-          />
-        )} */}
       </Paper>
     </Dialog>
   );

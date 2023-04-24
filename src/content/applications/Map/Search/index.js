@@ -23,7 +23,6 @@ import {
   CircularProgress
 } from '@mui/material';
 import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
-import HolidayVillageIcon from '@mui/icons-material/HolidayVillage';
 import ChevronRightTwoToneIcon from '@mui/icons-material/ChevronRightTwoTone';
 import { useDebounce } from 'use-lodash-debounce';
 import axiosClient from 'src/utilities/axios/axiosIntercept';
@@ -62,7 +61,7 @@ const DialogTitleWrapper = styled(DialogTitle)(
 `
 );
 
-function MapSearch({ projects, selectProject }) {
+function MapSearch({ selectProject }) {
   const [openSearchResults, setOpenSearchResults] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [searchResults, setSearchResults] = useState([]);

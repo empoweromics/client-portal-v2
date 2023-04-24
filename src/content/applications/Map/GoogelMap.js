@@ -22,7 +22,6 @@ function GoogleMaps() {
   // const [dialogProjectId, setDialogProjectId] = useState();
   const [snackbarMsg, setSnackbarMsg] = useState('');
   const [openProjectDetailsDrawer, setOpenProjectDetailsDrawer] = useState();
-  const [projectDetailsWithPolygon, setProjectDetailsWithPolygon] = useState();
   const [center, setCenter] = useState({ lat: 30.010317, lng: 31.51263 });
   const [projectDetails, setProjectDetails] = useState();
   const [loading, setLoading] = useState(false);
@@ -50,7 +49,6 @@ function GoogleMaps() {
     let projectWithPolygon = projects.features.find(
       (project) => project?.properties?.id === projectId
     );
-    setProjectDetailsWithPolygon(projectWithPolygon);
     getProjectDetails(projectId);
     setCenter({
       lat: getCentroid(projectWithPolygon?.geometry?.coordinates[0])[1],

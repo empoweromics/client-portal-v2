@@ -158,9 +158,7 @@ const SubmitOppForm = ({
         return;
       }
       console.log(body);
-      const res = await axiosClient.post('/client/opportunity/submit', body, {
-        headers: { user: 'cXtdTSxTS0a5nyti9CpGeKokWun2' }
-      });
+      await axiosClient.post('/client/opportunity/submit', body);
       setSnackbarMsg('Opportunity submited successfully');
       setTimeout(() => {
         setSnackbarMsg();
