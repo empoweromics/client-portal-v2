@@ -38,7 +38,7 @@ export function AccountSettingsDialog({
   // --------------------------------------------------------------------------------------------
   const handleSubmit = async () => {
     try {
-      const res = await axiosClient.put('/client/account', { language });
+      const res = await axiosClient.put('/account', { language });
       setCurrentUser(res.data);
       handleClose();
       setSnackBarMsg('your Profile  updated successfully');

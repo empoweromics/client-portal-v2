@@ -8,7 +8,7 @@ function MyOpportunities() {
   const [loading, setLoading] = useState(false);
   useEffect(async () => {
     setLoading(true);
-    const axios = await axiosClient.get('/client/opportunity');
+    const axios = await axiosClient.get('/opportunity');
     setOpportunitiesList(axios.data.data);
     if (axios.data) {
       setLoading(false);

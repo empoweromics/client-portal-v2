@@ -32,9 +32,7 @@ function GoogleMaps() {
     setLoading(true);
     try {
       setOpenProjectDetailsDrawer(true);
-      const res = await axiosClient.get(`/client/project/${projectId}`, {
-        headers: { user: 'cXtdTSxTS0a5nyti9CpGeKokWun2' }
-      });
+      const res = await axiosClient.get(`/project/${projectId}`);
       setProjectDetails(res.data);
     } catch (e) {
       setErrorMsg(

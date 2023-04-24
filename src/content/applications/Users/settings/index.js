@@ -35,7 +35,7 @@ function ManagementUserSettings() {
   // ----------------------------------------------------------------------------------------------
   const getCurrentUser = async () => {
     try {
-      const res = await axiosClient.put('/client/account');
+      const res = await axiosClient.put('/account');
       setCurrentUser(res.data);
     } catch (err) {
       console.log(err);

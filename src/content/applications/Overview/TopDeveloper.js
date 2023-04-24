@@ -19,7 +19,7 @@ function TopDeveloper() {
   const getTopDevelopers = async () => {
     try {
       const res = await axiosClient(
-        `/client/account/top-developers?city=${currentCity.current}`
+        `/account/top-developers?city=${currentCity.current}`
       );
       setTopDevelopers(res.data);
       console.log(res.data);

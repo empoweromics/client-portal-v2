@@ -18,7 +18,7 @@ function useGoogle() {
   const navigate = useNavigate();
   const authLogin = async (user) => {
     try {
-      const res = await axiosClient.put(`/client/auth/${user.uid}`, {
+      const res = await axiosClient.put(`/auth/${user.uid}`, {
         ...user,
         firebaseId: user.uid
       });

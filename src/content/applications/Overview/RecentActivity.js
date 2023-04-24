@@ -28,7 +28,7 @@ function RecentActivity() {
   // ----------------------------------------------------------------------------------------------
   const getAccount = async () => {
     try {
-      const res = await axiosClient('/client/account');
+      const res = await axiosClient('/account');
       setAccount(res.data);
     } catch (e) {
       console.log(e);
