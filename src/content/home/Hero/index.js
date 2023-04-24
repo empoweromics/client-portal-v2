@@ -49,7 +49,7 @@ function Hero() {
   return (
     <Container maxWidth="lg">
       <Helmet>
-        <title>empoweromics</title>
+        <title>empoweromics Home Page</title>
       </Helmet>
       <MainContent>
         <Container>
