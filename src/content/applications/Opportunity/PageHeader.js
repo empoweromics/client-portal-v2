@@ -1,28 +1,19 @@
-import { Typography, Button, Grid } from '@mui/material';
-
-import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
+import { Typography, Grid } from '@mui/material';
 
 function PageHeader() {
   return (
-    <Grid container justifyContent="space-between" alignItems="center">
-      <Grid item>
-        <Typography variant="h3" component="h3" gutterBottom>
-          Opportunity
-        </Typography>
-        <Typography variant="subtitle2">
-          Get empowered & Start selling
-        </Typography>
+    <>
+      <Grid container justifyContent="space-between" alignItems="center">
+        <Grid item>
+          <Typography variant="h3" component="h3" gutterBottom>
+            Opportunity
+          </Typography>
+          <Typography variant="subtitle2">
+            Get empowered & Start selling
+          </Typography>
+        </Grid>
       </Grid>
-      <Grid item>
-        <Button
-          sx={{ mt: { xs: 2, md: 0 } }}
-          variant="contained"
-          startIcon={<AddTwoToneIcon fontSize="small" />}
-        >
-          Submit Opportunity
-        </Button>
-      </Grid>
-    </Grid>
+    </>
   );
 }
 

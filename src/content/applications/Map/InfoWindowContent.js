@@ -1,48 +1,74 @@
 import React from 'react';
-import style from './googleMaps.module.css';
+import styles from './map.module.css';
+import { CircularProgress } from '@mui/material';
 
-const InfoWindowContent = ({project}) => {
-    
-    return (
-        <div>
-            <table className={style.infoWindowTable}>
-              <tbody>
-            <tr>
-    <th>Name</th>
-    <td>{project?.properties?.name}</td>
-  </tr>
-   <tr>
-    <th>Category</th>
-    <td> {project?.properties?.category}</td>
-  </tr>
-  <tr>
-    <th>Area Name</th>
-    <td> {project?.properties?.area}</td>
-  </tr>
-   <tr>
-    <th>Area (acres)</th>
-    <td> {project?.properties?.acres}</td>
-  </tr>
- <tr>
-    <th>City</th>
-    <td>{project?.properties?.city}</td>
-  </tr>
-   <tr>
-    <th>Country</th>
-    <td>{project?.properties?.country}</td>
-  </tr>
-  <tr>
-    <th>Supplier</th>
-    <td>{project?.properties?.supplier}</td>
-  </tr>
-  <tr>
-    <th>Description</th>
-    <td>{project?.properties?.description}</td>
-  </tr>
-  </tbody>
-</table>
-        </div>
-    );
-}
+const InfoWindowContent = ({ projectDetails, setOpenDialog, loading }) => {
+  return (
+    <div
+      className={styles.info_window_wrapper}
+      style={{ font: '12px/20px Helvetica Neue,Arial,Helvetica,sans-serif' }}
+    >
+      {loading && (
+        <CircularProgress className={styles.absolute_centerd_element} />
+      )}
+      <img
+        className={styles.logo_img}
+        src={`${process.env.REACT_APP_OLD_DOMAIN_URL}/app/pl/${projectDetails?.project?.logo}`}
+        alt=""
+      />
+      {projectDetails?.project?.units?.total > 0 ? (
+        <>
+          <div
+            style={{
+              fontSize: '1rem!important',
+              marginBottom: ' 0.1rem',
+              color: 'white',
+              marginTop: ' 0.5rem'
+            }}
+          >
+            empoweromics partners
+          </div>
+          <div
+            style={{
+              fontSize: '1.8rem',
+              fontWight: '500',
+              lineHeight: '1.2'
+            }}
+          >
+            Earn 186,749 NET Cash
+          </div>
+          <button
+            onClick={() => {
+              setOpenDialog(true);
+            }}
+            type="button"
+            className={styles.btn + ' ' + styles.btn_success}
+            style={{ margin: '10px auto' }}
+          >
+            Submit Opportunity
+          </button>
+          <div className={styles.InfoWindowContent_footer}>
+            *Average commission in EGP on currently available units at
+            {projectDetails?.project?.i18n?.en?.name}
+            {projectDetails?.project?.developer.name}
+          </div>
+        </>
+      ) : (
+        <>
+          {projectDetails?.project?.developer.name && (
+            <div style={{ textTransform: 'capitalize' }}>
+              {projectDetails?.project?.i18n?.en?.name}{' '}
+              {projectDetails?.project?.area} (
+              {projectDetails?.project?.developer.name})
+            </div>
+          )}{' '}
+          {projectDetails?.project?.developer.name && (
+            <div> -{projectDetails?.project?.state}</div>
+          )}
+        </>
+      )}
+    </div>
+  );
+};
 
-export  {InfoWindowContent};
+export { InfoWindowContent };

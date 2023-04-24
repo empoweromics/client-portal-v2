@@ -101,6 +101,7 @@ function HeaderSearch() {
         fullWidth
         scroll="paper"
         onClose={handleClose}
+        TransitionProps={{ timeout: 0 }}
       >
         <DialogTitleWrapper>
           <SearchInputWrapper

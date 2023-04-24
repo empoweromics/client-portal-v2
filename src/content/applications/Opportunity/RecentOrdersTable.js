@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { format } from 'date-fns';
 import numeral from 'numeral';
 import PropTypes from 'prop-types';
 import {
@@ -22,7 +21,9 @@ import {
   MenuItem,
   Typography,
   useTheme,
-  CardHeader
+  CardHeader,
+  Avatar,
+  Grid
 } from '@mui/material';
 
 import Label from 'src/components/Label';
@@ -31,17 +32,18 @@ import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import BulkActions from './BulkActions';
 
 const getStatusLabel = (Opportunitiestatus) => {
+  console.log(Opportunitiestatus);
   const map = {
-    failed: {
-      text: 'Failed',
+    failure: {
+      text: 'Failure',
       color: 'error'
     },
-    completed: {
+    success: {
       text: 'Completed',
       color: 'success'
     },
-    pending: {
-      text: 'Pending',
+    pendding: {
+      text: 'In review',
       color: 'warning'
     }
   };
@@ -58,7 +60,6 @@ const applyFilters = (Opportunities, filters) => {
     if (filters.status && Opportunity.status !== filters.status) {
       matches = false;
     }
-
     return matches;
   });
 };
@@ -79,19 +80,23 @@ const RecentOrdersTable = ({ Opportunities }) => {
   const statusOptions = [
     {
       id: 'all',
-      name: 'All'
+      name: 'All status'
+    },
+    {
+      id: 'pendding',
+      name: 'In review'
     },
     {
       id: 'closed',
       name: 'Closed'
     },
     {
-      id: 'open',
+      id: 'success',
       name: 'Open'
     },
     {
-      id: 'failed',
-      name: 'Failed'
+      id: 'failure',
+      name: 'Failure'
     }
   ];
 
@@ -194,7 +199,7 @@ const RecentOrdersTable = ({ Opportunities }) => {
                   onChange={handleSelectAllOpportunities}
                 />
               </TableCell>
-              <TableCell>Opportunity ID</TableCell>
+              <TableCell>ID</TableCell>
               <TableCell>Project Name</TableCell>
 
               <TableCell>Client</TableCell>
@@ -206,12 +211,12 @@ const RecentOrdersTable = ({ Opportunities }) => {
           <TableBody>
             {paginatedOpportunities.map((Opportunity) => {
               const isOpportunitieselected = selectedOpportunities.includes(
-                Opportunity.id
+                Opportunity._id
               );
               return (
                 <TableRow
                   hover
-                  key={Opportunity.id}
+                  key={Opportunity._id}
                   selected={isOpportunitieselected}
                 >
                   <TableCell padding="checkbox">
@@ -219,7 +224,7 @@ const RecentOrdersTable = ({ Opportunities }) => {
                       color="primary"
                       checked={isOpportunitieselected}
                       onChange={(event) =>
-                        handleSelectOneOpportunity(event, Opportunity.id)
+                        handleSelectOneOpportunity(event, Opportunity._id)
                       }
                       value={isOpportunitieselected}
                     />
@@ -232,22 +237,34 @@ const RecentOrdersTable = ({ Opportunities }) => {
                       gutterBottom
                       noWrap
                     >
-                      {Opportunity.opportunityID}
+                      ...{Opportunity._id.slice(-6)}
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {Opportunity.projectName}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                      {format(Opportunity.orderDate, 'MMMM dd yyyy')}
-                    </Typography>
+                    <Grid container spacing={2}>
+                      <Grid item xs={4}>
+                        <Avatar
+                          variant="square"
+                          alt="Remy Sharp"
+                          src={
+                            process.env.REACT_APP_OLD_DOMAIN_URL +
+                            '/app/pl/' +
+                            Opportunity.project.logo
+                          }
+                        />
+                      </Grid>
+                      <Grid item xs={8}>
+                        <Typography
+                          variant="body1"
+                          fontWeight="bold"
+                          color="text.primary"
+                          gutterBottom
+                          noWrap
+                        >
+                          {Opportunity.project.name}
+                        </Typography>
+                      </Grid>
+                    </Grid>
                   </TableCell>
 
                   <TableCell>
@@ -258,10 +275,10 @@ const RecentOrdersTable = ({ Opportunities }) => {
                       gutterBottom
                       noWrap
                     >
-                      {Opportunity.clientName}
+                      {Opportunity.client.name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {Opportunity.phone}
+                      {Opportunity.client.phone}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
@@ -272,12 +289,14 @@ const RecentOrdersTable = ({ Opportunities }) => {
                       gutterBottom
                       noWrap
                     >
-                      {numeral(Opportunity.downPayment).format(`0,0`)} EGP- Down
-                      payment
+                      {numeral(Opportunity.budget.downpayment).format(`0,0`)}{' '}
+                      EGP- Down payment
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {numeral(Opportunity.installment).format(`0,0.00`)} EGP -
-                      installment / Monthlly
+                      {numeral(Opportunity.budget.installmentAmountDue).format(
+                        `0,0.00`
+                      )}{' '}
+                      EGP - installment
                     </Typography>
                   </TableCell>
                   <TableCell align="right">

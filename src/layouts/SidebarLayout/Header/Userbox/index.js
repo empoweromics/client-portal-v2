@@ -107,6 +107,7 @@ function HeaderUserbox() {
           vertical: 'top',
           horizontal: 'right'
         }}
+        TransitionProps={{ timeout: 0 }}
       >
         <MenuUserBox sx={{ minWidth: 210 }} display="flex">
           <Avatar
@@ -123,7 +124,7 @@ function HeaderUserbox() {
         </MenuUserBox>
         <Divider sx={{ mb: 0 }} />
         <List sx={{ p: 1 }} component="nav">
-          <ListItem button to="/dashboards/messenger" component={NavLink}>
+          <ListItem button to="/go/profile/messenger" component={NavLink}>
             <InboxTwoToneIcon fontSize="small" />
             <ListItemText primary="Messenger" />
           </ListItem>

@@ -3,7 +3,6 @@ import {
   Avatar,
   Link,
   Box,
-  Button,
   Divider,
   IconButton,
   InputAdornment,
@@ -19,13 +18,15 @@ import {
   DialogTitle,
   Slide,
   Hidden,
-  styled
+  styled,
+  Rating,
+  CircularProgress
 } from '@mui/material';
 import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
-import FindInPageTwoToneIcon from '@mui/icons-material/FindInPageTwoTone';
-
 import ChevronRightTwoToneIcon from '@mui/icons-material/ChevronRightTwoTone';
 import { useDebounce } from 'use-lodash-debounce';
+import axiosClient from 'src/utilities/axios/axiosIntercept';
+import emLogo from '../../../../assets/images/dark_emp_logo.png';
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -33,12 +34,12 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 const DialogWrapper = styled(Dialog)(
   () => `
-    .MuiDialog-container {
-        height: auto;
+  .MuiDialog-container {
+    height: auto;
     }
     
     .MuiDialog-paperScrollPaper {
-        max-height: calc(100vh - 64px)
+        max-height: calc(100vh - 64px);
     }
 `
 );
@@ -60,37 +61,31 @@ const DialogTitleWrapper = styled(DialogTitle)(
 `
 );
 
-function MapSearch({ projects,selectProject }) {
+function MapSearch({ selectProject }) {
   const [openSearchResults, setOpenSearchResults] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const [searchResults, setSearchResults] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
   const debouncedSearchKey = useDebounce(searchValue, 800);
+  const [isLoading, setIsLoading] = useState(false);
   // ------------------------------------------------------------------------------------------------
-  const search = () => {
-    let searchkeyWords = searchValue.split(' ')
-    
-    // let searchResultsArr = projects?.features?.map(project => {
-    //   let searchRank = 0;
-    //   searchkeyWords.forEach(searchkeyWord => {
-    //     if (JSON.stringify(Object.values(project?.properties)).includes(searchkeyWord)) {
-    //       searchRank++
-    //     }
-    //   })
-    //     ;
-    //   return { ...project, searchRank }
-    // });
-    let searchResultsArr = projects?.features?.filter(el=>{
-      return el?.properties?.name.includes(searchkeyWords)
-    })
-    setSearchResults(searchResultsArr.sort((a, b) => { return  b.searchRank - a.searchRank }).slice(0, 9).reverse())
-   
-  }
-
+  const search = async () => {
+    setIsLoading(true);
+    try {
+      const res = await axiosClient(
+        `/client/project/search?text=${searchValue}`
+      );
+      console.log(res);
+      setSearchResults(res.data);
+    } catch (e) {
+      console.log(e);
+    }
+    setIsLoading(false);
+  };
 
   // ------------------------------------------------------------------------------------------------
   const handleSearchChange = () => {
     if (searchValue) {
-      search()
+      search();
       if (!openSearchResults) {
         setOpenSearchResults(true);
       }
@@ -100,7 +95,7 @@ function MapSearch({ projects,selectProject }) {
   };
   // ------------------------------------------------------------------------------------------------
   useEffect(() => {
-    handleSearchChange()
+    handleSearchChange();
   }, [debouncedSearchKey]);
   // ------------------------------------------------------------------------------------------------
   const [open, setOpen] = useState(false);
@@ -115,8 +110,12 @@ function MapSearch({ projects,selectProject }) {
 
   return (
     <>
-      <Tooltip arrow title="Search">
-        <IconButton color="primary" onClick={handleClickOpen}>
+      <Tooltip
+        arrow
+        title="Search over projects"
+        style={{ backgroundColor: 'white' }}
+      >
+        <IconButton color="secondary" onClick={handleClickOpen}>
           <SearchTwoToneIcon />
         </IconButton>
       </Tooltip>
@@ -129,12 +128,15 @@ function MapSearch({ projects,selectProject }) {
         fullWidth
         scroll="paper"
         onClose={handleClose}
+        TransitionProps={{ timeout: 0 }}
       >
         <DialogTitleWrapper>
           <SearchInputWrapper
             value={searchValue}
             autoFocus
-            onChange={(e) => { setSearchValue(e.target.value); }}
+            onChange={(e) => {
+              setSearchValue(e.target.value);
+            }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -142,7 +144,7 @@ function MapSearch({ projects,selectProject }) {
                 </InputAdornment>
               )
             }}
-            placeholder="Search terms here..."
+            placeholder="Search for available projects..."
             fullWidth
             label="Search"
           />
@@ -151,151 +153,90 @@ function MapSearch({ projects,selectProject }) {
 
         {openSearchResults && (
           <DialogContent>
-            <Box
-              sx={{ pt: 0, pb: 1 }}
-              display="flex"
-              justifyContent="space-between"
-            >
-              {/* <Typography variant="body2" component="span">
-                Search results for{' '}
-                <Typography
-                  sx={{ fontWeight: 'bold' }}
-                  variant="body1"
-                  component="span"
-                >
-                  {searchValue}
-                </Typography>
-              </Typography>
-              <Link href="#" variant="body2" underline="hover">
-                Advanced search
-              </Link> */}
-            </Box>
+            <Typography sx={{ display: 'flex' }}>
+              {isLoading ? (
+                <CircularProgress />
+              ) : (
+                <span>
+                  {' '}
+                  We recommend {searchResults?.length} project for you{' '}
+                </span>
+              )}
+            </Typography>
             <Divider sx={{ my: 1 }} />
             <List disablePadding>
-              {/* <ListItem button>
-                <Hidden smDown>
-                  <ListItemAvatar>
-                    <Avatar
-                      sx={{
-                        background: (theme) => theme.palette.secondary.main
-                      }}
-                    >
-                      <FindInPageTwoToneIcon />
-                    </Avatar>
-                  </ListItemAvatar>
-                </Hidden>
-                <Box flex="1">
-                  <Box display="flex" justifyContent="space-between">
-                    <Link
-                      href="#"
-                      underline="hover"
-                      sx={{ fontWeight: 'bold' }}
-                      variant="body2"
-                    >
-                      Dashboard for Healthcare Platform
-                    </Link>
-                  </Box>
-                  <Typography
-                    component="span"
-                    variant="body2"
-                    sx={{
-                      color: (theme) =>
-                        lighten(theme.palette.secondary.main, 0.5)
+              {searchResults?.map((el, i) => {
+                return (
+                  <ListItem
+                    key={i}
+                    onClick={() => {
+                      handleClose();
+                      selectProject(el);
                     }}
                   >
-                    This page contains all the necessary information for
-                    managing all hospital staff.
-                  </Typography>
-                </Box>
-                <ChevronRightTwoToneIcon />
-              </ListItem>
-              <Divider sx={{ my: 1 }} component="li" /> */}
-              {/* <ListItem button>
-                <Hidden smDown>
-                  <ListItemAvatar>
-                    <Avatar
-                      sx={{
-                        background: (theme) => theme.palette.secondary.main
-                      }}
-                    >
-                      <FindInPageTwoToneIcon />
-                    </Avatar>
-                  </ListItemAvatar>
-                </Hidden>
-                <Box flex="1">
-                  <Box display="flex" justifyContent="space-between">
-                    <Link
-                      href="#"
-                      underline="hover"
-                      sx={{ fontWeight: 'bold' }}
-                      variant="body2"
-                    >
-                      Example Projects Application
-                    </Link>
-                  </Box>
-                  <Typography
-                    component="span"
-                    variant="body2"
-                    sx={{
-                      color: (theme) =>
-                        lighten(theme.palette.secondary.main, 0.5)
-                    }}
-                  >
-                    This is yet another search result pointing to a app page.
-                  </Typography>
-                </Box>
-                <ChevronRightTwoToneIcon />
-              </ListItem>
-              <Divider sx={{ my: 1 }} component="li" /> */}
-              {searchResults.map((el,i) => {
-                return <ListItem key={i}  onClick={()=>{
-                  handleClose();
-                  selectProject(el)}}>
-                  <Hidden smDown>
-                    <ListItemAvatar>
-                      <Avatar
+                    <Hidden smDown>
+                      <ListItemAvatar>
+                        <Avatar
+                          variant="square"
+                          src={
+                            el.logo
+                              ? `${process.env.REACT_APP_OLD_DOMAIN_URL}/app/pl/${el.logo}`
+                              : emLogo
+                          }
+                          sx={{
+                            background: (theme) => theme.palette.secondary.main
+                          }}
+                        />
+                        {/* <img  src={el.logo?`${process.env.REACT_APP_OLD_DOMAIN_URL}pl/${el.logo}`:emLogo} alt=''/> */}
+                        {/* <HolidayVillageIcon /> */}
+                        {/* </Avatar> */}
+                      </ListItemAvatar>
+                    </Hidden>
+                    <Box flex="1">
+                      <Box display="flex" justifyContent="space-between">
+                        <Link
+                          href="#"
+                          underline="hover"
+                          sx={{ fontWeight: 'bold', display: 'flex' }}
+                          variant="body2"
+                        >
+                          {el?.name}
+                          <Rating
+                            name="read-only"
+                            value={el?.rating || 0}
+                            precision={0.5}
+                            readOnly
+                            sx={{ marginX: '10px' }}
+                          />
+                        </Link>
+                      </Box>
+                      <Typography
+                        component="span"
+                        variant="body2"
                         sx={{
-                          background: (theme) => theme.palette.secondary.main
+                          color: (theme) =>
+                            lighten(theme.palette.secondary.main, 0.5)
                         }}
                       >
-                        <FindInPageTwoToneIcon />
-                      </Avatar>
-                    </ListItemAvatar>
-                  </Hidden>
-                  <Box flex="1">
-                    <Box display="flex" justifyContent="space-between">
-                      <Link
-                        href="#"
-                        underline="hover"
-                        sx={{ fontWeight: 'bold' }}
+                        ({el?.units?.total} unit)
+                        {/* {el?.searchRank} */}
+                      </Typography>
+                      <Typography
+                        component="span"
                         variant="body2"
+                        sx={{
+                          color: (theme) =>
+                            lighten(theme.palette.secondary.main, 0.5)
+                        }}
                       >
-                        {el?.properties?.name}
-                      </Link>
+                        {/* {el?.searchRank} */}
+                      </Typography>
                     </Box>
-                    <Typography
-                      component="span"
-                      variant="body2"
-                      sx={{
-                        color: (theme) =>
-                          lighten(theme.palette.secondary.main, 0.5)
-                      }}
-                    >
-                     {el?.properties?.city}
-                     {el?.properties?.name}
-                     {el?.properties?.country}
-                     {/* {el?.searchRank} */}
-                    </Typography>
-                  </Box>
-                  <ChevronRightTwoToneIcon />
-                </ListItem>
+                    <ChevronRightTwoToneIcon />
+                  </ListItem>
+                );
               })}
-
             </List>
-            <Divider sx={{ mt: 1, mb: 2 }} />
-            <Box sx={{ textAlign: 'center' }}>
-              <Button color="primary">View all search results</Button>
-            </Box>
           </DialogContent>
         )}
       </DialogWrapper>

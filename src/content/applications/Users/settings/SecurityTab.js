@@ -26,7 +26,6 @@ import {
   styled
 } from '@mui/material';
 
-import DoneTwoToneIcon from '@mui/icons-material/DoneTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import { format, subHours, subWeeks, subDays } from 'date-fns';
 
@@ -39,14 +38,6 @@ const ButtonError = styled(Button)(
         background: ${theme.colors.error.dark};
      }
     `
-);
-
-const AvatarSuccess = styled(Avatar)(
-  ({ theme }) => `
-    background: ${theme.colors.success.light};
-    width: ${theme.spacing(5)};
-    height: ${theme.spacing(5)};
-`
 );
 
 const AvatarWrapper = styled(Avatar)(
@@ -133,51 +124,6 @@ function SecurityTab() {
                 primary="Google"
                 secondary="A Google account hasn’t been yet added to your account"
               />
-              <Button color="secondary" size="large" variant="contained">
-                Connect
-              </Button>
-            </ListItem>
-          </List>
-        </Card>
-      </Grid>
-      <Grid item xs={12}>
-        <Card>
-          <List>
-            <ListItem sx={{ p: 3 }}>
-              <ListItemAvatar sx={{ pr: 2 }}>
-                <AvatarSuccess>
-                  <DoneTwoToneIcon />
-                </AvatarSuccess>
-              </ListItemAvatar>
-              <ListItemText
-                primaryTypographyProps={{ variant: 'h5', gutterBottom: true }}
-                secondaryTypographyProps={{
-                  variant: 'subtitle2',
-                  lineHeight: 1
-                }}
-                primary="Facebook"
-                secondary="Your Facebook account has been successfully connected"
-              />
-              <ButtonError size="large" variant="contained">
-                Revoke access
-              </ButtonError>
-            </ListItem>
-            <Divider component="li" />
-            <ListItem sx={{ p: 3 }}>
-              <ListItemAvatar sx={{ pr: 2 }}>
-                <AvatarSuccess>
-                  <DoneTwoToneIcon />
-                </AvatarSuccess>
-              </ListItemAvatar>
-              <ListItemText
-                primaryTypographyProps={{ variant: 'h5', gutterBottom: true }}
-                secondaryTypographyProps={{
-                  variant: 'subtitle2',
-                  lineHeight: 1
-                }}
-                primary="Twitter"
-                secondary="Your Twitter account was last syncronized 6 days ago"
-              />
               <ButtonError size="large" variant="contained">
                 Revoke access
               </ButtonError>
@@ -185,6 +131,7 @@ function SecurityTab() {
           </List>
         </Card>
       </Grid>
+
       <Grid item xs={12}>
         <Box pb={2}>
           <Typography variant="h3">Security</Typography>

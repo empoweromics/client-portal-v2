@@ -11,6 +11,7 @@ import RecentActivity from './RecentActivity';
 function DashboardCrypto() {
   return (
     <>
+      {/* <InfoWindowContent/> */}
       <Helmet>
         <title>empoweromics Dashboard</title>
       </Helmet>

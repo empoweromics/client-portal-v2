@@ -5,11 +5,14 @@ import {
   CardHeader,
   Divider,
   Avatar,
-  styled
+  styled,
+  Rating
 } from '@mui/material';
 
 import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork';
 import SchoolIcon from '@mui/icons-material/School';
+import { useEffect, useState } from 'react';
+import axiosClient from 'src/utilities/axios/axiosIntercept';
 
 const AvatarPrimary = styled(Avatar)(
   ({ theme }) => `
@@ -21,39 +24,52 @@ const AvatarPrimary = styled(Avatar)(
 );
 
 function RecentActivity() {
+  const [account, setAccount] = useState();
+  // ----------------------------------------------------------------------------------------------
+  const getAccount = async () => {
+    try {
+      const res = await axiosClient('/client/account');
+      setAccount(res.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  // ----------------------------------------------------------------------------------------------
+  useEffect(() => {
+    getAccount();
+  }, []);
   return (
     <Card sx={{ paddingBottom: '1em' }}>
       <CardHeader title="Recent Activity" />
       <Divider />
       <Box px={2} py={2} display="flex" alignItems="flex-start">
-        <AvatarPrimary>
-          <MapsHomeWorkIcon />
-        </AvatarPrimary>
-        <Box pl={1} flex={1}>
-          <Typography variant="h4">Opportunities</Typography>
-
-          <Box pt={2} display="flex">
-            <Box pr={8}>
-              <Typography gutterBottom variant="caption">
-                Total
-              </Typography>
-              <Typography variant="h3">0</Typography>
-            </Box>
-            <Box pr={8}>
-              <Typography gutterBottom variant="caption">
-                Failed
-              </Typography>
-              <Typography variant="h3">0</Typography>
-            </Box>
-            <Box>
-              <Typography gutterBottom variant="caption">
-                Done
-              </Typography>
-              <Typography variant="h3">0</Typography>
+        <Rating name="read-only" value={3.6} precision={0.1} readOnly />
+        <Typography variant="h3">({3.6})</Typography>
+      </Box>
+      <Divider />
+      {account?.opportunity.length > 0 && (
+        <Box px={2} py={2} display="flex" alignItems="flex-start">
+          <AvatarPrimary>
+            <MapsHomeWorkIcon />
+          </AvatarPrimary>
+          <Box pl={1} flex={1}>
+            <Typography variant="h4">Opportunities</Typography>
+            <Box pt={2} display="flex">
+              {account?.opportunity?.map((el) => {
+                return (
+                  <Box key={el._id} pr={8}>
+                    <Typography gutterBottom variant="caption">
+                      {el._id}
+                    </Typography>
+                    <Typography variant="h3">{el.count}</Typography>
+                  </Box>
+                );
+              })}
             </Box>
           </Box>
         </Box>
-      </Box>
+      )}
+
       <Divider />
       <Box px={2} py={2} display="flex" alignItems="flex-start">
         <AvatarPrimary>
@@ -65,15 +81,15 @@ function RecentActivity() {
           <Box pt={2} display="flex">
             <Box pr={8}>
               <Typography gutterBottom variant="caption">
-                Totla
+                total
               </Typography>
-              <Typography variant="h3">10</Typography>
+              <Typography variant="h3">{account?.academy?.total}</Typography>
             </Box>
             <Box pr={8}>
               <Typography gutterBottom variant="caption">
                 Level
               </Typography>
-              <Typography variant="h3">A1</Typography>
+              <Typography variant="h3">{account?.academy?.level}</Typography>
             </Box>
           </Box>
         </Box>

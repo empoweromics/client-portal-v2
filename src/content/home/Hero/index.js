@@ -19,7 +19,6 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import MailTwoToneIcon from '@mui/icons-material/MailTwoTone';
-import TopDeveloper from './TopDeveloper';
 import GoogleLogin from './login';
 
 const MainContent = styled(Box)(
@@ -50,7 +49,7 @@ function Hero() {
   return (
     <Container maxWidth="lg">
       <Helmet>
-        <title>empoweromics</title>
+        <title>empoweromics Home Page</title>
       </Helmet>
       <MainContent>
         <Container>
@@ -70,9 +69,6 @@ function Hero() {
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <GoogleLogin />
-            </Grid>
-            <Grid item xs={12}>
-              <TopDeveloper />
             </Grid>
           </Grid>
           <Container maxWidth="sm">

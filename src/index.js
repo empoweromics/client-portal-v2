@@ -7,6 +7,7 @@ import App from 'src/App';
 import { SidebarProvider } from 'src/contexts/SidebarContext';
 import * as serviceWorker from 'src/serviceWorker';
 import { UserContextProvider } from './contexts/UserContext';
+import './utilities/firebase/firebaseConfig';
 
 ReactDOM.render(
   <HelmetProvider>

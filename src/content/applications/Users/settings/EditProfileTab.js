@@ -4,16 +4,15 @@ import {
   CardContent,
   Card,
   Box,
-  Divider,
-  Button
+  Divider
 } from '@mui/material';
 
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import DoneTwoToneIcon from '@mui/icons-material/DoneTwoTone';
 import Text from 'src/components/Text';
 import Label from 'src/components/Label';
+import { PersonalDetailsDialog } from './personalDetailsDialog';
+import { AccountSettingsDialog } from './accountSettingsDialog';
 
-function EditProfileTab() {
+function EditProfileTab({ setCurrentUser, currentUser, setSnackBarMsg }) {
   return (
     <Grid container spacing={3}>
       <Grid item xs={12}>
@@ -32,9 +31,11 @@ function EditProfileTab() {
                 Manage informations related to your personal details
               </Typography>
             </Box>
-            <Button variant="text" startIcon={<EditTwoToneIcon />}>
-              Edit
-            </Button>
+            <PersonalDetailsDialog
+              setSnackBarMsg={setSnackBarMsg}
+              setCurrentUser={setCurrentUser}
+              currentUser={currentUser}
+            />
           </Box>
           <Divider />
           <CardContent sx={{ p: 4 }}>
@@ -47,7 +48,8 @@ function EditProfileTab() {
                 </Grid>
                 <Grid item xs={12} sm={8} md={9}>
                   <Text color="black">
-                    <b>Craig Donin</b>
+                    {/* <b>Craig Donin</b> */}
+                    <b>{currentUser?.displayName}</b>
                   </Text>
                 </Grid>
                 <Grid item xs={12} sm={4} md={3} textAlign={{ sm: 'right' }}>
@@ -57,7 +59,8 @@ function EditProfileTab() {
                 </Grid>
                 <Grid item xs={12} sm={8} md={9}>
                   <Text color="black">
-                    <b>15 March 1977</b>
+                    {/* <b>15 March 1977</b> */}
+                    <b>{currentUser?.dateOfbirth}</b>
                   </Text>
                 </Grid>
                 <Grid item xs={12} sm={4} md={3} textAlign={{ sm: 'right' }}>
@@ -68,8 +71,9 @@ function EditProfileTab() {
                 <Grid item xs={12} sm={8} md={9}>
                   <Box sx={{ maxWidth: { xs: 'auto', sm: 300 } }}>
                     <Text color="black">
-                      1749 High Meadow Lane, SEQUOIA NATIONAL PARK, California,
-                      93262
+                      {/* 1749 High Meadow Lane, SEQUOIA NATIONAL PARK, California,
+                      93262 */}
+                      {currentUser?.address}
                     </Text>
                   </Box>
                 </Grid>
@@ -94,9 +98,11 @@ function EditProfileTab() {
                 Manage details related to your account
               </Typography>
             </Box>
-            <Button variant="text" startIcon={<EditTwoToneIcon />}>
-              Edit
-            </Button>
+            <AccountSettingsDialog
+              setSnackBarMsg={setSnackBarMsg}
+              setCurrentUser={setCurrentUser}
+              currentUser={currentUser}
+            />
           </Box>
           <Divider />
           <CardContent sx={{ p: 4 }}>
@@ -109,7 +115,8 @@ function EditProfileTab() {
                 </Grid>
                 <Grid item xs={12} sm={8} md={9}>
                   <Text color="black">
-                    <b>English (US)</b>
+                    {/* <b>English (US)</b> */}
+                    <b>{currentUser?.language}</b>
                   </Text>
                 </Grid>
                 <Grid item xs={12} sm={4} md={3} textAlign={{ sm: 'right' }}>
@@ -129,8 +136,9 @@ function EditProfileTab() {
                 </Grid>
                 <Grid item xs={12} sm={8} md={9}>
                   <Label color="success">
-                    <DoneTwoToneIcon fontSize="small" />
-                    <b>Active</b>
+                    {/* <DoneTwoToneIcon fontSize="small" /> */}
+                    {/* <b>Active</b> */}
+                    <b>{currentUser?.status}</b>
                   </Label>
                 </Grid>
               </Grid>
@@ -154,37 +162,35 @@ function EditProfileTab() {
                 Manage details related to your associated email addresses
               </Typography>
             </Box>
-            <Button variant="text" startIcon={<EditTwoToneIcon />}>
-              Edit
-            </Button>
+            {/* <EditMailDialog setCurrentUser={setCurrentUser} currentUser={currentUser}/> */}
           </Box>
           <Divider />
           <CardContent sx={{ p: 4 }}>
             <Typography variant="subtitle2">
               <Grid container spacing={0}>
-                <Grid item xs={12} sm={4} md={3} textAlign={{ sm: 'right' }}>
+                {/* <Grid item xs={12} sm={4} md={3} textAlign={{ sm: 'right' }}>
                   <Box pr={3} pb={2}>
                     Email ID:
                   </Box>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12} sm={8} md={9}>
                   <Text color="black">
-                    <b>example@demo.com</b>
+                    <b>{currentUser?.email}</b>
                   </Text>
                   <Box pl={1} component="span">
                     <Label color="success">Primary</Label>
                   </Box>
                 </Grid>
-                <Grid item xs={12} sm={4} md={3} textAlign={{ sm: 'right' }}>
+                {/* <Grid item xs={12} sm={4} md={3} textAlign={{ sm: 'right' }}>
                   <Box pr={3} pb={2}>
                     Email ID:
                   </Box>
                 </Grid>
                 <Grid item xs={12} sm={8} md={9}>
                   <Text color="black">
-                    <b>demo@example.com</b>
+                  <b>{currentUser?.email}</b>
                   </Text>
-                </Grid>
+                </Grid> */}
               </Grid>
             </Typography>
           </CardContent>
@@ -194,4 +200,4 @@ function EditProfileTab() {
   );
 }
 
-export default EditProfileTab;
+export { EditProfileTab };

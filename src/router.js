@@ -12,11 +12,9 @@ const Loader = (Component) => (props) =>
       <Component {...props} />
     </Suspense>
   );
-
-// Pages
-
 const Home = Loader(lazy(() => import('src/content/home')));
 
+const EmpHome = Loader(lazy(() => import('src/content/EmpHome')));
 // Dashboards
 
 const Overview = Loader(
@@ -30,6 +28,9 @@ const Messenger = Loader(
 );
 const Opportunity = Loader(
   lazy(() => import('src/content/applications/Opportunity'))
+);
+const Transaction = Loader(
+  lazy(() => import('src/content/applications/Transaction'))
 );
 const Academy = Loader(lazy(() => import('src/content/applications/Academy')));
 const Emp = Loader(lazy(() => import('src/content/applications/Emp')));
@@ -52,7 +53,6 @@ const Status500 = Loader(
 const StatusMaintenance = Loader(
   lazy(() => import('src/content/pages/Status/Maintenance'))
 );
-
 const routes = (isLoggedIn) => {
   const location = useLocation();
 
@@ -65,10 +65,10 @@ const routes = (isLoggedIn) => {
           path: '/',
           element: <Home />
         },
-        // {
-        //   path: 'home',
-        //   element: <Navigate to="/" replace />
-        // },
+        {
+          path: 'emp/:id',
+          element: <EmpHome />
+        },
         {
           path: 'status',
           children: [
@@ -122,9 +122,14 @@ const routes = (isLoggedIn) => {
           element: <Opportunity />
         },
         {
+          path: 'transaction',
+          element: <Transaction />
+        },
+        {
           path: 'map',
           element: <MapBox />
         },
+
         {
           path: 'profile',
           children: [

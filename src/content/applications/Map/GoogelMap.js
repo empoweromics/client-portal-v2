@@ -1,387 +1,197 @@
-import { GoogleMap, InfoWindow, Marker, Polygon } from '@react-google-maps/api';
-import React, { useEffect, useState, useRef } from 'react';
-// import { useRef, useEffect } from 'react';
-import axios from 'axios';
-import { getStorage, setStorage } from 'src/utilities/storage/storage';
-import style from './googleMaps.module.css';
-import {
-  CardHeader,
-  Box,
-  Grid,
-  Typography,
-  LinearProgress
-} from '@mui/material';
-import { Easing, Tween, update } from "@tweenjs/tween.js";
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+import { GoogleMap, InfoWindow, Polygon } from '@react-google-maps/api';
+import React, { useState } from 'react';
+import style from './style/googleMaps.module.css';
 import { MapSearch } from './Search/index';
 import { InfoWindowContent } from './InfoWindowContent';
+import projects from 'src/data/projects.json';
+import {
+  getCentroid,
+  getPolygonCenter,
+  mapOptions,
+  setStyle
+} from 'src/utilities/map/map.config';
+import { Snackbar } from '@mui/material';
+import MapControl from './controller/map.controller';
+import { ProjectDetailsDrawer } from './projectDetailsDrawer/projectDetailsDrawer';
+import axiosClient from 'src/utilities/axios/axiosIntercept';
+import { OppDialog } from './oppdialog/opp-dialog';
 
-const stateColors = [
-  {
-    state: 'constructed',
-    color: 'green'
-  },
-  {
-    state: 'under construction',
-    color: 'yellow'
-  },
-  {
-    state: 'constructed (partial)',
-    color: 'orange'
-  },
-  {
-    state: 'off-plane',
-    color: 'black'
-  }
-];
-function ColorBox() {
-  return (
-    <Grid item md={7} xs={12}>
-      <Box display="flex" justifyContent="flex-end">
-        {stateColors.map((item, i) => (
-          <Box display="flex" key={i} alignItems="center">
-            <Box
-              sx={{
-                width: 15,
-                height: 15,
-                backgroundColor: item.color,
-                margin: '0 0.4em'
-              }}
-            />
-            <Typography variant="subtitle1">{item.state}</Typography>
-          </Box>
-        ))}
-      </Box>
-    </Grid>
-  );
-}
-
+// let infoWindowContent = <InfoWindowContent />
 function GoogleMaps() {
-  const [polygons, setPolygons] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [selectedProject, setSelectedProject] = useState();
+  // const [dialogProjectId, setDialogProjectId] = useState();
+  const [snackbarMsg, setSnackbarMsg] = useState('');
+  const [openProjectDetailsDrawer, setOpenProjectDetailsDrawer] = useState();
   const [center, setCenter] = useState({ lat: 30.010317, lng: 31.51263 });
-
-  const map = useRef(null);
-  function getData() {
+  const [projectDetails, setProjectDetails] = useState();
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [openDialog, setOpenDialog] = useState(false);
+  // ----------------------------------------------------------------------------------------------
+  const getProjectDetails = async (projectId) => {
     setLoading(true);
-    axios
-      .get(`${process.env.REACT_APP_DEVELOP_URL}/projects/polygons`)
-      .then((res) => {
-        setPolygons(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
+    try {
+      setOpenProjectDetailsDrawer(true);
+      const res = await axiosClient.get(`/client/project/${projectId}`, {
+        headers: { user: 'cXtdTSxTS0a5nyti9CpGeKokWun2' }
       });
-  }
+      setProjectDetails(res.data);
+    } catch (e) {
+      setErrorMsg(
+        'Something went wrong with getting  project details, please try again'
+      );
+    }
+    setLoading(false);
+  };
+
   // ----------------------------------------------------------------------------------------------
-  const getCentroid = (arr)=> { 
-    return arr.reduce(function (x,y) {
-        return [x[0] + y[0]/arr.length, x[1] + y[1]/arr.length] 
-    }, [0,0]) 
-}
-  // ----------------------------------------------------------------------------------------------
-  const selectProject = (project) => {console.log(project);
-    setSelectedProject(project);
+  const findProjectById = (projectId) => {
+    let projectWithPolygon = projects.features.find(
+      (project) => project?.properties?.id === projectId
+    );
+    getProjectDetails(projectId);
     setCenter({
-      lat:getCentroid(project?.geometry?.coordinates[0])[1]
-      ,lng:getCentroid(project?.geometry?.coordinates[0])[0]})
-      const cameraOptions = {
-        tilt: 0,
-        heading: 0,
-        zoom: 10,
-        center: {
-          lat:getCentroid(project?.geometry?.coordinates[0])[1]
-          ,lng:getCentroid(project?.geometry?.coordinates[0])[0]}
-        }
-     
-      // map.current.animateCamera(cameraOptions)
-
-
-
-
-
-
-
-
-      new Tween(cameraOptions) // Create a new tween that modifies 'cameraOptions'.
-      .to({ tilt: 65, heading: 90, zoom: 14 }, 1500) // Move to destination in 15 second.
-      .easing(Easing.Quadratic.Out) // Use an easing function to make the animation smooth.
-      .onUpdate(() => {
-        map.current.moveCamera(cameraOptions);
-      })
-      .start(); // Start the tween immediately.
-  
-    // Setup the animation loop.
-    function animate(time) {
-      requestAnimationFrame(animate);
-      update(time);
-    }
-  
-    requestAnimationFrame(animate);
-  
-
-
-
-
-
-
-
-
-
-
-  }
+      lat: getCentroid(projectWithPolygon?.geometry?.coordinates[0])[1],
+      lng: getCentroid(projectWithPolygon?.geometry?.coordinates[0])[0]
+    });
+    console.log(getCentroid(projectWithPolygon?.geometry?.coordinates[0])[1]);
+  };
   // ----------------------------------------------------------------------------------------------
-  useEffect(() => {
-    if (polygons) {
-      setStorage('EMap', JSON.stringify(polygons), 60 * 60 * 24); // store 1 day
-      map.current.data.addGeoJson(polygons);
-      setLoading(false);
-      // fitBounds(map.current);
-      map.current.data.setStyle(function (feature) {
-        if (feature.getProperty('state') === 'constructed') {
-          return {
-            fillColor: 'green',
-            strokeColor: 'green',
-            strokeWeight: 0.3
-          };
-        }
-        if (feature.getProperty('state') === 'under construction') {
-          return {
-            fillColor: 'yellow',
-            strokeColor: 'yellow',
-            strokeWeight: 0.3
-          };
-        }
-        if (feature.getProperty('state') === 'constructed (partial)') {
-          return {
-            fillColor: 'orange',
-            strokeColor: 'orange',
-            strokeWeight: 0.3
-          };
-        }
-        return { fillColor: 'black', strokeColor: 'black', strokeWeight: 0.3 };
-      });
-    }
-  }, [polygons]);
-  useEffect(() => {
-    setLoading(true);
-    let data = getStorage('EMap');
-    if (data) {
-      setPolygons(JSON.parse(data));
-    } else {
-      getData();
-    }
-  }, []);
 
-  // function processPoints(geometry, callback, thisArg) {
-  //   if (geometry instanceof window.google.maps.LatLng) {
-  //     callback.call(thisArg, geometry);
-  //   } else if (geometry instanceof window.google.maps.Data.Point) {
-  //     callback.call(thisArg, geometry.get());
-  //   } else {
-  //     geometry.getArray().forEach(function (g) {
-  //       processPoints(g, callback, thisArg);
-  //     });
-  //   }
-  // }
-  // function processPoints(geometry) {
-  //   let bounds = new window.google.maps.LatLngBounds();
-  //   console.log(geometry.coordinates[0][0]);
-  //   geometry.coordinates[0].forEach((point) => {
-  //     console.log(point);
-  //     bounds.extend({ lat: point[1], lng: point[0] });
-  //   });
+  // sort project by acres from samller to larger --> to make zIndex of smaller polygon higher than larger one
+  projects.features.sort((a, b) => {
+    return parseFloat(a.properties.acres) - parseFloat(b.properties.acres);
+  });
 
-  //   // map.current.fitBounds(bounds);
-  // }
+  const selectProject = (project) => {
+    findProjectById(project._id);
+  };
+  // ----------------------------------------------------------------------------------------------
 
-  // processPoints({
-  //   type: 'Polygon',
-  //   coordinates: [
-  //     [
-  //       [30.85109, 30.093023],
-  //       [30.851626, 30.090015],
-  //       [30.85815, 30.090331],
-  //       [30.85772, 30.093859],
-  //       [30.85109, 30.093023]
-  //     ]
-  //   ]
-  // });
-  // function fitBounds(mapInstance) {
-  //   let bounds = new window.google.maps.LatLngBounds();
-  //   console.log(mapInstance.data);
-  //   mapInstance.data.forEach(function (feature) {
-  //     console.log(feature.getGeometry());
-  //     feature.getGeometry().forEachLatLng(function (latlng) {
-  //       bounds.extend(latlng);
-  //     });
-  //   });
-
-  //   mapInstance.fitBounds(bounds);
-  // }
-
-
-
-
+  // ----------------------------------------------------------------------------------------------
 
   const onLoad = (mapInstance) => {
-    map.current = mapInstance;
+    // map.current = mapInstance;
+    mapInstance.data.addGeoJson(projects);
+    mapInstance.data.setStyle(setStyle);
+    mapInstance.data.addListener('click', function ({ feature }) {
+      const newCenter = getPolygonCenter(
+        feature?.h?.h[0]?.h?.map((el) => {
+          return { lat: el.lat(), lng: el.lng() };
+        })
+      );
+      setCenter(newCenter);
+      mapInstance.panTo(newCenter);
 
-    // mapInstance.data.addListener('addfeature', function (event) {
-    //   console.log('addfeature');
-    //   let bounds = new window.google.maps.LatLngBounds();
-    //   processPoints(event.feature.getGeometry(), bounds.extend, bounds);
-    //   mapInstance.setCenter(bounds.getCenter());
-    //   mapInstance.fitBounds(bounds);
-    // });
-    let infowindow = new window.google.maps.InfoWindow();
-    mapInstance.data.addListener('click', function ({ feature, latLng }) {
-      let content = `<table class=${style.infoWindowTable}>
-   <tr>
-    <th>Name</th>
-    <td>${feature.getProperty('name')}</td>
-  </tr>
-   <tr>
-    <th>Category</th>
-    <td> ${feature.getProperty('category')}</td>
-  </tr>
-  <tr>
-    <th>Area Name</th>
-    <td> ${feature.getProperty('area')}</td>
-  </tr>
-   <tr>
-    <th>Area (acres)</th>
-    <td> ${feature.getProperty('acres')}</td>
-  </tr>
- <tr>
-    <th>City</th>
-    <td>${feature.getProperty('city')}</td>
-  </tr>
-   <tr>
-    <th>Country</th>
-    <td>${feature.getProperty('country')}</td>
-  </tr>
-  <tr>
-    <th>Supplier</th>
-    <td>${feature.getProperty('supplier')}</td>
-  </tr>
-  <tr>
-    <th>Description</th>
-    <td>${feature.getProperty('description')}</td>
-  </tr>
-</table>`;
-      infowindow.setContent(content);
-
-      infowindow.setPosition(latLng);
-      infowindow.open(mapInstance);
-    });
-
-    mapInstance.addListener('click', function () {
-      infowindow.close();
-    });
-  };
-  const options = {
-    styles: [
-      // {
-      //   featureType: 'administrative',
-      //   stylers: [{ visibility: 'off' }]
-      // },
-      {
-        featureType: 'poi',
-        stylers: [{ visibility: 'off' }]
-      },
-      {
-        featureType: 'transit',
-        stylers: [{ visibility: 'off' }]
-      },
-      {
-        featureType: 'road.arterial',
-        stylers: [{ visibility: 'off' }]
-      },
-      {
-        featureType: 'road.highway',
-        stylers: [{ visibility: 'off' }]
-      },
-      {
-        featureType: 'road.highway.controlled_access',
-        stylers: [{ visibility: 'off' }]
-      },
-      {
-        featureType: 'road.local',
-        stylers: [{ visibility: 'off' }]
+      if (
+        feature.j.category !== 'residential' &&
+        feature.j.category !== 'administrative' &&
+        feature.j.category !== 'commercial'
+      ) {
+        setOpenProjectDetailsDrawer();
+        return;
       }
-    ]
+      findProjectById(feature?.j?.id);
+
+      // setDialogProjectId(feature?.j?.id);
+
+      //       let content = `<table class=${style.infoWindowTable}>
+      //    <tr>
+      //     <th>Name</th>
+      //     <td>${feature.getProperty('name')}</td>
+      //   </tr>
+      //    <tr>
+      //     <th>Area</th>
+      //     <td> ${feature.getProperty('acres')} (acres)</td>
+      //   </tr>
+
+      // </table>`;
+      //       infowindow.setContent(content);
+      //       infowindow.setPosition(latLng);
+      //       infowindow.open(mapInstance);
+      //     });
+
+      //     mapInstance.addListener('click', function () {
+      //       infowindow.close();
+    });
   };
 
   return (
     <>
-      <CardHeader
-        title={
-          <Grid container alignItems="center" justifyContent="space-between">
-            <Grid item md={5} xs={12}>
-              {loading ? (
-                <LinearProgress />
-              ) : (
-               <> 
-               <MapSearch selectProject={selectProject} projects={polygons} />
-                {/* <Typography variant="subtitle1">E-map with Polygons</Typography> */}
-                </>
-              )}
-            </Grid>
-
-            <ColorBox />
-          </Grid>
-        }
-        sx={{ padding: '1em' }}
-      // title={<ColorBox />}
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center'
+        }}
+        open={!!snackbarMsg}
+        autoHideDuration={6000}
+        //   onClose={handleClose}
+        message={snackbarMsg}
+        //   action={action}
       />
+
+      {
+        <OppDialog
+          setSnackbarMsg={setSnackbarMsg}
+          open={openDialog}
+          projectDetails={projectDetails}
+          setProjectDetails={setProjectDetails}
+          setOpen={setOpenDialog}
+        />
+      }
       <GoogleMap
         mapContainerStyle={{
           width: '100%',
           height: '100%'
         }}
-        options={options}
+        options={mapOptions}
         center={center}
         zoom={12.5}
         onLoad={onLoad}
-             >
-              
-       {selectedProject&&<>
-        <Polygon
-           paths={selectedProject?.geometry?.coordinates[0].map(el=>{return {lat:el[0],lng:el[1]}})
-           } 
-           options={{
-            strokeColor: 'red',
-            fillColor: 'yellow',
-          }}
+      >
+        <MapControl position="TOP_LEFT" classNameChild={style.combinedMapForm}>
+          <ProjectDetailsDrawer
+            loading={loading}
+            projectDetails={projectDetails}
+            setProjectDetails={setProjectDetails}
+            errorMsg={errorMsg}
+            getProject={findProjectById}
+            open={openProjectDetailsDrawer}
+            setOpen={setOpenProjectDetailsDrawer}
+            setSnackbarMsg={setSnackbarMsg}
+          />
+        </MapControl>
+        <MapControl position="TOP_RIGHT" classNameChild={style.combinedMapForm}>
+          <MapSearch selectProject={selectProject} projects={projects} />
+        </MapControl>
+        {openProjectDetailsDrawer && (
+          <>
+            <Polygon
+              paths={openProjectDetailsDrawer?.geometry?.coordinates[0].map(
+                (el) => {
+                  return { lat: el[0], lng: el[1] };
+                }
+              )}
+              options={{
+                strokeColor: 'red',
+                fillColor: 'yellow'
+              }}
             />
-       <InfoWindow
+          </>
+        )}
+        {openProjectDetailsDrawer && (
+          <InfoWindow
             position={center}
-            open={!!selectedProject}
-            onCloseClick={() => {
-              setSelectedProject(null);
-            }}
+            open={!!openProjectDetailsDrawer}
+            options={{ disableCloseButton: true }}
           >
-           <InfoWindowContent project={selectedProject}/>
-          </InfoWindow></> }
-                  {/* {polygonsData?.map((polygon, i) => {
-        console.log(polygon);
-        return (
-          <Polygon
-            key={i}
-            onLoad={onLoad}
-            paths={polygon.geoJSON.coordinates}
-            options={polygonOptions}
-          >
-            <SingleMarker polygon={polygon} />;
-          </Polygon>
-        );
-      })} */}
-        {/* {infoWindow && (
-        <InfoWindow position={infoWindow.position}>
-          <Box p={2}>{infoWindow.data}</Box>
-        </InfoWindow>
-      )} */}
+            <InfoWindowContent
+              loading={loading}
+              setOpenDialog={setOpenDialog}
+              projectDetails={projectDetails}
+            />
+          </InfoWindow>
+        )}
       </GoogleMap>
     </>
   );
