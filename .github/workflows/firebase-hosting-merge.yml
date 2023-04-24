@@ -12,7 +12,20 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: npm ci && npm run build
-
+      - name: Make envfile
+              run: |
+                cat <<EOF > .env
+                REACT_APP_GOOGLEMAPS_API_KEY: ${{ secrets.REACT_APP_GOOGLEMAPS_API_KEY }}
+                REACT_APP_DEVELOP_URL: ${{ secrets.REACT_APP_DEVELOP_URL }}
+                REACT_APP_DOMAIN_URL: ${{ secrets.REACT_APP_DOMAIN_URL }}
+                REACT_APP_OLD_DOMAIN_URL: ${{ secrets.REACT_APP_OLD_DOMAIN_URL }}
+                EOF
+              env:
+                REACT_APP_GOOGLEMAPS_API_KEY: ${{ secrets.REACT_APP_GOOGLEMAPS_API_KEY }}
+                REACT_APP_DEVELOP_URL: ${{ secrets.REACT_APP_DEVELOP_URL }}
+                REACT_APP_DOMAIN_URL: ${{ secrets.REACT_APP_DOMAIN_URL }}
+                REACT_APP_OLD_DOMAIN_URL: ${{ secrets.REACT_APP_OLD_DOMAIN_URL }}
+                
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
