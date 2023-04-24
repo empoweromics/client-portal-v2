@@ -10,17 +10,10 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
       # this install the dependencies specified in your package.json file into the current workflow
-      - name: install dependencies
-        run: npm ci
-
-      - name: Build App
-        run: npm run build
-
-      - name: Make envfile
-        run: |
+      - run: npm ci && npm run build
+      - run: |
             cat <<EOF > .env
             REACT_APP_GOOGLEMAPS_API_KEY: ${{ secrets.REACT_APP_GOOGLEMAPS_API_KEY }}
             REACT_APP_DEVELOP_URL: ${{ secrets.REACT_APP_DEVELOP_URL }}
@@ -33,8 +26,7 @@ jobs:
             REACT_APP_DOMAIN_URL: ${{ secrets.REACT_APP_DOMAIN_URL }}
             REACT_APP_OLD_DOMAIN_URL: ${{ secrets.REACT_APP_OLD_DOMAIN_URL }}
 
-      - name: action-hosting-deploy
-        uses: FirebaseExtended/action-hosting-deploy@v0
+      - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_EMPOWEROMICS_DEV }}'
