@@ -38,7 +38,7 @@ export function EditMailDialog({ setCurrentUser, currentUser }) {
     setIsloading(true);
 
     try {
-      const res = await axiosClient.put('/client/account', { email: email });
+      const res = await axiosClient.put('/account', { email: email });
       setCurrentUser(res.data);
       console.log(res.data);
     } catch (e) {

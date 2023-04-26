@@ -29,7 +29,7 @@ const EmpForm = ({ getLinks, isLoading }) => {
   // --------------------------------------------------------------------------------------------
   const getTypes = async () => {
     try {
-      const res = await axiosClient(`/client/master/type`);
+      const res = await axiosClient(`/master/type`);
       setTypes(res.data);
     } catch (e) {
       console.log(e);
@@ -38,7 +38,7 @@ const EmpForm = ({ getLinks, isLoading }) => {
   // --------------------------------------------------------------------------------------------
   const getAreas = async () => {
     try {
-      const res = await axiosClient(`/client/master/area`);
+      const res = await axiosClient(`/master/area`);
       setAreas(res.data);
     } catch (e) {
       console.log(e);
@@ -48,7 +48,7 @@ const EmpForm = ({ getLinks, isLoading }) => {
   // --------------------------------------------------------------------------------------------
   const getCategories = async () => {
     try {
-      const res = await axiosClient(`/client/master/category`);
+      const res = await axiosClient(`/master/category`);
       setCategories(res.data);
     } catch (e) {
       console.log(e);
@@ -61,7 +61,7 @@ const EmpForm = ({ getLinks, isLoading }) => {
 
     try {
       const res = await axiosClient.post(
-        `${process.env.REACT_APP_DEVELOP_URL}/client/emp/submit`,
+        `${process.env.REACT_APP_DEVELOP_URL}/emp/submit`,
         empForm
       );
       console.log(res);

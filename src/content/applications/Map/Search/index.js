@@ -71,9 +71,7 @@ function MapSearch({ selectProject }) {
   const search = async () => {
     setIsLoading(true);
     try {
-      const res = await axiosClient(
-        `/client/project/search?text=${searchValue}`
-      );
+      const res = await axiosClient(`/project/search?text=${searchValue}`);
       console.log(res);
       setSearchResults(res.data);
     } catch (e) {

@@ -19,7 +19,7 @@ export default function EmpHome() {
     setIsloading(true);
     try {
       const res = await axios.get(
-        `${process.env.REACT_APP_DEVELOP_URL}/client/public/emp/${id}`
+        `${process.env.REACT_APP_DEVELOP_URL}/public/emp/${id}`
       );
       setEmpData(res.data);
     } catch (e) {

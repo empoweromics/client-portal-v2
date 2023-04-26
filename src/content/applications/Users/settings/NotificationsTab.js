@@ -31,7 +31,7 @@ function NotificationsTab({ currentUser, setCurrentUser }) {
       }
     };
     try {
-      const res = await axiosClient.put('/client/account', body);
+      const res = await axiosClient.put('/account', body);
       setState(res.data.notifications);
       setCurrentUser(res.data);
     } catch (e) {

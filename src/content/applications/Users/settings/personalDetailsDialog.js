@@ -62,7 +62,7 @@ export function PersonalDetailsDialog({
       }
     }
     try {
-      const res = await axiosClient.put('/client/account', body);
+      const res = await axiosClient.put('/account', body);
       setCurrentUser(res.data);
       setSnackBarMsg('your Profile  updated successfully');
       setTimeout(() => {

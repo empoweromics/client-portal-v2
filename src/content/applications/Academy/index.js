@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 function AcademyPage() {
   const getAccademyData = async () => {
     try {
-      const res = await axiosClient('/client/master/academy');
+      const res = await axiosClient('/master/academy');
       console.log(res.data.data);
     } catch (e) {
       console.log(e);
