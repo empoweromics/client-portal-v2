@@ -2,25 +2,7 @@ import styles from './emp.module.css';
 import emLogo from '../../../assets/images/dark_emp_logo.png';
 import { CircularProgress } from '@mui/material';
 
-const x = {
-    "_id": "6435f355533d4ae1fe616d56",
-    "category": "Residential",
-    "type": "Serviced Apartment",
-    "finishingType": "Fully Finished",
-    "priceBase": 1164900,
-    "spaceBuildUp": 59,
-    "pricePerMeter": 19744.07,
-    "paymentYears": 8,
-    "estDelivery": [
-        2.5
-    ],
-    "area": "new cairo",
-    "active": true,
-    "createdAt": "2023-04-11T23:55:01.399Z",
-    "updatedAt": "2023-04-12T00:00:37.453Z",
-    "project": "6435f3198ee697e6819ea9e2",
-    "developer": "6435d5ed91155b33caeab238"
-}
+
 const Preview = ({ previewEmp, isLoading }) => {
     return (
         <div className={styles.preview_wrapper}>
