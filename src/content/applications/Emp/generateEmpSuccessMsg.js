@@ -18,14 +18,15 @@ const style = {
     p: 4,
 };
 const sucMsgStyles = {
-    color: '#129e1b',
+    textAlign:'center',
+    color: '#045269',
     fontWeight: 'bold',
     fontSize: '18px',
-    marginBottom: '10px',
+    marginBottom: '15px',
 }
 const secondaryTextStyles = {
     color: 'gray',
-    fontSize: '14px'
+    fontSize: '12px'
 }
 const idStyles = {
     fontWeight: 'bold',
@@ -52,8 +53,8 @@ export function GenerateEmpSuccessMsg({ setOpen = () => { }, open = true, id  })
                         Your Emp has been Generated Successfully!
                     </Typography>
                     <div style={secondaryTextStyles}>
-                        Your reference ID is <span style={idStyles}>{id}</span>
-                        {' '} and Please take screenshot for your reference
+                        Reference ID: <span style={idStyles}>{id}</span><br/>
+                        Please take screenshot for your reference
                     </div>
                     <div style={{ margin: '20px auto 0', display: 'flex', justifyContent: 'center' }}>   <Button sx={{ paddingX: '40px' }} variant='contained' color='primary' onClick={handleClose}> Done</Button></div>
                 </Box>
