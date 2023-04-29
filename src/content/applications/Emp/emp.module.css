@@ -42,15 +42,37 @@ display: flex;
 margin: 10px auto;
 }
 
-.project_logo{
+.logos_Wrapper{
   width: 60px;
+  height:60px;
+  border-radius: 10px;
+  position: relative;
+  background: #c9c9ca;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+}
+.project_logo{
+    border-radius: 10px;
+  width: 100%;
+}
+.developer_logo{
+    border-radius: 10px;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  bottom: -10px;
+  right: -10px;
 }
 .title{
 font-weight: 700;
 font-size: 18;
+color: #129e1b
 }
 .secondary_text{
-color:gray
+color:gray;
+font-size: 12px;
 }
   @media screen and  (max-width: 1000px){
     .emp_form_wrapper,.preview_wrapper{
@@ -123,3 +145,12 @@ color:gray
   }
   
   /* preview placeholder */
+
+  .check_mark_img_wrappper{
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    margin: 0 auto;
+    margin-bottom: 15px;
+  }
+  

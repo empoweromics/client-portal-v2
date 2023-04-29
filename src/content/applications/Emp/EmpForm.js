@@ -13,66 +13,9 @@ import React, { useState } from 'react';
 import axiosClient from 'src/utilities/axios/axiosIntercept';
 import styles from './emp.module.css';
 import { useEffect } from 'react';
+import { GenerateEmpSuccessMsg } from './generateEmpSuccessMsg';
 
-const prevData = {
-  "res1": {
-    "_id": "6435f355533d4ae1fe616d54",
-    "category": "Residential",
-    "type": "Serviced Apartment",
-    "finishingType": "Fully Finished",
-    "priceBase": 1164900,
-    "spaceBuildUp": 59,
-    "pricePerMeter": 19744.07,
-    "paymentYears": 8,
-    "estDelivery": [
-      2.5
-    ],
-    "area": "new cairo",
-    "active": true,
-    "createdAt": "2023-04-11T23:55:01.399Z",
-    "updatedAt": "2023-04-12T00:00:37.453Z",
-    "project": "6435f3198ee697e6819ea9e2",
-    "developer": "6435d5ed91155b33caeab238"
-  },
-  "res2": {
-    "_id": "6435f355533d4ae1fe616d55",
-    "category": "Residential",
-    "type": "Serviced Apartment",
-    "finishingType": "Fully Finished",
-    "priceBase": 1164900,
-    "spaceBuildUp": 59,
-    "pricePerMeter": 19744.07,
-    "paymentYears": 8,
-    "estDelivery": [
-      2.5
-    ],
-    "area": "new cairo",
-    "active": true,
-    "createdAt": "2023-04-11T23:55:01.399Z",
-    "updatedAt": "2023-04-12T00:00:37.453Z",
-    "project": "6435f3198ee697e6819ea9e2",
-    "developer": "6435d5ed91155b33caeab238"
-  },
-  "res3": {
-    "_id": "6435f355533d4ae1fe616d56",
-    "category": "Residential",
-    "type": "Serviced Apartment",
-    "finishingType": "Fully Finished",
-    "priceBase": 1164900,
-    "spaceBuildUp": 59,
-    "pricePerMeter": 19744.07,
-    "paymentYears": 8,
-    "estDelivery": [
-      2.5
-    ],
-    "area": "new cairo",
-    "active": true,
-    "createdAt": "2023-04-11T23:55:01.399Z",
-    "updatedAt": "2023-04-12T00:00:37.453Z",
-    "project": "6435f3198ee697e6819ea9e2",
-    "developer": "6435d5ed91155b33caeab238"
-  }
-}
+
 
 const validateForm = (formData) => {
   let isFormValid=true
@@ -89,6 +32,8 @@ const EmpForm = ({ getLinks, isLoading, setPreviewEmp, setIsPreviewLoading }) =>
   const [categories, setCategories] = useState([]);
   const [areas, setAreas] = useState([]);
   const [snackbarMsg, setSnackbarMsg] = useState('');
+  const [openSuccessModal, setOpenSuccessModal] = useState(false);
+  const [generatedEmpId, setGeneratedEmpId] = useState('');
 
   const [empForm, setEmpForm] = useState({
     category: '',
@@ -143,9 +88,11 @@ const EmpForm = ({ getLinks, isLoading, setPreviewEmp, setIsPreviewLoading }) =>
     }
     try {
       const res = await axiosClient.post(
-        `${process.env.REACT_APP_DEVELOP_URL}/emp/submit`,
+        `/emp/submit`,
         body
       );
+      setGeneratedEmpId(res._id);
+      setOpenSuccessModal(true)
       setEmpForm({
         category: '',
         area: '',
@@ -177,11 +124,13 @@ const EmpForm = ({ getLinks, isLoading, setPreviewEmp, setIsPreviewLoading }) =>
     setIsPreviewLoading(true)
     try {
       const res = await axiosClient.post(
-        `${process.env.REACT_APP_DEVELOP_URL}/emp/preview`,
+      `/emp/preview`,
         body
       );
+      console.log(res);
+    delete  res.data.lenght
       setPreviewEmp(
-        Object.values(prevData)
+        Object.values(res.data)
       )
     } catch (e) {
       console.log(e);
@@ -219,7 +168,7 @@ const EmpForm = ({ getLinks, isLoading, setPreviewEmp, setIsPreviewLoading }) =>
   }
   // --------------------------------------------------------------------------------------------
 
-  return (
+  return (<>
     <form className={styles.emp_form_wrapper}>
       <TextField
         classes={styles.client_details_input}
@@ -355,6 +304,8 @@ const EmpForm = ({ getLinks, isLoading, setPreviewEmp, setIsPreviewLoading }) =>
       //   action={action}
       />
     </form>
+    <GenerateEmpSuccessMsg  setOpen={setOpenSuccessModal } open={openSuccessModal} id={generatedEmpId}/>
+    </>
   );
 };
 

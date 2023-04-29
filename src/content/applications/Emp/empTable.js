@@ -48,7 +48,7 @@ const EmpTable = ({ empLinks, setEmpLinks }) => {
             ?.map((el,i) => (
               <TableRow key={i}>
                 <TableCell>{el.inputs?.clientname}</TableCell>
-                <TableCell>{el.createdAt}</TableCell>{console.log(el)}
+                <TableCell>{el.createdAt}</TableCell>
                 <TableCell><a style={{textDecoration:'none'}} target='_blanck' href={`/emp/${el._id}`}>link</a></TableCell>
                 <TableCell>{el.views}</TableCell>
                 {/* <TableCell>
