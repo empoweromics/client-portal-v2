@@ -29,11 +29,11 @@ const secondaryTextStyles = {
 }
 const idStyles = {
     fontWeight: 'bold',
-    fontSize: '16px',
-    color: '#129e1b'
+    // fontSize: '16px',
+    color: '#000'
 }
 
-export function GenerateEmpSuccessMsg({ setOpen = () => { }, open = true, id = '545' }) {
+export function GenerateEmpSuccessMsg({ setOpen = () => { }, open = true, id  }) {
     const handleClose = () => setOpen(false);
 
     return (

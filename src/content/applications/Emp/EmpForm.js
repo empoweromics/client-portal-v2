@@ -91,7 +91,7 @@ const EmpForm = ({ getLinks, isLoading, setPreviewEmp, setIsPreviewLoading }) =>
         `/emp/submit`,
         body
       );
-      setGeneratedEmpId(res._id);
+      setGeneratedEmpId(res.data._id);
       setOpenSuccessModal(true)
       setEmpForm({
         category: '',
