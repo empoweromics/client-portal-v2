@@ -7,7 +7,6 @@ import { InfoWindowContent } from './InfoWindowContent';
 import projects from 'src/data/projects.json';
 import {
   getCentroid,
-  getPolygonCenter,
   mapOptions,
   setStyle
 } from 'src/utilities/map/map.config';
@@ -72,45 +71,20 @@ function GoogleMaps() {
     // map.current = mapInstance;
     mapInstance.data.addGeoJson(projects);
     mapInstance.data.setStyle(setStyle);
-    mapInstance.data.addListener('click', function ({ feature }) {
-      const newCenter = getPolygonCenter(
-        feature?.h?.h[0]?.h?.map((el) => {
-          return { lat: el.lat(), lng: el.lng() };
-        })
-      );
-      setCenter(newCenter);
-      mapInstance.panTo(newCenter);
+    mapInstance.data.addListener('click', function ({ feature, latLng }) {
+      console.log(feature, latLng);
+      // setCenter(latLng);
+      mapInstance.panTo(latLng);
 
       if (
-        feature.j.category !== 'residential' &&
-        feature.j.category !== 'administrative' &&
-        feature.j.category !== 'commercial'
+        feature.h.category !== 'residential' &&
+        feature.h.category !== 'administrative' &&
+        feature.h.category !== 'commercial'
       ) {
         setOpenProjectDetailsDrawer();
         return;
       }
-      findProjectById(feature?.j?.id);
-
-      // setDialogProjectId(feature?.j?.id);
-
-      //       let content = `<table class=${style.infoWindowTable}>
-      //    <tr>
-      //     <th>Name</th>
-      //     <td>${feature.getProperty('name')}</td>
-      //   </tr>
-      //    <tr>
-      //     <th>Area</th>
-      //     <td> ${feature.getProperty('acres')} (acres)</td>
-      //   </tr>
-
-      // </table>`;
-      //       infowindow.setContent(content);
-      //       infowindow.setPosition(latLng);
-      //       infowindow.open(mapInstance);
-      //     });
-
-      //     mapInstance.addListener('click', function () {
-      //       infowindow.close();
+      findProjectById(feature?.h?.id);
     });
   };
 

@@ -37,45 +37,6 @@ export const mapOptions = {
   ]
 };
 
-// export const setStyle = (feature) => {
-//   let polygonZIndex = 99999;
-//   if (feature.getProperty('category') === 'residential') {
-//     return {
-//       fillColor: '#009A67',
-//       strokeColor: 'green',
-//       strokeWeight: 0.3,
-//       zIndex: polygonZIndex--,
-//       fillOpacity: 0.8
-//     };
-//   }
-
-//   if (feature.getProperty('category') === 'commercial') {
-//     return {
-//       fillColor: 'yellow',
-//       strokeColor: 'yellow',
-//       strokeWeight: 0.3,
-//       zIndex: polygonZIndex--,
-//       fillOpacity: 0.6
-//     };
-//   }
-//   if (feature.getProperty('category') === 'administrative') {
-//     return {
-//       fillColor: 'orange',
-//       strokeColor: 'orange',
-//       strokeWeight: 0.3,
-//       zIndex: polygonZIndex--,
-//       fillOpacity: 0.6
-//     };
-//   }
-//   return {
-//     fillColor: '#04516A',
-//     fillOpacity: 0.2,
-//     strokeColor: 'black',
-//     strokeWeight: 0.1,
-//     zIndex: polygonZIndex--
-//   };
-// };
-
 export const setStyle = (feature) => {
   let polygonZIndex = 99999;
   if (feature.getProperty('category') === 'police') {
@@ -101,7 +62,7 @@ export const setStyle = (feature) => {
     feature.getProperty('category') === 'Constructed' ||
     feature.getProperty('category') === 'res. & comm'
   ) {
-    if (feature.j.units > 0) {
+    if (feature.getProperty('units') > 0) {
       return {
         fillColor: '#02692f',
         strokeColor: '#02692f',
@@ -119,24 +80,7 @@ export const setStyle = (feature) => {
       };
     }
   }
-  // if (feature.getProperty('category') === 'res. & comm') {
-  //   return {
-  //     fillColor: '#04b479',
-  //     strokeColor: '#04b479',
-  //     strokeWeight: 0.3,
-  //     zIndex: polygonZIndex--,
-  //     fillOpacity: 0.6
-  //   };
-  // }
-  // if (feature.getProperty('category') === 'Constructed') {
-  //   return {
-  //     fillColor: '#04b479',
-  //     strokeColor: '#04b479',
-  //     strokeWeight: 0.3,
-  //     zIndex: polygonZIndex--,
-  //     fillOpacity: 0.6
-  //   };
-  // }
+
   return {
     fillColor: '#f0ece3',
     fillOpacity: 0.2,

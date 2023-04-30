@@ -103,7 +103,10 @@ export default function EMPFinancialsSection({ empData }) {
                                     noWrap
                                   >
                                     {/* {row.percent} */}
-                                    {(100 - 10) / (item.unit.paymentYears * 4)}%
+                                    {Number(
+                                      (100 - 10) / (item.unit.paymentYears * 4)
+                                    ).toFixed(1)}
+                                    %
                                   </Typography>
                                 </TableCell>
                                 <TableCell>
@@ -121,7 +124,7 @@ export default function EMPFinancialsSection({ empData }) {
                                           (item.unit.paymentYears * 4) /
                                           100) *
                                         item.unit.priceBase
-                                      ).toFixed(1)
+                                      ).toFixed(2)
                                     ).toLocaleString()}{' '}
                                   </Typography>
                                 </TableCell>

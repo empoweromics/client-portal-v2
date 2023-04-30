@@ -12,15 +12,9 @@ import {
 import styles from './oppDialog.module.css';
 import { useEffect, useState } from 'react';
 import axiosClient from 'src/utilities/axios/axiosIntercept';
+import { SuccessMsgPopup } from 'src/components/Messages/SuccessMsgPopup';
 
-const SubmitOppForm = ({
-  setErrorMsg,
-  setSnackbarMsg,
-  setOpen,
-  projectDetails,
-  setLoading
-  // setDialogProjectId
-}) => {
+const SubmitOppForm = ({ setErrorMsg, projectDetails, setLoading }) => {
   const [buyerName, setClientName] = useState('');
   const [mobile, setMobile] = useState('');
   const [projectName, setProjectName] = useState('');
@@ -44,7 +38,8 @@ const SubmitOppForm = ({
   const [submitLoad, setSubmitLoad] = useState(false);
   const [priceStartPoint, setPriceStartPoint] = useState(0);
   const [priceEndPoint, setPriceEndPoint] = useState(0);
-
+  const [openSuccessModal, setOpenSuccessModal] = useState(false);
+  const [generatedEmpId, setGeneratedEmpId] = useState('');
   // ----------------------------------------------------------------------------------------------
   useEffect(() => {
     getUnits();
@@ -98,8 +93,6 @@ const SubmitOppForm = ({
   const handleSelectType = (value) => {
     setSelectedType(value);
     handleSelectPrice(value);
-    console.log(value);
-    console.log(projectDetails);
   };
   // ----------------------------------------------------------------------------------------------
   useEffect(() => {
@@ -123,12 +116,6 @@ const SubmitOppForm = ({
           name: projectDetails?.project?.i18n?.en?.name || '',
           developer: projectDetails?.project?.developer.name || ''
         },
-        // unit: {
-        //   id: selectedPrice?.id || '',
-        //   priceBase: selectedPrice?.priceBase || '',
-        //   spaceBuildUp: selectedPrice?.spaceBuildUp || '',
-        //   paymentYears: selectedType?.units&&selectedType?.units[0]?.paymentYears || ''
-        // },
         budget: {
           downpayment: downPayment || 0,
           installmentAmountDue: maxPerMonth || '',
@@ -157,13 +144,10 @@ const SubmitOppForm = ({
         setSubmitLoad(false);
         return;
       }
-      console.log(body);
-      await axiosClient.post('/opportunity/submit', body);
-      setSnackbarMsg('Opportunity submited successfully');
-      setTimeout(() => {
-        setSnackbarMsg();
-      }, 3000);
-      setOpen(false);
+
+      const res = await axiosClient.post('/opportunity/submit', body);
+      setGeneratedEmpId(res.data.data._id);
+      setOpenSuccessModal(true);
     } catch (e) {
       console.log(e);
       setErrorMsg('something went wrong,please try again');
@@ -390,6 +374,13 @@ const SubmitOppForm = ({
           .
         </div>
       </div>
+      <SuccessMsgPopup
+        setOpen={setOpenSuccessModal}
+        open={openSuccessModal}
+        id={generatedEmpId}
+        message={'Opportunity submited successfully!'}
+      />
+      ;
     </div>
   );
 };

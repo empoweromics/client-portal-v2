@@ -1,6 +1,7 @@
 import { Box, Container, styled } from '@mui/material';
 
 import Hero from './Hero';
+import Copyright from './copyright';
 
 const OverviewWrapper = styled(Box)(
   () => `
@@ -16,6 +17,7 @@ function Overview() {
     <OverviewWrapper>
       <Container maxWidth="lg">
         <Hero />
+        <Copyright />
       </Container>
     </OverviewWrapper>
   );

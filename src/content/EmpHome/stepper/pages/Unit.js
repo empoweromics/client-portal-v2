@@ -17,12 +17,7 @@ export default function EMPUnitSection({ empData }) {
         sx={{ m: 'auto', padding: '2em 1em' }}
       >
         <CardContent>
-          <Grid
-            container
-            justifyContent="space-evenly"
-            // columnSpacing={5}
-            rowGap={5}
-          >
+          <Grid container justifyContent="space-evenly" rowGap={5}>
             {unitData?.map((item, index) => {
               let installments = item?.unit?.priceBase
                 ? (item.unit.priceBase - item.unit.priceBase * 0.1) /

@@ -22,7 +22,6 @@ function TopDeveloper() {
         `/account/top-developers?city=${currentCity.current}`
       );
       setTopDevelopers(res.data);
-      console.log(res.data);
     } catch (e) {
       console.log(e);
     }

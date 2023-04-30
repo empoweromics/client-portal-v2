@@ -89,7 +89,6 @@ function ApplicationsMessenger() {
       querySnapshot.forEach((doc) => {
         results.push(doc.data().content);
       });
-      console.log(results);
     });
   }, []);
 
