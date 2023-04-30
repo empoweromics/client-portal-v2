@@ -8,7 +8,6 @@ import {
 } from '@mui/material';
 import styles from './style/empHome.module.css';
 import React from 'react';
-import { SeeMoreComponent } from '../../components/SeeMore/seeMoreComponent';
 
 export default function IntroCard({ empData }) {
   // const outputs = Object.values(empData?.outputs || {});
@@ -133,17 +132,17 @@ export default function IntroCard({ empData }) {
               <b>
                 <u>{empData?.inputs?.area}</u>
               </b>{' '}
-              with a budget starts from {' '}
-              <b>{console.log(empData?.inputs?.budget?.min )}
+              with a budget starts from{' '}
+              <b>
+                {console.log(empData?.inputs?.budget?.min)}
                 <u>
-                  {((empData?.inputs?.budget?.min || 0) / 1000000).toFixed(1)}{' '}EGP
-                  Million to {((empData?.inputs?.budget?.max || 0) / 1000000).toFixed(1)}{' '}EGP
+                  {((empData?.inputs?.budget?.min || 0) / 1000000).toFixed(1)}{' '}
+                  EGP Million to{' '}
+                  {((empData?.inputs?.budget?.max || 0) / 1000000).toFixed(1)}{' '}
+                  EGP
                 </u>
               </b>
-              for a{' '}
-              <b>
-                {/* <u>{empData?.inputs?.type}</u> */}
-              </b>{' '}
+              for a <b>{/* <u>{empData?.inputs?.type}</u> */}</b>{' '}
               {/* and an average area of {empData?.inputs?.sqm} SQM. I am pleased to */}
               present to you the following 3 best fit options specifically
               developed to your requirements: After analyzing 67,000+ available
