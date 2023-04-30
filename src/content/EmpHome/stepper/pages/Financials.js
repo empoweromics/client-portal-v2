@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Grid,
   TableContainer,
@@ -13,6 +13,8 @@ import {
   CardContent,
   Button
 } from '@mui/material';
+import axiosClient from 'src/utilities/axios/axiosIntercept';
+import { SuccessMsgPopup } from 'src/components/Messages/SuccessMsgPopup';
 
 const formatDate = (date, addedMonthes) => {
   const dateObj = new Date(date);
@@ -25,8 +27,45 @@ const formatDate = (date, addedMonthes) => {
 };
 
 export default function EMPFinancialsSection({ empData }) {
-  const results = Object.values(empData?.outputs || {});
+  const outputs = Object.values(empData?.outputs || {});
+  const inputs = empData?.inputs || {};
+  const user = empData?.user || {};
+  const _id = empData?._id || '';
 
+  const [openSuccessModal, setOpenSuccessModal] = useState(false);
+  const [generatedEmpId, setGeneratedEmpId] = useState('');
+
+  const SubmitOpportunity = async (item, index) => {
+    // console.log(inputs, user, item, index);
+    const body = {
+      client: {
+        name: inputs.clientname,
+        phone: inputs.clientphone,
+        directly: false
+      },
+      project: {
+        _id: item.project?._id,
+        name: item.project?.name,
+        developer: item.developer?.name
+      },
+      budget: {
+        downpayment: Number(item.unit.priceBase * 0.1),
+        installmentAmountDue: Number(
+          ((100 - 10) / (item.unit.paymentYears * 4) / 100) *
+            item.unit.priceBase
+        ),
+        totalNumberOfInstallments: item.unit.paymentYears * 4
+      },
+      emp: { _id, selected: index + 1 }
+    };
+    const res = await axiosClient.post('/opportunity/submit', body, {
+      headers: {
+        user: user._id
+      }
+    });
+    setGeneratedEmpId(res.data.data._id);
+    setOpenSuccessModal(true);
+  };
   return (
     <Box padding={{ sm: '2em 1em', md: '2em 5em' }}>
       <Card
@@ -40,7 +79,7 @@ export default function EMPFinancialsSection({ empData }) {
             justifyContent="space-evenly"
             rowGap={5}
           >
-            {results.map((item) => {
+            {outputs.map((item, index) => {
               return (
                 <>
                   <Grid item md={12} lg={4}>
@@ -147,7 +186,12 @@ export default function EMPFinancialsSection({ empData }) {
                       </Table>
                     </TableContainer>
 
-                    <Button size="large" variant="contained">
+                    <Button
+                      disabled={item.submited}
+                      size="large"
+                      variant="contained"
+                      onClick={() => SubmitOpportunity(item, index)}
+                    >
                       Book Your Unit Now Total:{' '}
                       {item?.unit?.priceBase?.toLocaleString()}
                     </Button>
@@ -161,6 +205,12 @@ export default function EMPFinancialsSection({ empData }) {
           </Grid>
         </CardContent>
       </Card>
+      <SuccessMsgPopup
+        setOpen={setOpenSuccessModal}
+        open={openSuccessModal}
+        id={generatedEmpId}
+        message={'Opportunity submited successfully!'}
+      />
     </Box>
   );
 }
