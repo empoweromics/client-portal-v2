@@ -9,6 +9,7 @@ import EMPProjectSection from './stepper/pages/Project';
 import EMPUnitSection from './stepper/pages/Unit';
 import EMPFinancialsSection from './stepper/pages/Financials';
 import { Helmet } from 'react-helmet-async';
+import axiosClient from 'src/utilities/axios/axiosIntercept';
 
 export default function EmpHome() {
   const [empData, setEmpData] = useState();
@@ -18,10 +19,9 @@ export default function EmpHome() {
   const getEmpData = async () => {
     setIsloading(true);
     try {
-      const res = await axios.get(
-        `${process.env.REACT_APP_DEVELOP_URL}/public/emp/${id}`
-      );
+      const res = await axiosClient.get(`/public/emp/${id}`);
       setEmpData(res.data);
+      console.log(res.data);
     } catch (e) {
       console.log(e);
     }
