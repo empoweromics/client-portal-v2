@@ -3,7 +3,6 @@ import IntroCard from './IntroCard';
 import { useParams } from 'react-router';
 import { useEffect } from 'react';
 import { CircularProgress } from '@mui/material';
-import axios from 'axios';
 import EMPDeveloperSection from './stepper/pages/Developer';
 import EMPProjectSection from './stepper/pages/Project';
 import EMPUnitSection from './stepper/pages/Unit';
