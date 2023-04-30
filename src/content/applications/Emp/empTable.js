@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Table,
   TableBody,
@@ -9,25 +9,14 @@ import {
   Paper,
   Snackbar
 } from '@mui/material';
-import ContentCopyTwoToneIcon from '@mui/icons-material/ContentCopyTwoTone';
 import { DeleteConfirmationDialog } from './deleteConfirmationDialog';
 import { TablePagination } from '@mui/material';
-import styles from './emp.module.css';
 
 const EmpTable = ({ empLinks, setEmpLinks }) => {
-  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const openSnackbar = useRef(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  function handleCopy(id) {
-    navigator.clipboard.writeText(
-      `${process.env.REACT_APP_DOMAIN_URL}/emp/${id}`
-    );
-    setOpenSnackbar(true);
-    setTimeout(() => {
-      setOpenSnackbar(false);
-    }, 3000);
-  }
   return (
     <TableContainer component={Paper}>
       {/* <div style={{padding:'15px'}}>Top-performing Real Estate Agents</div>  */}
@@ -36,7 +25,6 @@ const EmpTable = ({ empLinks, setEmpLinks }) => {
           <TableRow>
             <TableCell>Client</TableCell>
             <TableCell>Date</TableCell>
-            <TableCell>Visit Emp</TableCell>
             <TableCell>Views</TableCell>
             {/* <TableCell>Copy</TableCell> */}
             <TableCell>Remove</TableCell>
@@ -45,11 +33,19 @@ const EmpTable = ({ empLinks, setEmpLinks }) => {
         <TableBody>
           {empLinks
             ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            ?.map((el,i) => (
+            ?.map((el, i) => (
               <TableRow key={i}>
-                <TableCell>{el.inputs?.clientname}</TableCell>
+                <TableCell>
+                  <a
+                    style={{ textDecoration: 'none' }}
+                    target="_blanck"
+                    href={`/emp/${el._id}`}
+                  >
+                    {el.inputs?.clientname}
+                  </a>
+                </TableCell>
                 <TableCell>{el.createdAt}</TableCell>
-                <TableCell><a style={{textDecoration:'none'}} target='_blanck' href={`/emp/${el._id}`}>link</a></TableCell>
+
                 <TableCell>{el.views}</TableCell>
                 {/* <TableCell>
                   <ContentCopyTwoToneIcon
@@ -86,7 +82,7 @@ const EmpTable = ({ empLinks, setEmpLinks }) => {
           vertical: 'bottom',
           horizontal: 'center'
         }}
-        open={!!openSnackbar}
+        open={!!openSnackbar.current}
         autoHideDuration={6000}
         message={'Link copied'}
       />

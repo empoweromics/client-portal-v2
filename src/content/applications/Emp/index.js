@@ -20,7 +20,6 @@ function EmpPage() {
     setIsLoading(true);
     try {
       const res = await axiosClient(`/emp`);
-      console.log(res.data);
       setEmpLinks(res.data.data);
     } catch (err) {
       console.log(err);
@@ -41,9 +40,14 @@ function EmpPage() {
 
       <PageTitleWrapper>
         <PageHeader />
-        <div  className={styles.form_preview_wrapper}>
-        <EmpForm setIsPreviewLoading={setIsPreviewLoading} getLinks={getLinks} isLoading={isLoading} setPreviewEmp={setPreviewEmp}/>
-        <Preview isLoading={isPreviewLoading} previewEmp={previewEmp}/>
+        <div className={styles.form_preview_wrapper}>
+          <EmpForm
+            setIsPreviewLoading={setIsPreviewLoading}
+            getLinks={getLinks}
+            isLoading={isLoading}
+            setPreviewEmp={setPreviewEmp}
+          />
+          <Preview isLoading={isPreviewLoading} previewEmp={previewEmp} />
         </div>
         {empLinks.length > 0 && (
           <EmpTable

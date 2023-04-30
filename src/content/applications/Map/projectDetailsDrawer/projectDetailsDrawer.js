@@ -2,10 +2,9 @@ import * as React from 'react';
 import Drawer from '@mui/material/Drawer';
 import styles from './projectDrawer.module.css';
 
-import { CircularProgress, Snackbar } from '@mui/material';
+import { Button, CircularProgress, Snackbar } from '@mui/material';
 import { ImgsSection } from './imgsSection';
 import MenuIcon from '@mui/icons-material/Menu';
-// import { MapSearch } from '../Search';
 import { PricingCard } from './pricingCard';
 import { SeeMoreComponent } from '../../../../components/SeeMore/seeMoreComponent';
 import { OtherProjects } from './otherProjects';
@@ -19,16 +18,6 @@ export function ProjectDetailsDrawer({
   setProjectDetails,
   errorMsg
 }) {
-  // ----------------------------------------------------------------------------------------------
-
-  // ----------------------------------------------------------------------------------------------
-
-  // React.useEffect(() => {
-  //   if (project) getProject();
-  // }, [project]);
-  // ----------------------------------------------------------------------------------------------
-  // ----------------------------------------------------------------------------------------------
-
   const toggleDrawer = (open) => (event) => {
     if (
       event.type === 'keydown' &&
@@ -39,20 +28,6 @@ export function ProjectDetailsDrawer({
 
     setOpen(open);
   };
-
-  // const list = (anchor) => (
-  //   <Box
-  //     sx={{ width: 400 }}
-  //     role="presentation"
-  //     onClick={toggleDrawer(false)}
-  //     onKeyDown={() => {
-  //       console.log('clicked');
-  //       toggleDrawer(false);
-  //     }}
-  //   >
-  //     .{' '}
-  //   </Box>
-  // );
 
   return (
     <div>
@@ -67,6 +42,7 @@ export function ProjectDetailsDrawer({
       />
       {['left'].map((anchor) => (
         <React.Fragment key={anchor}>
+          <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
           <Drawer
             sx={{ maxWidth: '450px !important', position: 'relative' }}
             anchor={anchor}
@@ -87,6 +63,7 @@ export function ProjectDetailsDrawer({
               <div className={styles.search_burger_wrapper}>
                 {/* <MapSearch /> */}
                 <MenuIcon
+                  style={{ cursor: 'pointer' }}
                   onClick={() => {
                     setOpen();
                   }}

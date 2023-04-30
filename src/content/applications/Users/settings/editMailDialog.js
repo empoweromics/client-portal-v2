@@ -16,7 +16,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export function EditMailDialog({ setCurrentUser, currentUser }) {
-  console.log(currentUser);
   const [email, setEmail] = React.useState(' ');
   const [isloading, setIsloading] = React.useState(false);
   // --------------------------------------------------------------------------------------------
@@ -40,7 +39,6 @@ export function EditMailDialog({ setCurrentUser, currentUser }) {
     try {
       const res = await axiosClient.put('/account', { email: email });
       setCurrentUser(res.data);
-      console.log(res.data);
     } catch (e) {
       console.log(e);
     }
