@@ -5,31 +5,49 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Slider,
+  Snackbar,
   TextField
 } from '@mui/material';
 import React, { useState } from 'react';
 import axiosClient from 'src/utilities/axios/axiosIntercept';
 import styles from './emp.module.css';
 import { useEffect } from 'react';
+import { GenerateEmpSuccessMsg } from './generateEmpSuccessMsg';
 
-const EmpForm = ({ getLinks, isLoading }) => {
+
+
+const validateForm = (formData) => {
+  let isFormValid=true
+  Object.values(formData).forEach(el => {
+    if (!el) {
+      isFormValid= false;
+    }
+  
+  })
+  return isFormValid
+}
+const EmpForm = ({ getLinks, isLoading, setPreviewEmp, setIsPreviewLoading }) => {
   const [types, setTypes] = useState([]);
   const [categories, setCategories] = useState([]);
   const [areas, setAreas] = useState([]);
+  const [snackbarMsg, setSnackbarMsg] = useState('');
+  const [openSuccessModal, setOpenSuccessModal] = useState(false);
+  const [generatedEmpId, setGeneratedEmpId] = useState('');
 
   const [empForm, setEmpForm] = useState({
     category: '',
     area: '',
     type: '',
-    sqm: '',
-    budget: '',
+    sqm: { min: 100, max: 200 },
+    budget: { min: 1, max: 50 },
     clientphone: '',
     clientname: ''
   });
   // --------------------------------------------------------------------------------------------
   const getTypes = async () => {
     try {
-      const res = await axiosClient(`/master/type`);
+      const res = await axiosClient(`/master/type?category=${empForm.category}&area=${empForm.area}`);
       setTypes(res.data);
     } catch (e) {
       console.log(e);
@@ -48,7 +66,7 @@ const EmpForm = ({ getLinks, isLoading }) => {
   // --------------------------------------------------------------------------------------------
   const getCategories = async () => {
     try {
-      const res = await axiosClient(`/master/category`);
+      const res = await axiosClient(`/master/category?area=${empForm.area}`);
       setCategories(res.data);
     } catch (e) {
       console.log(e);
@@ -56,21 +74,31 @@ const EmpForm = ({ getLinks, isLoading }) => {
   };
   // --------------------------------------------------------------------------------------------
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const generateEmp = async (e) => {
+  let body=JSON.parse(JSON.stringify(empForm))
+  body.budget.min*=1000000
+  body.budget.max*=1000000
 
+    if (!validateForm(empForm)) {
+      setSnackbarMsg('All feilds are required')
+      setTimeout(() => {
+        setSnackbarMsg()
+      }, 3000);
+      return
+    }
     try {
       const res = await axiosClient.post(
-        `${process.env.REACT_APP_DEVELOP_URL}/emp/submit`,
-        empForm
+        `/emp/submit`,
+        body
       );
-      console.log(res);
+      setGeneratedEmpId(res.data._id);
+      setOpenSuccessModal(true)
       setEmpForm({
         category: '',
         area: '',
         type: '',
-        sqm: '',
-        budget: '',
+        sqm: { min: 100, max: 200 },
+        budget: { min: 1, max: 50 },
         clientphone: '',
         clientname: ''
       });
@@ -80,119 +108,70 @@ const EmpForm = ({ getLinks, isLoading }) => {
     }
   };
   // --------------------------------------------------------------------------------------------
+  // --------------------------------------------------------------------------------------------
+
+  const previewEmp = async (e) => {
+    let body=JSON.parse(JSON.stringify(empForm))
+    body.budget.min*=1000000
+    body.budget.max*=1000000
+    if (!validateForm(empForm)) {
+      setSnackbarMsg('All feilds are required')
+      setTimeout(() => {
+        setSnackbarMsg()
+      }, 3000);
+      return
+    }
+    setIsPreviewLoading(true)
+    try {
+      const res = await axiosClient.post(
+      `/emp/preview`,
+        body
+      );
+      console.log(res);
+    delete  res.data.lenght
+      setPreviewEmp(
+        Object.values(res.data)
+      )
+    } catch (e) {
+      console.log(e);
+    }
+    setIsPreviewLoading(false)
+
+  };
+  // --------------------------------------------------------------------------------------------
+
   useEffect(() => {
-    getCategories();
-    getTypes();
+    if (empForm.category) setEmpForm((prev) => ({ ...prev, category: '' }))
+    if (empForm.type) setEmpForm((prev) => ({ ...prev, type: '' }))
+
     getAreas();
   }, []);
   // --------------------------------------------------------------------------------------------
-  return (
-    <form onSubmit={handleSubmit} className={styles.emp_form_wrapper}>
-      <FormControl className={styles.select} sx={{ marginY: '5px' }}>
-        <InputLabel id="unit-category">Unit Category</InputLabel>
-        <Select
-          required
-          labelId="unit-category"
-          id="unit-category"
-          value={empForm.category}
-          onChange={(e) =>
-            setEmpForm((prev) => ({ ...prev, category: e.target.value }))
-          }
-          label="Unit Category"
-        >
-          {categories.map((category) => {
-            return (
-              <MenuItem key={category} value={category}>
-                {category}
-              </MenuItem>
-            );
-          })}{' '}
-        </Select>
-      </FormControl>
-      <Autocomplete
-        className={styles.select}
-        sx={{ marginY: '5px' }}
-        onChange={(e, newValue) =>
-          setEmpForm((prev) => ({ ...prev, area: newValue || '' }))
-        }
-        id="area"
-        options={areas}
-        renderInput={(params) => <TextField {...params} label="area" />}
-      />
-      {/* <FormControl className={styles.select} sx={{ marginY: '5px' }}>
-                <InputLabel id="Project-area">Project Area</InputLabel>
-                <Select
+  useEffect(() => {
+    if (empForm.type) setEmpForm((prev) => ({ ...prev, type: '' }))
+    if (empForm.category) setEmpForm((prev) => ({ ...prev, category: '' }))
+    if (empForm.area) getCategories();
+  }, [empForm.area]);
+  // --------------------------------------------------------------------------------------------
+  useEffect(() => {
+    if (empForm.type) setEmpForm((prev) => ({ ...prev, type: '' }))
+    if (empForm.area && empForm.category) getTypes();
+  }, [empForm.area, empForm.category]);
+  // --------------------------------------------------------------------------------------------
 
-                    required
-                    labelId="Project-area"
-                    id="Projectarea"
-                    value={empForm.area}
-                    onChange={e => setEmpForm(prev => ({ ...prev, area: e.target.value }))}
 
-                    label="Project Area"
-                >
-                    <MenuItem value="">
-                        <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={10}>Twenty</MenuItem>
-                    <MenuItem value={21}>Twenty one</MenuItem>
-                    <MenuItem value={22}>Twenty one and a half</MenuItem>
-                </Select>
-            </FormControl> */}
-      {/* <FormControl className={styles.select} sx={{ marginY: '5px' }}>
-                <InputLabel id="Unit-type">Unit Type</InputLabel>
-                <Select
-                    required
-                    labelId="Unit-type"
-                    id="Unit Type"
-                    value={empForm.type}
-                    onChange={e => setEmpForm(prev => ({ ...prev, type: e.target.value }))}
+  function budgetValueLabelFormat(value) {
+    return `${(value)}M LE`;
+  }
+  function sqmValueLabelFormat(value) {
+    return `${(value)}M `;
+  }
+  // --------------------------------------------------------------------------------------------
 
-                    label="Unit Type"
-                >
-                    {types.map(type => {
-                        return <MenuItem key={type} value={type}>{type}</MenuItem>
-                    })}
-                </Select>
-            </FormControl> */}
-      <Autocomplete
-        className={styles.select}
-        sx={{ marginY: '5px' }}
-        onChange={(e, newValue) =>
-          setEmpForm((prev) => ({ ...prev, type: newValue || '' }))
-        }
-        id="Unit-Type"
-        options={types}
-        renderInput={(params) => <TextField {...params} label="Unit Type" />}
-      />
+  return (<>
+    <form className={styles.emp_form_wrapper}>
       <TextField
-        className={styles.textfeild}
-        type="number"
-        sx={{ marginY: '5px' }}
-        id="Budget"
-        label="Budget "
-        variant="outlined"
-        required
-        value={empForm.budget}
-        onChange={(e) =>
-          setEmpForm((prev) => ({ ...prev, budget: +e.target.value }))
-        }
-      />
-
-      <TextField
-        className={styles.textfeild}
-        sx={{ marginY: '5px' }}
-        id="SQM"
-        label="SQM"
-        variant="outlined"
-        required
-        value={empForm.sqm}
-        onChange={(e) =>
-          setEmpForm((prev) => ({ ...prev, sqm: +e.target.value }))
-        }
-      />
-
-      <TextField
+        classes={styles.client_details_input}
         className={styles.textfeild}
         sx={{ marginY: '5px' }}
         id="clientphone"
@@ -217,17 +196,116 @@ const EmpForm = ({ getLinks, isLoading }) => {
           setEmpForm((prev) => ({ ...prev, clientname: e.target.value }))
         }
       />
-      <div style={{ width: '100%', marginLeft: '10px' }}>
+      <Autocomplete
+        className={styles.select}
+        sx={{ marginY: '5px' }}
+        onChange={(e, newValue) =>
+          setEmpForm((prev) => ({ ...prev, area: newValue || '' }))
+        }
+        value={empForm.area}
+        id="area"
+        options={areas}
+        renderInput={(params) => <TextField {...params} label="area" />}
+      />
+      <FormControl className={styles.select} sx={{ marginY: '5px' }}>
+        <InputLabel id="unit-category">Unit Category</InputLabel>
+        <Select
+          required
+          labelId="unit-category"
+          id="unit-category"
+          value={empForm.category}
+          onChange={(e) =>
+            setEmpForm((prev) => ({ ...prev, category: e.target.value }))
+          }
+          label="Unit Category"
+
+        >
+          {categories.map((category,i) => {
+            return (
+              <MenuItem key={i} value={category}>
+                {category}
+              </MenuItem>
+            );
+          })}{' '}
+        </Select>
+      </FormControl>
+
+      <Autocomplete
+        className={styles.select}
+        value={empForm.type}
+        sx={{ marginY: '5px' }}
+        onChange={(e, newValue) =>
+          setEmpForm((prev) => ({ ...prev, type: newValue || '' }))
+        }
+        id="Unit-Type"
+        options={types}
+        renderInput={(params) => <TextField {...params} label="Unit Type" />}
+      />
+
+
+
+      <div className={styles.slider} style={{ padding: '15px' }}>
+        <div style={{ fontSize: '12px', display: 'flex', justifyContent: 'space-between' }}>  Budget from <span style={{ color: 'blue' }}>{empForm.budget.min} M </span> to <span style={{ color: 'blue' }}> {empForm.budget.max} M </span></div>
+        <Slider
+
+          // eslint-disable-next-line react/jsx-no-bind
+          valueLabelFormat={budgetValueLabelFormat}
+          value={[empForm.budget.min, empForm.budget.max]}
+          onChange={(e) =>
+            setEmpForm((prev) => ({ ...prev, budget: { min: e.target.value[0], max: e.target.value[1] } }))
+          }
+          min={1}
+          max={50}
+          valueLabelDisplay="auto"
+        />
+      </div>
+      <div className={styles.slider} style={{ padding: '15px' }}>
+        <div style={{ fontSize: '12px', display: 'flex', justifyContent: 'space-between' }}>  SQM from <span style={{ color: 'blue' }}>{empForm.sqm.min} M </span> to <span style={{ color: 'blue' }}> {empForm.sqm.max} M </span></div>
+        <Slider
+
+          // eslint-disable-next-line react/jsx-no-bind
+          valueLabelFormat={sqmValueLabelFormat}
+          value={[empForm.sqm.min, empForm.sqm.max]}
+          onChange={(e) =>
+            setEmpForm((prev) => ({ ...prev, sqm: { min: e.target.value[0], max: e.target.value[1] } }))
+          }
+          min={100}
+          max={500}
+          valueLabelDisplay="auto"
+        />
+      </div>
+      <div className={styles.buttons_wrapper}>
         <Button
           disabled={isLoading}
-          type="submit"
+          onClick={() => generateEmp()}
           sx={{ marginY: '5px' }}
           variant="contained"
         >
           Generate Emp links
         </Button>
+        <Button
+          disabled={isLoading}
+          onClick={() => previewEmp()}
+          sx={{ marginY: '5px', paddingX: '12%' }}
+          variant="contained"
+        >
+          Preview
+        </Button>
       </div>
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center'
+        }}
+        open={!!snackbarMsg}
+        autoHideDuration={6000}
+        //   onClose={handleClose}
+        message={snackbarMsg}
+      //   action={action}
+      />
     </form>
+    <GenerateEmpSuccessMsg  setOpen={setOpenSuccessModal } open={openSuccessModal} id={generatedEmpId}/>
+    </>
   );
 };
 

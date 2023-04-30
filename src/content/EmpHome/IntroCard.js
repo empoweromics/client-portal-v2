@@ -11,7 +11,7 @@ import React from 'react';
 import { SeeMoreComponent } from '../../components/SeeMore/seeMoreComponent';
 
 export default function IntroCard({ empData }) {
-  const outputs = Object.values(empData?.outputs || {});
+  // const outputs = Object.values(empData?.outputs || {});
   const createdAtDate = new Date(empData?.createdAt);
   const createdAttimeString = createdAtDate.toLocaleTimeString('en-US', {
     hour12: true,
@@ -133,18 +133,18 @@ export default function IntroCard({ empData }) {
               <b>
                 <u>{empData?.inputs?.area}</u>
               </b>{' '}
-              with a budget of EGP{' '}
-              <b>
+              with a budget starts from {' '}
+              <b>{console.log(empData?.inputs?.budget?.min )}
                 <u>
-                  {((empData?.inputs?.budget || 0) / 1000000).toFixed(1)}{' '}
-                  Million
+                  {((empData?.inputs?.budget?.min || 0) / 1000000).toFixed(1)}{' '}EGP
+                  Million to {((empData?.inputs?.budget?.max || 0) / 1000000).toFixed(1)}{' '}EGP
                 </u>
               </b>
               for a{' '}
               <b>
-                <u>{empData?.inputs?.type}</u>
+                {/* <u>{empData?.inputs?.type}</u> */}
               </b>{' '}
-              and an average area of {empData?.inputs?.sqm} SQM. I am pleased to
+              {/* and an average area of {empData?.inputs?.sqm} SQM. I am pleased to */}
               present to you the following 3 best fit options specifically
               developed to your requirements: After analyzing 67,000+ available
               units from 749+ developers, in 1,944+ projects, valued at over EGP
@@ -157,7 +157,7 @@ export default function IntroCard({ empData }) {
               749 مطور عقاري بأكثر من 944,1 مشروع مقدرة بأكثر من 521 مليار
             </p>
             <Grid padding={5} container spacing={3} justifyContent="center">
-              {outputs?.map((el) => {
+              {/* {outputs?.map((el) => {
                 return (
                   <Grid
                     item
@@ -184,7 +184,7 @@ export default function IntroCard({ empData }) {
                     />
                   </Grid>
                 );
-              })}
+              })} */}
             </Grid>
             <Box>
               <Box>

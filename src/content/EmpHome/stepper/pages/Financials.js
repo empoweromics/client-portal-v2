@@ -40,9 +40,9 @@ export default function EMPFinancialsSection({ empData }) {
             justifyContent="space-evenly"
             rowGap={5}
           >
-            {results.map((item) => {
+            {results.map((item,i) => {
               return (
-                <>
+                <div key={i}>
                   <Grid item md={12} lg={4}>
                     <Box display="flex" justifyContent="space-evenly">
                       <Typography
@@ -152,7 +152,7 @@ export default function EMPFinancialsSection({ empData }) {
                   {/* {index !== 2 && (
                 <Divider orientation="vertical" variant="middle" flexItem />
               )} */}
-                </>
+                </div>
               );
             })}
           </Grid>

@@ -34,29 +34,31 @@ const EmpTable = ({ empLinks, setEmpLinks }) => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell className={styles.url_column}>Client</TableCell>
+            <TableCell>Client</TableCell>
             <TableCell>Date</TableCell>
+            <TableCell>Visit Emp</TableCell>
             <TableCell>Views</TableCell>
-            <TableCell>Copy</TableCell>
+            {/* <TableCell>Copy</TableCell> */}
             <TableCell>Remove</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {empLinks
             ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            ?.map((el) => (
-              <TableRow key={el._id}>
+            ?.map((el,i) => (
+              <TableRow key={i}>
                 <TableCell>{el.inputs?.clientname}</TableCell>
                 <TableCell>{el.createdAt}</TableCell>
+                <TableCell><a style={{textDecoration:'none'}} target='_blanck' href={`/emp/${el._id}`}>link</a></TableCell>
                 <TableCell>{el.views}</TableCell>
-                <TableCell>
+                {/* <TableCell>
                   <ContentCopyTwoToneIcon
                     onClick={() => {
                       handleCopy(el._id);
                     }}
                     sx={{ color: '#009A67', cursor: 'pointer' }}
                   />
-                </TableCell>
+                </TableCell> */}
                 <TableCell>
                   <DeleteConfirmationDialog
                     setEmpLinks={setEmpLinks}
