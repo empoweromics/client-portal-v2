@@ -1,0 +1,26 @@
+.video_sec_wrapper{
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+    color: #856404;
+    position: relative;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    font-size: 19px;
+}
+.check_emp_button{
+    background:#04b57a;
+    padding: 10px;
+    border-radius: 5px;
+    display: block;
+    margin: 10px auto;
+    color: white;
+    cursor: pointer;
+}
+.absolute_centerd_element{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) ;
+  }
