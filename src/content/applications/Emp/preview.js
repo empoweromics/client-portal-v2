@@ -18,7 +18,7 @@ const Preview = ({ previewEmp, isLoading }) => {
                 <img
                   onError={handleError}
                   alt=""
-                  src={`${process.env.REACT_APP_OLD_DOMAIN_URL}/app/pl/${el?.project?.logo}`}
+                  src={`${process.env.REACT_APP_OLD_DOMAIN_URL}/app/pd/${el?.project?.logo}`}
                   className={styles.project_logo}
                 />
                 <img

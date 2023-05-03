@@ -25,11 +25,11 @@ const SubmitOppForm = ({ setErrorMsg, projectDetails, setLoading }) => {
   const [selectedPrice, setSelectedPrice] = useState(0);
   const [downPayment, setDownPayment] = useState(0);
   const [maxPerMonth, setMaxPerMonth] = useState(
-    selectedType?.units && selectedType?.units[0]?.paymentYears
+    selectedType?.units
       ? parseInt(
-          (selectedPrice - downPayment) /
-            (12 * selectedType.units[0].paymentYears)
-        )
+        (selectedPrice - downPayment) /
+        (12 * (selectedType.units[0].paymentYears || 8))
+      )
       : 0
   );
   const [maxDelivery, setMaxDelivery] = useState(2023);
@@ -160,12 +160,13 @@ const SubmitOppForm = ({ setErrorMsg, projectDetails, setLoading }) => {
   // ----------------------------------------------------------------------------------------------
 
   useEffect(() => {
+    console.log(selectedPrice, downPayment, selectedType);
     setMaxPerMonth(
-      selectedType?.units && selectedType?.units[0]?.paymentYears
+      selectedType?.units
         ? parseInt(
-            (selectedPrice - downPayment) /
-              (12 * selectedType.units[0].paymentYears)
-          )
+          (selectedPrice - downPayment) /
+          (12 * (selectedType.units[0].paymentYears || 8))
+        )
         : 0
     );
   }, [downPayment]);
@@ -175,11 +176,11 @@ const SubmitOppForm = ({ setErrorMsg, projectDetails, setLoading }) => {
     if (selectedPrice) {
       setDownPayment(+selectedPrice / 10);
       setMaxPerMonth(
-        selectedType?.units && selectedType?.units[0]?.paymentYears
+        selectedType?.units
           ? parseInt(
-              (selectedPrice - selectedPrice / 10) /
-                (12 * selectedType.units[0].paymentYears)
-            )
+            (selectedPrice - selectedPrice / 10) /
+            (12 * (selectedType.units[0].paymentYears || 8))
+          )
           : 0
       );
     }
@@ -308,8 +309,8 @@ const SubmitOppForm = ({ setErrorMsg, projectDetails, setLoading }) => {
         <Typography id="slider-label2" gutterBottom>
           <span style={{ fontWeight: 'bold' }}> installment: </span>{' '}
           {maxPerMonth.toLocaleString()} EGP within{' '}
-          {selectedType?.units && selectedType?.units[0]?.paymentYears
-            ? 12 * selectedType.units[0].paymentYears
+          {selectedType?.units
+            ? 12 * (selectedType.units[0].paymentYears || 8)
             : 0}{' '}
           months
         </Typography>
@@ -366,9 +367,9 @@ const SubmitOppForm = ({ setErrorMsg, projectDetails, setLoading }) => {
         </div>
         <div style={{ fontWeight: 'bold' }}>
           *Estimated payment is based on a 10% down payment minimum{' '}
-          {selectedType?.units && selectedType?.units[0]?.paymentYears && (
+          {selectedType?.units && (
             <span>
-              and {selectedType.units[0].paymentYears} year payment plan
+              and {selectedType.units[0].paymentYears || 8} year payment plan
             </span>
           )}
           .
