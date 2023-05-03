@@ -1,0 +1,162 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width:100%;height:auto">
+  <g style="fill:#f6c90e;">
+    <circle fill="green"  cy="40" r="20" style="animation: confetti 2s ease-out infinite;z-index:10"></circle>
+    <!-- <circle fill="green"  cy="60" r="24" style="animation: confetti 1.5s ease-out infinite;z-index:10"></circle>
+    <circle fill="green"  cy="80" r="30" style="animation: confetti 1.8s ease-out infinite;z-index:10"></circle>
+    <circle fill="green"  cy="100" r="24" style="animation: confetti 2.2s ease-out infinite;z-index:10"></circle>
+    <circle fill="green"  cy="120" r="20" style="animation: confetti 1.7s ease-out infinite;z-index:10"></circle>
+    <circle fill="green"  cy="80" r="16" style="animation: confetti 2.1s ease-out infinite;z-index:10"></circle>
+    <circle fill="green"  cy="100" r="20" style="animation: confetti 1.8s ease-out infinite;z-index:10"></circle>
+    <circle fill="green"  cy="120" r="24" style="animation: confetti 2.3s ease-out infinite;z-index:10"></circle>
+    <circle fill="green"  cy="140" r="20" style="animation: confetti 1.9s ease-out infinite;z-index:10"></circle>
+    <circle fill="green"  cy="160" r="16" style="animation: confetti 2.2s ease-out infinite;z-index:10"></circle>
+    <circle fill="green"  cy="120" r="24" style="animation: confetti 1.7s ease-out infinite;z-index:10"></circle>
+    <circle fill="green"  cy="140" r="30" style="animation: confetti 2.1s ease-out infinite;z-index:10"></circle>
+    <circle fill="green"  cy="160" r="24" style="animation: confetti 1.8s ease-out infinite;z-index:10"></circle>
+    <circle fill="yellow"  cy="180" r="20" style="animation: confetti 2.2s ease-out infinite;z-index:10"></circle>
+    <circle fill="yellow"  cy="200" r="16" style="animation: confetti 1.9s ease-out infinite;z-index:10"></circle>
+    <circle fill="yellow" cy="160" r="20" style="animation: confetti 2.3s ease-out infinite;z-index:10"></circle>
+    <circle fill="yellow"  cy="180" r="24" style="animation: confetti 1.7s ease-out infinite;z-index:10"></circle>
+    <circle fill="yellow"  cy="200" r="30" style="animation: confetti 2.1s ease-out infinite;z-index:10"></circle> -->
+    <circle fill="yellow"  cy="220" r="24" style="animation: confetti 1.8s ease-out infinite;z-index:10"></circle>
+    <circle fill="yellow"  cy="240" r="20" style="animation: confetti 2.2s ease-out infinite;z-index:10"></circle>
+    <circle cx="40" cy="200" r="16" style="animation: confetti 1.9s ease-out infinite;z-index:10"></circle>
+    <circle cx="200" cy="240" r="24" style="animation: confetti 1.7s ease-out infinite;z-index:10"></circle>
+    <!-- <circle cx="280" cy="260" r="30" style="animation: confetti 2.1s ease-out infinite;z-index:10"></circle>
+    <circle cx="360" cy="280" r="24" style="animation: confetti 1.8s ease-out infinite;z-index:10"></circle>
+    <circle cx="40" cy="240" r="20" style="animation: confetti 2.2s ease-out infinite;z-index:10"></circle>
+    <circle cx="120" cy="260" r="16" style="animation: confetti 1.9s ease-out infinite;z-index:10"></circle>
+    <circle  fill="blue"  cy="280" r="24" style="animation: confetti 2.3s ease-out infinite;z-index:10"></circle>
+    <circle  fill="blue"  cy="300" r="30" style="animation: confetti 1.7s ease-out infinite;z-index:10"></circle>
+    <circle  fill="blue"  cy="320" r="24" style="animation: confetti 2.1s ease-out infinite;z-index:10"></circle>
+    <circle  fill="blue" cy="280" r="20" style="animation: confetti 1.8s ease-out infinite;z-index:10"></circle>
+    <circle  fill="blue"  cy="300" r="16" style="animation: confetti 2.2s ease-out infinite;z-index:10"></circle>
+    <circle  fill="blue"  cy="320" r="24" style="animation: confetti 1.9s ease-out infinite;z-index:10"></circle> -->
+    <circle cx="280" cy="340" r="30" style="animation: confetti 2.3s ease-out infinite;z-index:10"></circle>
+    <circle cx="360" cy="360" r="24" style="animation: confetti 1.7s ease-out infinite;z-index:10"></circle>
+    
+  </g>
+  <g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width:100%;height:auto">
+  <g style="fill:#f6c90e;">
+    <!-- <circle fill="green" cy="40" r="20" style="animation: confetti 2s ease-out infinite;z-index:10"></circle>
+    <circle fill="green"  cy="60" r="24" style="animation: confetti 1.5s ease-out infinite;z-index:10"></circle>
+    <circle fill="red"  cy="80" r="30" style="animation: confetti 1.8s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="280" cy="100" r="24" style="animation: confetti 2.2s ease-out infinite;z-index:10"></circle>
+    <circle fill="red"  cy="120" r="20" style="animation: confetti 1.7s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="40" cy="80" r="16" style="animation: confetti 2.1s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="120" cy="100" r="20" style="animation: confetti 1.8s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="200" cy="120" r="24" style="animation: confetti 2.3s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="280" cy="140" r="20" style="animation: confetti 1.9s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="360" cy="160" r="16" style="animation: confetti 2.2s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="40" cy="120" r="24" style="animation: confetti 1.7s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="120" cy="140" r="30" style="animation: confetti 2.1s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="200" cy="160" r="24" style="animation: confetti 1.8s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="280" cy="180" r="20" style="animation: confetti 2.2s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="360" cy="200" r="16" style="animation: confetti 1.9s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="40" cy="160" r="20" style="animation: confetti 2.3s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="120" cy="180" r="24" style="animation: confetti 1.7s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="200" cy="200" r="30" style="animation: confetti 2.1s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="280" cy="220" r="24" style="animation: confetti 1.8s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="360" cy="240" r="20" style="animation: confetti 2.2s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="40" cy="200" r="16" style="animation: confetti 1.9s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="200" cy="240" r="24" style="animation: confetti 1.7s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="280" cy="260" r="30" style="animation: confetti 2.1s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="360" cy="280" r="24" style="animation: confetti 1.8s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="40" cy="240" r="20" style="animation: confetti 2.2s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="120" cy="260" r="16" style="animation: confetti 1.9s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="200" cy="280" r="24" style="animation: confetti 2.3s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="280" cy="300" r="30" style="animation: confetti 1.7s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="360" cy="320" r="24" style="animation: confetti 2.1s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="40" cy="280" r="20" style="animation: confetti 1.8s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="120" cy="300" r="16" style="animation: confetti 2.2s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="200" cy="320" r="24" style="animation: confetti 1.9s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="280" cy="340" r="30" style="animation: confetti 2.3s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="360" cy="360" r="24" style="animation: confetti 1.7s ease-out infinite;z-index:10"></circle> -->
+    
+  </g>
+  <g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width:100%;height:auto">
+  <g style="fill:#f6c90e;">
+    <circle fill="red" cx="40" cy="40" r="20" style="animation: confetti 2s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="120" cy="60" r="24" style="animation: confetti 1.5s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="200" cy="80" r="30" style="animation: confetti 1.8s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="280" cy="100" r="24" style="animation: confetti 2.2s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="360" cy="120" r="20" style="animation: confetti 1.7s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="40" cy="80" r="16" style="animation: confetti 2.1s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="120" cy="100" r="20" style="animation: confetti 1.8s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="200" cy="120" r="24" style="animation: confetti 2.3s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="280" cy="140" r="20" style="animation: confetti 1.9s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="360" cy="160" r="16" style="animation: confetti 2.2s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="40" cy="120" r="24" style="animation: confetti 1.7s ease-out infinite;z-index:10"></circle>
+    <circle fill="red" cx="120" cy="140" r="30" style="animation: confetti 2.1s ease-out infinite;z-index:10"></circle>
+    <circle cx="200" cy="160" r="24" style="animation: confetti 1.8s ease-out infinite;z-index:10"></circle>
+    <circle cx="280" cy="180" r="20" style="animation: confetti 2.2s ease-out infinite;z-index:10"></circle>
+    <circle cx="360" cy="200" r="16" style="animation: confetti 1.9s ease-out infinite;z-index:10"></circle>
+    <circle cx="40" cy="160" r="20" style="animation: confetti 2.3s ease-out infinite;z-index:10"></circle>
+    <circle cx="120" cy="180" r="24" style="animation: confetti 1.7s ease-out infinite;z-index:10"></circle>
+    <circle cx="200" cy="200" r="30" style="animation: confetti 2.1s ease-out infinite;z-index:10"></circle>
+    <circle cx="280" cy="220" r="24" style="animation: confetti 1.8s ease-out infinite;z-index:10"></circle>
+    <circle cx="360" cy="240" r="20" style="animation: confetti 2.2s ease-out infinite;z-index:10"></circle>
+    <circle cx="40" cy="200" r="16" style="animation: confetti 1.9s ease-out infinite;z-index:10"></circle>
+    <circle cx="200" cy="240" r="24" style="animation: confetti 1.7s ease-out infinite;z-index:10"></circle>
+    <circle cx="280" cy="260" r="30" style="animation: confetti 2.1s ease-out infinite;z-index:10"></circle>
+    <circle cx="360" cy="280" r="24" style="animation: confetti 1.8s ease-out infinite;z-index:10"></circle>
+    <circle cx="40" cy="240" r="20" style="animation: confetti 2.2s ease-out infinite;z-index:10"></circle>
+    <circle cx="120" cy="260" r="16" style="animation: confetti 1.9s ease-out infinite;z-index:10"></circle>
+    <circle cx="200" cy="280" r="24" style="animation: confetti 2.3s ease-out infinite;z-index:10"></circle>
+    <circle cx="280" cy="300" r="30" style="animation: confetti 1.7s ease-out infinite;z-index:10"></circle>
+    <circle cx="360" cy="320" r="24" style="animation: confetti 2.1s ease-out infinite;z-index:10"></circle>
+    <circle cx="40" cy="280" r="20" style="animation: confetti 1.8s ease-out infinite;z-index:10"></circle>
+    <circle cx="120" cy="300" r="16" style="animation: confetti 2.2s ease-out infinite;z-index:10"></circle>
+    <circle cx="200" cy="320" r="24" style="animation: confetti 1.9s ease-out infinite;z-index:10"></circle>
+    <circle cx="280" cy="340" r="30" style="animation: confetti 2.3s ease-out infinite;z-index:10"></circle>
+    <circle cx="360" cy="360" r="24" style="animation: confetti 1.7s ease-out infinite;z-index:10"></circle>
+ <circle fill="#f1c40f" cx="2" cy="2" r="2" />
+      <circle fill="#2ecc71" cx="8" cy="8" r="2" />
+      <circle fill="#3498db" cx="14" cy="2" r="2" />
+        </g>
+  <g>
+   <rect x="0" y="0" width="100%" height="100%" fill="url(#confetti)" />
+  <rect x="-50" y="-50" width="600" height="600" fill="url(#confetti)" />
+  <rect x="-200" y="225" width="600" height="50" fill="url(#confetti)" />
+  <rect x="300" y="225" width="600" height="50" fill="url(#confetti)" />
+    <path fill="#2ecc71" d="M92.5,275.5c0-5.5,2.2-10.6,6.2-14.3c8.3-7.5,21.6-7,29.5,1.3l49.5,58.2   c1.5,1.8,3.5,2.8,5.5,2.8c2,0,4-1,5.5-2.8l109.5-128c8-8.3,21.2-8.8,29.5-1.3c4,3.7,6.2,8.8,6.2,14.3s-2.2,10.6-6.2,14.3   l-149,156.2c-1.5,1.8-3.5,2.8-5.5,2.8s-4-1-5.5-2.8L92.5,289.8C94.7,286.1,92.5,281.1,92.5,275.5z" />
+    <!-- <path fill="#fff" stroke="#2ecc71" stroke-width="4" d="M100 250 L200 350 L400 150" /> -->
+
+  </g>
+  <style>
+    @keyframes confetti {
+      from {
+        transform: translateY(-200px) rotate(0deg);
+      }
+      to {
+        transform: translateY(1000px) rotate(0deg);
+      }
+    }
+  </style>
+</svg>
+  </g>
+  <style>
+    @keyframes confetti {
+      from {
+        transform: translateY(-200px) rotate(0deg);
+      }
+      to {
+        transform: translateY(1000px) rotate(0deg);
+      }
+    }
+  </style>
+</svg>
+  </g>
+  <style>
+    @keyframes confetti {
+      from {
+        transform: translateY(-200px) rotate(0deg);
+      }
+      to {
+        transform: translateY(1000px) rotate(0deg);
+      }
+    }
+  </style>
+</svg>

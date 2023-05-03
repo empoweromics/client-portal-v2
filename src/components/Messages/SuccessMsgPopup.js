@@ -1,6 +1,6 @@
 import styles from './emp.module.css';
 import Box from '@mui/material/Box';
-import checkMark from '../../assets/images/checkmark.png';
+import checkMark from '../../assets/images/checkmark.svg';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { Button } from '@mui/material';
@@ -37,6 +37,7 @@ const idStyles = {
 export function SuccessMsgPopup({
   setOpen = () => {},
   open = true,
+  x=true,
   message,
   id
 }) {
