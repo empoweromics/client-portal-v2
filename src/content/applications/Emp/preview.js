@@ -11,7 +11,6 @@ const Preview = ({ previewEmp, isLoading }) => {
       {isLoading && <CircularProgress className={styles.centerd_element} />}
       {previewEmp.length > 0 ? (
         previewEmp.map((el) => {
-          console.log(el);
           return (
             <div key={el._id} className={styles.property_card}>
               <div className={styles.logos_Wrapper}>
