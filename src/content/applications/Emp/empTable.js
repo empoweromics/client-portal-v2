@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { DeleteConfirmationDialog } from './deleteConfirmationDialog';
 import { TablePagination } from '@mui/material';
+import moment from 'moment';
 
 const EmpTable = ({ empLinks, setEmpLinks }) => {
   const openSnackbar = useRef(false);
@@ -44,17 +45,9 @@ const EmpTable = ({ empLinks, setEmpLinks }) => {
                     {el.inputs?.clientname}
                   </a>
                 </TableCell>
-                <TableCell>{el.createdAt}</TableCell>
+                <TableCell>{moment(el.createdAt).fromNow()}</TableCell>
 
                 <TableCell>{el.views}</TableCell>
-                {/* <TableCell>
-                  <ContentCopyTwoToneIcon
-                    onClick={() => {
-                      handleCopy(el._id);
-                    }}
-                    sx={{ color: '#009A67', cursor: 'pointer' }}
-                  />
-                </TableCell> */}
                 <TableCell>
                   <DeleteConfirmationDialog
                     setEmpLinks={setEmpLinks}

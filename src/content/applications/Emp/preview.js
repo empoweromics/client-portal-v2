@@ -17,13 +17,13 @@ const Preview = ({ previewEmp, isLoading }) => {
                 <img
                   onError={handleError}
                   alt=""
-                  src={`${process.env.REACT_APP_OLD_DOMAIN_URL}/app/pd/${el?.project?.logo}`}
+                  src={`${process.env.REACT_APP_OLD_DOMAIN_URL}/app/pl/${el?.project?.logo}`}
                   className={styles.project_logo}
                 />
                 <img
                   onError={handleError}
                   alt=""
-                  src={`${process.env.REACT_APP_OLD_DOMAIN_URL}/app/pp/${el?.developer?.logo}`}
+                  src={`${process.env.REACT_APP_OLD_DOMAIN_URL}/app/dl/${el?.developer?.logo}`}
                   className={styles.developer_logo}
                 />
               </div>
@@ -36,7 +36,11 @@ const Preview = ({ previewEmp, isLoading }) => {
                 }}
               >
                 <div className={styles.title}>{el?.project?.name}</div>
-                <div>Price: {el.priceBase?.toLocaleString()}</div>
+                <div>Price: {el.priceBase?.toLocaleString()} EGP</div>
+                <div>
+                  Space Build Up: {el.spaceBuildUp} SQM {el.finishingType}
+                </div>
+
                 <div className={styles.secondary_text}>
                   Developed By{' '}
                   <span style={{ color: 'black', fontWeight: 'bold' }}>
@@ -52,7 +56,6 @@ const Preview = ({ previewEmp, isLoading }) => {
           <div className={styles.card}>
             <div className={styles.card_body}>
               <p>No preview properties to display.</p>
-              {/* <button className="btn-preview">Preview</button> */}
             </div>
           </div>
         </div>

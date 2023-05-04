@@ -41,8 +41,8 @@ const EmpForm = ({
     category: '',
     area: '',
     type: '',
-    sqm: { min: 100, max: 200 },
-    budget: { min: 1, max: 50 },
+    sqm: 100,
+    budget: 1,
     clientphone: '',
     clientname: ''
   });
@@ -80,8 +80,7 @@ const EmpForm = ({
 
   const generateEmp = async () => {
     let body = JSON.parse(JSON.stringify(empForm));
-    body.budget.min *= 1000000;
-    body.budget.max *= 1000000;
+    body.budget *= 1000000;
 
     if (!validateForm(empForm)) {
       setSnackbarMsg('All feilds are required');
@@ -98,8 +97,8 @@ const EmpForm = ({
         category: '',
         area: '',
         type: '',
-        sqm: { min: 100, max: 200 },
-        budget: { min: 1, max: 50 },
+        sqm: 100,
+        budget: 1,
         clientphone: '',
         clientname: ''
       });
@@ -113,8 +112,7 @@ const EmpForm = ({
 
   const previewEmp = async () => {
     let body = JSON.parse(JSON.stringify(empForm));
-    body.budget.min *= 1000000;
-    body.budget.max *= 1000000;
+    body.budget *= 1000000;
     if (!validateForm(empForm)) {
       setSnackbarMsg('All feilds are required');
       setTimeout(() => {
@@ -155,16 +153,26 @@ const EmpForm = ({
   // --------------------------------------------------------------------------------------------
 
   function budgetValueLabelFormat(value) {
-    return `${value}M LE`;
+    return `${value}M EGP`;
   }
-  function sqmValueLabelFormat(value) {
-    return `${value}M `;
-  }
+
   // --------------------------------------------------------------------------------------------
 
   return (
     <>
       <form className={styles.emp_form_wrapper}>
+        <TextField
+          className={styles.textfeild}
+          sx={{ marginY: '5px' }}
+          id="clientname"
+          label="Client Name"
+          variant="outlined"
+          required
+          value={empForm.clientname}
+          onChange={(e) =>
+            setEmpForm((prev) => ({ ...prev, clientname: e.target.value }))
+          }
+        />
         <TextField
           classes={styles.client_details_input}
           className={styles.textfeild}
@@ -179,18 +187,6 @@ const EmpForm = ({
           }
         />
 
-        <TextField
-          className={styles.textfeild}
-          sx={{ marginY: '5px' }}
-          id="clientname"
-          label="Client Name"
-          variant="outlined"
-          required
-          value={empForm.clientname}
-          onChange={(e) =>
-            setEmpForm((prev) => ({ ...prev, clientname: e.target.value }))
-          }
-        />
         <Autocomplete
           className={styles.select}
           sx={{ marginY: '5px' }}
@@ -236,6 +232,23 @@ const EmpForm = ({
           renderInput={(params) => <TextField {...params} label="Unit Type" />}
         />
 
+        <FormControl className={styles.select} sx={{ marginY: '5px' }}>
+          <InputLabel id="unit-category">SQM</InputLabel>
+          <Select
+            labelId="unit-sqm"
+            id="unit-sqm"
+            value={empForm.sqm}
+            onChange={(e) =>
+              setEmpForm((prev) => ({ ...prev, sqm: e.target.value }))
+            }
+            label="Unit SQM"
+          >
+            <MenuItem value={500}>Less than 500 sqm</MenuItem>
+            <MenuItem value={200}>Less than 200 sqm</MenuItem>
+            <MenuItem value={100}>Less than 100 sqm</MenuItem>
+          </Select>
+        </FormControl>
+
         <div className={styles.slider} style={{ padding: '15px' }}>
           <div
             style={{
@@ -245,20 +258,16 @@ const EmpForm = ({
             }}
           >
             {' '}
-            Budget from{' '}
-            <span style={{ color: 'blue' }}>
-              {empForm.budget.min} M{' '}
-            </span> to{' '}
-            <span style={{ color: 'blue' }}> {empForm.budget.max} M </span>
+            Budget <span style={{ color: 'blue' }}>{empForm.budget} M </span>
           </div>
           <Slider
             // eslint-disable-next-line react/jsx-no-bind
             valueLabelFormat={budgetValueLabelFormat}
-            value={[empForm.budget.min, empForm.budget.max]}
+            value={[empForm.budget]}
             onChange={(e) =>
               setEmpForm((prev) => ({
                 ...prev,
-                budget: { min: e.target.value[0], max: e.target.value[1] }
+                budget: e.target.value[0]
               }))
             }
             min={1}
@@ -266,35 +275,7 @@ const EmpForm = ({
             valueLabelDisplay="auto"
           />
         </div>
-        <div className={styles.slider} style={{ padding: '15px' }}>
-          <div
-            style={{
-              fontSize: '12px',
-              display: 'flex',
-              justifyContent: 'space-between'
-            }}
-          >
-            {' '}
-            SQM from <span style={{ color: 'blue' }}>
-              {empForm.sqm.min} M{' '}
-            </span>{' '}
-            to <span style={{ color: 'blue' }}> {empForm.sqm.max} M </span>
-          </div>
-          <Slider
-            // eslint-disable-next-line react/jsx-no-bind
-            valueLabelFormat={sqmValueLabelFormat}
-            value={[empForm.sqm.min, empForm.sqm.max]}
-            onChange={(e) =>
-              setEmpForm((prev) => ({
-                ...prev,
-                sqm: { min: e.target.value[0], max: e.target.value[1] }
-              }))
-            }
-            min={100}
-            max={500}
-            valueLabelDisplay="auto"
-          />
-        </div>
+
         <div className={styles.buttons_wrapper}>
           <Button
             disabled={isLoading}
@@ -309,6 +290,7 @@ const EmpForm = ({
             onClick={() => previewEmp()}
             sx={{ marginY: '5px', paddingX: '12%' }}
             variant="contained"
+            color="secondary"
           >
             Preview
           </Button>
