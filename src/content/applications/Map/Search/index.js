@@ -19,7 +19,6 @@ import {
   Slide,
   Hidden,
   styled,
-  Rating,
   CircularProgress
 } from '@mui/material';
 import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
@@ -72,7 +71,6 @@ function MapSearch({ selectProject }) {
     setIsLoading(true);
     try {
       const res = await axiosClient(`/project/search?text=${searchValue}`);
-      console.log(res);
       setSearchResults(res.data);
     } catch (e) {
       console.log(e);
@@ -185,9 +183,6 @@ function MapSearch({ selectProject }) {
                             background: (theme) => theme.palette.secondary.main
                           }}
                         />
-                        {/* <img  src={el.logo?`${process.env.REACT_APP_OLD_DOMAIN_URL}pl/${el.logo}`:emLogo} alt=''/> */}
-                        {/* <HolidayVillageIcon /> */}
-                        {/* </Avatar> */}
                       </ListItemAvatar>
                     </Hidden>
                     <Box flex="1">
@@ -199,13 +194,6 @@ function MapSearch({ selectProject }) {
                           variant="body2"
                         >
                           {el?.name}
-                          <Rating
-                            name="read-only"
-                            value={el?.rating || 0}
-                            precision={0.5}
-                            readOnly
-                            sx={{ marginX: '10px' }}
-                          />
                         </Link>
                       </Box>
                       <Typography
@@ -217,17 +205,6 @@ function MapSearch({ selectProject }) {
                         }}
                       >
                         ({el?.units?.total} unit)
-                        {/* {el?.searchRank} */}
-                      </Typography>
-                      <Typography
-                        component="span"
-                        variant="body2"
-                        sx={{
-                          color: (theme) =>
-                            lighten(theme.palette.secondary.main, 0.5)
-                        }}
-                      >
-                        {/* {el?.searchRank} */}
                       </Typography>
                     </Box>
                     <ChevronRightTwoToneIcon />

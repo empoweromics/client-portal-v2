@@ -60,10 +60,13 @@
   width: 100%;
 }
 .developer_logo {
+  border: #04516a;
+  border-width: 1px;
+  border-style: dotted;
   border-radius: 10px;
   position: absolute;
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   bottom: -10px;
   right: -10px;

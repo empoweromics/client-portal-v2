@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import styles from './style/empHome.module.css';
 import React from 'react';
+import { nFormatter } from 'src/utilities/numbers/nFormatter';
 
 export default function IntroCard({ empData }) {
   // const outputs = Object.values(empData?.outputs || {});
@@ -132,15 +133,9 @@ export default function IntroCard({ empData }) {
               <b>
                 <u>{empData?.inputs?.area}</u>
               </b>{' '}
-              with a budget starts from{' '}
+              with a budget{' '}
               <b>
-                {console.log(empData?.inputs?.budget?.min)}
-                <u>
-                  {((empData?.inputs?.budget?.min || 0) / 1000000).toFixed(1)}{' '}
-                  EGP Million to{' '}
-                  {((empData?.inputs?.budget?.max || 0) / 1000000).toFixed(1)}{' '}
-                  EGP
-                </u>
+                <u>{nFormatter(empData?.inputs?.budget)} EGP </u>
               </b>
               for a <b>{/* <u>{empData?.inputs?.type}</u> */}</b>{' '}
               {/* and an average area of {empData?.inputs?.sqm} SQM. I am pleased to */}
@@ -150,53 +145,26 @@ export default function IntroCard({ empData }) {
               521 Billion.
             </p>
             <p style={{ textAlign: 'right' }}>
-              بناءاً على طلبك لوحدة سكنية في مدينة السادس من أكتوبر بميزانية 4.5
-              مليون لشقة دور أرضي ومساحة تقريبية 200 متر. اقدم لك انسب 3 خيارات
-              مصممة خصيصا لتلبية متطلباتك بعد تحليل 67,000 وحدة متاحة من أكثر من
-              749 مطور عقاري بأكثر من 944,1 مشروع مقدرة بأكثر من 521 مليار
+              بناءاً على طلبك لوحدة سكنية في مدينة السادس من أكتوبر بميزانية{' '}
+              {((empData?.inputs?.budget || 0) / 1000000).toFixed(0)}
+              مليون اقدم لك انسب 3 خيارات مصممة خصيصا لتلبية متطلباتك بعد تحليل
+              67,000 وحدة متاحة من أكثر من 749 مطور عقاري بأكثر من 944,1 مشروع
+              مقدرة بأكثر من 521 مليار
             </p>
-            <Grid padding={5} container spacing={3} justifyContent="center">
-              {/* {outputs?.map((el) => {
-                return (
-                  <Grid
-                    item
-                    display="flex"
-                    flexDirection="column"
-                    alignItems="center"
-                    xs={12}
-                    md={4}
-                  >
-                    <img
-                      style={{ display: 'block', margin: '0.5em 0' }}
-                      src={`${process.env.REACT_APP_OLD_DOMAIN_URL}/app/dl/${el?.developer?.logo}`}
-                      alt="developer"
-                      height={100}
-                    />
-                    <img
-                      style={{ display: 'block', margin: '0.5em 0' }}
-                      src={`${process.env.REACT_APP_OLD_DOMAIN_URL}/app/pl/${el?.project?.logo}`}
-                      alt="project"
-                      height={100}
-                    />
-                    <SeeMoreComponent
-                      text={el?.project?.i18n?.en?.description}
-                    />
-                  </Grid>
-                );
-              })} */}
-            </Grid>
+            <Grid padding={5} container spacing={3} justifyContent="center" />
             <Box>
               <Box>
                 <p>
                   Please find attached the full comparative details; feel free
                   to call or WhatsApp me to discuss and/or to schedule a site
                   visit/meeting directly with our representative at the
-                  developer’s office. Thank you,
+                  developer’s office. Thank you.
                 </p>
                 <p style={{ textAlign: 'right' }}>
                   نقدم لك مقارنة كاملة، لا تتردد في الاتصال او التواصل عبر
                   الواتساب لأي استفسارات اخرى او لتحديد موعد زيارة مع ممثلنا من
-                  المطور العقارى. شكرا
+                  المطور العقارى. يمكنك حجز الوحده من خلال الزر اسفل العرض
+                  المالي
                 </p>
               </Box>
               <Grid container justifyContent="space-between">
@@ -213,13 +181,13 @@ export default function IntroCard({ empData }) {
                 </Grid>
                 <Grid item sx={{ textAlign: 'right' }}>
                   <Typography component="p" variant="body1">
-                    سلمى فكري
+                    {empData?.user?.displayName}
                   </Typography>
                   <Typography component="p" variant="body1">
                     مستشار عقارات
                   </Typography>
                   <Typography component="p" variant="body1">
-                    +٢٠١٠٠٩٨٠٠٨٨٤
+                    {empData?.user?.phone}
                   </Typography>
                 </Grid>
               </Grid>

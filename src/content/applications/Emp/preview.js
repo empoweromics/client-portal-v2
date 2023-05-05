@@ -1,6 +1,7 @@
 import styles from './emp.module.css';
 import emLogo from '../../../assets/images/dark_emp_logo.png';
 import { CircularProgress } from '@mui/material';
+import { nFormatter } from 'src/utilities/numbers/nFormatter';
 
 function handleError(event) {
   event.target.src = emLogo;
@@ -11,7 +12,6 @@ const Preview = ({ previewEmp, isLoading }) => {
       {isLoading && <CircularProgress className={styles.centerd_element} />}
       {previewEmp.length > 0 ? (
         previewEmp.map((el) => {
-          console.log(el);
           return (
             <div key={el._id} className={styles.property_card}>
               <div className={styles.logos_Wrapper}>
@@ -24,7 +24,7 @@ const Preview = ({ previewEmp, isLoading }) => {
                 <img
                   onError={handleError}
                   alt=""
-                  src={`${process.env.REACT_APP_OLD_DOMAIN_URL}/app/pp/${el?.developer?.logo}`}
+                  src={`${process.env.REACT_APP_OLD_DOMAIN_URL}/app/dl/${el?.developer?.logo}`}
                   className={styles.developer_logo}
                 />
               </div>
@@ -37,7 +37,11 @@ const Preview = ({ previewEmp, isLoading }) => {
                 }}
               >
                 <div className={styles.title}>{el?.project?.name}</div>
-                <div>Price: {el.priceBase?.toLocaleString()}</div>
+                <div>Price: {nFormatter(el.priceBase)} EGP</div>
+                <div>
+                  Space Build Up: {el.spaceBuildUp} SQM {el.finishingType}
+                </div>
+
                 <div className={styles.secondary_text}>
                   Developed By{' '}
                   <span style={{ color: 'black', fontWeight: 'bold' }}>
@@ -53,7 +57,6 @@ const Preview = ({ previewEmp, isLoading }) => {
           <div className={styles.card}>
             <div className={styles.card_body}>
               <p>No preview properties to display.</p>
-              {/* <button className="btn-preview">Preview</button> */}
             </div>
           </div>
         </div>

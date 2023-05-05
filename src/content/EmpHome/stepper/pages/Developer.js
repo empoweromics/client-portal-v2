@@ -10,6 +10,12 @@ import React from 'react';
 import styles from '../../style/empHome.module.css';
 import { SeeMoreComponent } from 'src/components/SeeMore/seeMoreComponent';
 
+import emLogo from 'src/assets/images/dark_emp_logo.png';
+
+function handleError(event) {
+  event.target.src = emLogo;
+}
+
 export default function EMPDeveloperSection({ empData }) {
   const developerData = Object.values(empData?.outputs || {}).map(
     (el) => el.developer
@@ -40,6 +46,7 @@ export default function EMPDeveloperSection({ empData }) {
                       >
                         <Box>
                           <img
+                            onError={handleError}
                             alt={item.name}
                             height={100}
                             src={`${process.env.REACT_APP_OLD_DOMAIN_URL}/app/dl/${item?.logo}`}

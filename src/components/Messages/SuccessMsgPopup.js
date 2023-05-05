@@ -1,6 +1,6 @@
 import styles from './emp.module.css';
 import Box from '@mui/material/Box';
-import checkMark from '../../assets/images/checkmark.png';
+import checkMark from '../../assets/images/checkmark.svg';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { Button } from '@mui/material';
@@ -34,13 +34,11 @@ const idStyles = {
   color: '#000'
 };
 
-export function SuccessMsgPopup({
-  setOpen = () => {},
-  open = true,
-  message,
-  id
-}) {
-  const handleClose = () => setOpen(false);
+export function SuccessMsgPopup({ open = true, message, id }) {
+  function refreshPage() {
+    window.location.reload(false);
+  }
+  const handleClose = () => refreshPage();
   return (
     <div>
       <Modal
