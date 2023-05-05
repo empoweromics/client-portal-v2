@@ -11,10 +11,12 @@ import {
   Typography,
   styled
 } from '@mui/material';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import NotificationsActiveTwoToneIcon from '@mui/icons-material/NotificationsActiveTwoTone';
 
 import { formatDistance, subDays } from 'date-fns';
+import axiosClient from 'src/utilities/axios/axiosIntercept';
+import moment from 'moment';
 
 const NotificationsBadge = styled(Badge)(
   ({ theme }) => `
@@ -43,7 +45,22 @@ const NotificationsBadge = styled(Badge)(
 function HeaderNotifications() {
   const ref = useRef(null);
   const [isOpen, setOpen] = useState(false);
+  const [notificationsList, setNotificationsList] = useState();
 
+  // ------------------------------------------------------------------------------------------------
+  const getEmpData = async () => {
+    try {
+      const res = await axiosClient.get(`/notification/latest`);
+      setNotificationsList(res.data);
+      console.log(res.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  // ------------------------------------------------------------------------------------------------
+  useEffect(() => {
+    getEmpData();
+  }, []);
   const handleOpen = () => {
     setOpen(true);
   };
@@ -91,30 +108,39 @@ function HeaderNotifications() {
         </Box>
         <Divider />
         <List sx={{ p: 0 }}>
-          <ListItem
-            sx={{ p: 2, minWidth: 350, display: { xs: 'block', sm: 'flex' } }}
-          >
-            <Box flex="1">
-              <Box display="flex" justifyContent="space-between">
-                <Typography sx={{ fontWeight: 'bold' }}>
-                  Messaging Platform
-                </Typography>
-                <Typography variant="caption" sx={{ textTransform: 'none' }}>
-                  {formatDistance(subDays(new Date(), 3), new Date(), {
-                    addSuffix: true
-                  })}
-                </Typography>
-              </Box>
-              <Typography
-                component="span"
-                variant="body2"
-                color="text.secondary"
-              >
-                {' '}
-                new messages in your inbox
-              </Typography>
-            </Box>
-          </ListItem>
+          {notificationsList &&
+            notificationsList.map((notifications) => {
+              return (
+                <ListItem
+                  sx={{
+                    p: 2,
+                    minWidth: 350,
+                    display: { xs: 'block', sm: 'flex' }
+                  }}
+                >
+                  <Box flex="1" key={notifications._id}>
+                    <Box display="flex" justifyContent="space-between">
+                      <Typography sx={{ fontWeight: 'bold' }}>
+                        {notifications.topic}
+                      </Typography>
+                      <Typography
+                        variant="caption"
+                        sx={{ textTransform: 'none' }}
+                      >
+                        {moment(notifications.createdAt).fromNow()}
+                      </Typography>
+                    </Box>
+                    <Typography
+                      component="span"
+                      variant="body2"
+                      color="text.secondary"
+                    >
+                      {notifications.message.substr(0, 55)}
+                    </Typography>
+                  </Box>
+                </ListItem>
+              );
+            })}
         </List>
       </Popover>
     </>

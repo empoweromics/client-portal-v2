@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import styles from './style/empHome.module.css';
 import React from 'react';
+import { nFormatter } from 'src/utilities/numbers/nFormatter';
 
 export default function IntroCard({ empData }) {
   // const outputs = Object.values(empData?.outputs || {});
@@ -134,10 +135,7 @@ export default function IntroCard({ empData }) {
               </b>{' '}
               with a budget{' '}
               <b>
-                <u>
-                  {((empData?.inputs?.budget || 0) / 1000000).toFixed(0)}{' '}
-                  Million EGP{' '}
-                </u>
+                <u>{nFormatter(empData?.inputs?.budget)} EGP </u>
               </b>
               for a <b>{/* <u>{empData?.inputs?.type}</u> */}</b>{' '}
               {/* and an average area of {empData?.inputs?.sqm} SQM. I am pleased to */}

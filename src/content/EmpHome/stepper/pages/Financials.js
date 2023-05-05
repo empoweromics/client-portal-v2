@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import axiosClient from 'src/utilities/axios/axiosIntercept';
 import { SuccessMsgPopup } from 'src/components/Messages/SuccessMsgPopup';
+import { nFormatter } from 'src/utilities/numbers/nFormatter';
 
 const formatDate = (date, addedMonthes) => {
   const dateObj = new Date(date);
@@ -193,12 +194,9 @@ export default function EMPFinancialsSection({ empData }) {
                       onClick={() => SubmitOpportunity(item, index)}
                     >
                       Book Your Unit Now Total:{' '}
-                      {item?.unit?.priceBase?.toLocaleString()}
+                      {nFormatter(item?.unit?.priceBase)} EGP
                     </Button>
                   </Grid>
-                  {/* {index !== 2 && (
-                <Divider orientation="vertical" variant="middle" flexItem />
-              )} */}
                 </>
               );
             })}

@@ -30,6 +30,7 @@ import Label from 'src/components/Label';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import BulkActions from './BulkActions';
+import { nFormatter } from 'src/utilities/numbers/nFormatter';
 
 const getStatusLabel = (Opportunitiestatus) => {
   console.log(Opportunitiestatus);
@@ -289,14 +290,11 @@ const RecentOrdersTable = ({ Opportunities }) => {
                       gutterBottom
                       noWrap
                     >
-                      {numeral(Opportunity.budget.downpayment).format(`0,0`)}{' '}
-                      EGP- Down payment
+                      {nFormatter(Opportunity.budget.downpayment)}- Down payment
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {numeral(Opportunity.budget.installmentAmountDue).format(
-                        `0,0.00`
-                      )}{' '}
-                      EGP - installment
+                      {nFormatter(Opportunity.budget.installmentAmountDue)}-
+                      installment
                     </Typography>
                   </TableCell>
                   <TableCell align="right">

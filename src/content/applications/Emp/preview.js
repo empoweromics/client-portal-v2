@@ -1,6 +1,7 @@
 import styles from './emp.module.css';
 import emLogo from '../../../assets/images/dark_emp_logo.png';
 import { CircularProgress } from '@mui/material';
+import { nFormatter } from 'src/utilities/numbers/nFormatter';
 
 function handleError(event) {
   event.target.src = emLogo;
@@ -36,7 +37,7 @@ const Preview = ({ previewEmp, isLoading }) => {
                 }}
               >
                 <div className={styles.title}>{el?.project?.name}</div>
-                <div>Price: {el.priceBase?.toLocaleString()} EGP</div>
+                <div>Price: {nFormatter(el.priceBase)} EGP</div>
                 <div>
                   Space Build Up: {el.spaceBuildUp} SQM {el.finishingType}
                 </div>
