@@ -8,6 +8,11 @@ import {
   CardContent
 } from '@mui/material';
 import { SeeMoreComponent } from 'src/components/SeeMore/seeMoreComponent';
+import emLogo from 'src/assets/images/dark_emp_logo.png';
+
+function handleError(event) {
+  event.target.src = emLogo;
+}
 
 export default function EMPProjectSection({ empData }) {
   const projectsData = Object.values(empData?.outputs || {});
@@ -41,6 +46,7 @@ export default function EMPProjectSection({ empData }) {
                     >
                       <Box>
                         <img
+                          onError={handleError}
                           alt={item?.project.name}
                           height={190}
                           src={`${process.env.REACT_APP_OLD_DOMAIN_URL}/app/pp/${item?.project?.logo}`}

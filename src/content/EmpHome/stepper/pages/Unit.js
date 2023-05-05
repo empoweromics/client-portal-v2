@@ -8,6 +8,12 @@ import {
 } from '@mui/material';
 import React from 'react';
 
+import emLogo from 'src/assets/images/dark_emp_logo.png';
+
+function handleError(event) {
+  event.target.src = emLogo;
+}
+
 export default function EMPUnitSection({ empData }) {
   const unitData = Object.values(empData?.outputs || {});
   return (
@@ -33,6 +39,7 @@ export default function EMPUnitSection({ empData }) {
                   >
                     <Box>
                       <img
+                        onError={handleError}
                         alt={item?.name}
                         height={100}
                         src={`${process.env.REACT_APP_OLD_DOMAIN_URL}/app/pl/${item?.project?.logo}`}
