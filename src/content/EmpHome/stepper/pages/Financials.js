@@ -37,7 +37,6 @@ export default function EMPFinancialsSection({ empData }) {
   const [generatedEmpId, setGeneratedEmpId] = useState('');
 
   const SubmitOpportunity = async (item, index) => {
-    // console.log(inputs, user, item, index);
     const body = {
       client: {
         name: inputs.clientname,

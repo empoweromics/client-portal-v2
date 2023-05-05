@@ -19,7 +19,6 @@ import {
   Slide,
   Hidden,
   styled,
-  Rating,
   CircularProgress
 } from '@mui/material';
 import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';

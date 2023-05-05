@@ -1,15 +1,12 @@
 import { useState } from 'react';
-import numeral from 'numeral';
 import PropTypes from 'prop-types';
 import {
-  Tooltip,
   Divider,
   Box,
   FormControl,
   InputLabel,
   Card,
   Checkbox,
-  IconButton,
   Table,
   TableBody,
   TableCell,
@@ -20,15 +17,13 @@ import {
   Select,
   MenuItem,
   Typography,
-  useTheme,
   CardHeader,
   Avatar,
   Grid
 } from '@mui/material';
 
 import Label from 'src/components/Label';
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+
 import BulkActions from './BulkActions';
 import { nFormatter } from 'src/utilities/numbers/nFormatter';
 
@@ -154,7 +149,6 @@ const RecentOrdersTable = ({ Opportunities }) => {
     selectedOpportunities.length < Opportunities.length;
   const selectedAllOpportunities =
     selectedOpportunities.length === Opportunities.length;
-  const theme = useTheme();
 
   return (
     <Card>
@@ -206,7 +200,6 @@ const RecentOrdersTable = ({ Opportunities }) => {
               <TableCell>Client</TableCell>
               <TableCell align="right">Budget</TableCell>
               <TableCell align="right">Status</TableCell>
-              <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -238,7 +231,7 @@ const RecentOrdersTable = ({ Opportunities }) => {
                       gutterBottom
                       noWrap
                     >
-                      ...{Opportunity._id.slice(-6)}
+                      {Opportunity._id}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -299,34 +292,6 @@ const RecentOrdersTable = ({ Opportunities }) => {
                   </TableCell>
                   <TableCell align="right">
                     {getStatusLabel(Opportunity.status)}
-                  </TableCell>
-                  <TableCell align="right">
-                    <Tooltip title="Edit Order" arrow>
-                      <IconButton
-                        sx={{
-                          '&:hover': {
-                            background: theme.colors.primary.lighter
-                          },
-                          color: theme.palette.primary.main
-                        }}
-                        color="inherit"
-                        size="small"
-                      >
-                        <EditTwoToneIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Delete Order" arrow>
-                      <IconButton
-                        sx={{
-                          '&:hover': { background: theme.colors.error.lighter },
-                          color: theme.palette.error.main
-                        }}
-                        color="inherit"
-                        size="small"
-                      >
-                        <DeleteTwoToneIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
                   </TableCell>
                 </TableRow>
               );

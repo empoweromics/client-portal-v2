@@ -34,14 +34,11 @@ const idStyles = {
   color: '#000'
 };
 
-export function SuccessMsgPopup({
-  setOpen = () => {},
-  open = true,
-  x=true,
-  message,
-  id
-}) {
-  const handleClose = () => setOpen(false);
+export function SuccessMsgPopup({ open = true, message, id }) {
+  function refreshPage() {
+    window.location.reload(false);
+  }
+  const handleClose = () => refreshPage();
   return (
     <div>
       <Modal
