@@ -24,7 +24,7 @@ const DialogWrapper = styled(Dialog)(
 );
 const method = ['bank_transfer', 'cash', 'VC'];
 
-export default function Form({ open, handleClose }) {
+export default function WithdrawForm({ open, handleClose }) {
   const {
     register,
     handleSubmit,

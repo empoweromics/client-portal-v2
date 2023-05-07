@@ -2,7 +2,7 @@ import { Typography, Button, Grid } from '@mui/material';
 
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import { useState } from 'react';
-import Form from './Form';
+import WithdrawForm from 'src/components/WithdrawForm/WithdrawForm';
 
 function PageHeader() {
   const [open, setOpen] = useState(false);
@@ -36,7 +36,7 @@ function PageHeader() {
           </Button>
         </Grid>
       </Grid>
-      {open && <Form open={open} handleClose={handleClose} />}
+      {open && <WithdrawForm open={open} handleClose={handleClose} />}
     </>
   );
 }
