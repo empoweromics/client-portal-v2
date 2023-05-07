@@ -6,7 +6,6 @@ import {
   FormControl,
   InputLabel,
   Card,
-  Checkbox,
   Table,
   TableBody,
   TableCell,
@@ -24,11 +23,9 @@ import {
 
 import Label from 'src/components/Label';
 
-import BulkActions from './BulkActions';
 import { nFormatter } from 'src/utilities/numbers/nFormatter';
 
 const getStatusLabel = (Opportunitiestatus) => {
-  console.log(Opportunitiestatus);
   const map = {
     failure: {
       text: 'Failure',
@@ -43,9 +40,7 @@ const getStatusLabel = (Opportunitiestatus) => {
       color: 'warning'
     }
   };
-
   const { text, color } = map[Opportunitiestatus];
-
   return <Label color={color}>{text}</Label>;
 };
 
@@ -65,8 +60,6 @@ const applyPagination = (Opportunities, page, limit) => {
 };
 
 const RecentOrdersTable = ({ Opportunities }) => {
-  const [selectedOpportunities, setSelectedOpportunities] = useState([]);
-  const selectedBulkActions = selectedOpportunities.length > 0;
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(5);
   const [filters, setFilters] = useState({
@@ -109,27 +102,6 @@ const RecentOrdersTable = ({ Opportunities }) => {
     }));
   };
 
-  const handleSelectAllOpportunities = (event) => {
-    setSelectedOpportunities(
-      event.target.checked
-        ? Opportunities.map((Opportunity) => Opportunity.id)
-        : []
-    );
-  };
-
-  const handleSelectOneOpportunity = (event, OpportunityId) => {
-    if (!selectedOpportunities.includes(OpportunityId)) {
-      setSelectedOpportunities((prevSelected) => [
-        ...prevSelected,
-        OpportunityId
-      ]);
-    } else {
-      setSelectedOpportunities((prevSelected) =>
-        prevSelected.filter((id) => id !== OpportunityId)
-      );
-    }
-  };
-
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
@@ -144,57 +116,38 @@ const RecentOrdersTable = ({ Opportunities }) => {
     page,
     limit
   );
-  const selectedSomeOpportunities =
-    selectedOpportunities.length > 0 &&
-    selectedOpportunities.length < Opportunities.length;
-  const selectedAllOpportunities =
-    selectedOpportunities.length === Opportunities.length;
 
   return (
     <Card>
-      {selectedBulkActions && (
-        <Box flex={1} p={2}>
-          <BulkActions />
-        </Box>
-      )}
-      {!selectedBulkActions && (
-        <CardHeader
-          action={
-            <Box width={150}>
-              <FormControl fullWidth variant="outlined">
-                <InputLabel>Status</InputLabel>
-                <Select
-                  value={filters.status || 'all'}
-                  onChange={handleStatusChange}
-                  label="Status"
-                  autoWidth
-                >
-                  {statusOptions.map((statusOption) => (
-                    <MenuItem key={statusOption.id} value={statusOption.id}>
-                      {statusOption.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
-          }
-          title="Recent Opportunities"
-        />
-      )}
+      <CardHeader
+        action={
+          <Box width={150}>
+            <FormControl fullWidth variant="outlined">
+              <InputLabel>Status</InputLabel>
+              <Select
+                value={filters.status || 'all'}
+                onChange={handleStatusChange}
+                label="Status"
+                autoWidth
+              >
+                {statusOptions.map((statusOption) => (
+                  <MenuItem key={statusOption.id} value={statusOption.id}>
+                    {statusOption.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+        }
+        title="Recent Opportunities"
+      />
+
       <Divider />
       <TableContainer>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox">
-                <Checkbox
-                  color="primary"
-                  checked={selectedAllOpportunities}
-                  indeterminate={selectedSomeOpportunities}
-                  onChange={handleSelectAllOpportunities}
-                />
-              </TableCell>
-              <TableCell>ID</TableCell>
+              <TableCell>ID Refrance</TableCell>
               <TableCell>Project Name</TableCell>
 
               <TableCell>Client</TableCell>
@@ -204,25 +157,8 @@ const RecentOrdersTable = ({ Opportunities }) => {
           </TableHead>
           <TableBody>
             {paginatedOpportunities.map((Opportunity) => {
-              const isOpportunitieselected = selectedOpportunities.includes(
-                Opportunity._id
-              );
               return (
-                <TableRow
-                  hover
-                  key={Opportunity._id}
-                  selected={isOpportunitieselected}
-                >
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      color="primary"
-                      checked={isOpportunitieselected}
-                      onChange={(event) =>
-                        handleSelectOneOpportunity(event, Opportunity._id)
-                      }
-                      value={isOpportunitieselected}
-                    />
-                  </TableCell>
+                <TableRow hover key={Opportunity._id}>
                   <TableCell>
                     <Typography
                       variant="body1"
