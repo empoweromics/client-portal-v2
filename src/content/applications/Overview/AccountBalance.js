@@ -8,6 +8,8 @@ import {
   Avatar
 } from '@mui/material';
 import TrendingUp from '@mui/icons-material/TrendingUp';
+import { useContext } from 'react';
+import { OverviewContext } from 'src/contexts/OverviewContext';
 
 const AvatarSuccess = styled(Avatar)(
   ({ theme }) => `
@@ -20,6 +22,8 @@ const AvatarSuccess = styled(Avatar)(
 );
 
 function AccountBalance() {
+  const account = useContext(OverviewContext);
+
   return (
     <Card>
       <Grid item xs={12}>
@@ -34,7 +38,7 @@ function AccountBalance() {
           </Typography>
           <Box>
             <Typography variant="h1" gutterBottom>
-              0.0 EGP
+              {account?.balance} {account?.currency}
             </Typography>
             <Typography variant="h4" fontWeight="normal" color="text.secondary">
               Earn the highest net commission starting at 16,000 per million

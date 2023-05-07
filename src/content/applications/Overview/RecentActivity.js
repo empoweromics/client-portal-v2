@@ -11,8 +11,8 @@ import {
 
 import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork';
 import SchoolIcon from '@mui/icons-material/School';
-import { useEffect, useState } from 'react';
-import axiosClient from 'src/utilities/axios/axiosIntercept';
+import { useContext } from 'react';
+import { OverviewContext } from 'src/contexts/OverviewContext';
 
 const AvatarPrimary = styled(Avatar)(
   ({ theme }) => `
@@ -24,20 +24,8 @@ const AvatarPrimary = styled(Avatar)(
 );
 
 function RecentActivity() {
-  const [account, setAccount] = useState();
-  // ----------------------------------------------------------------------------------------------
-  const getAccount = async () => {
-    try {
-      const res = await axiosClient('/account');
-      setAccount(res.data);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-  // ----------------------------------------------------------------------------------------------
-  useEffect(() => {
-    getAccount();
-  }, []);
+  const account = useContext(OverviewContext);
+
   return (
     <Card sx={{ paddingBottom: '1em' }}>
       <CardHeader title="Recent Activity" />

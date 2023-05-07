@@ -7,8 +7,30 @@ import Footer from 'src/components/Footer';
 import AccountBalance from './AccountBalance';
 import TopDeveloper from './TopDeveloper';
 import RecentActivity from './RecentActivity';
+import { useEffect, useState } from 'react';
+import axiosClient from 'src/utilities/axios/axiosIntercept';
+import { OverviewContext } from 'src/contexts/OverviewContext';
 
 function DashboardCrypto() {
+  const [account, setAccount] = useState({
+    balance: '0',
+    currency: 'EGP',
+    opportunity: [],
+    academy: []
+  });
+  // ----------------------------------------------------------------------------------------------
+  const getAccount = async () => {
+    try {
+      const res = await axiosClient('/account');
+      setAccount(res.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  // ----------------------------------------------------------------------------------------------
+  useEffect(() => {
+    getAccount();
+  }, []);
   return (
     <>
       {/* <InfoWindowContent/> */}
@@ -26,12 +48,14 @@ function DashboardCrypto() {
           alignItems="stretch"
           spacing={4}
         >
-          <Grid item lg={7} xs={12}>
-            <AccountBalance />
-          </Grid>
-          <Grid item lg={5} xs={12}>
-            <RecentActivity />
-          </Grid>
+          <OverviewContext.Provider value={account}>
+            <Grid item lg={7} xs={12}>
+              <AccountBalance />
+            </Grid>
+            <Grid item lg={5} xs={12}>
+              <RecentActivity />
+            </Grid>
+          </OverviewContext.Provider>
           <Grid item xs={12}>
             <TopDeveloper />
           </Grid>
