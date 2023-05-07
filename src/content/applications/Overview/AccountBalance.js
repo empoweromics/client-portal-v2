@@ -8,6 +8,10 @@ import {
   Avatar
 } from '@mui/material';
 import TrendingUp from '@mui/icons-material/TrendingUp';
+import { useContext, useState } from 'react';
+import { OverviewContext } from 'src/contexts/OverviewContext';
+import { NavLink as RouterLink } from 'react-router-dom';
+import WithdrawForm from 'src/components/WithdrawForm/WithdrawForm';
 
 const AvatarSuccess = styled(Avatar)(
   ({ theme }) => `
@@ -20,6 +24,16 @@ const AvatarSuccess = styled(Avatar)(
 );
 
 function AccountBalance() {
+  const account = useContext(OverviewContext);
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <Card>
       <Grid item xs={12}>
@@ -34,7 +48,7 @@ function AccountBalance() {
           </Typography>
           <Box>
             <Typography variant="h1" gutterBottom>
-              0.0 EGP
+              {account?.balance} {account?.currency}
             </Typography>
             <Typography variant="h4" fontWeight="normal" color="text.secondary">
               Earn the highest net commission starting at 16,000 per million
@@ -57,7 +71,9 @@ function AccountBalance() {
                 <TrendingUp fontSize="large" />
               </AvatarSuccess>
               <Box>
-                <Typography variant="h4">+ 0.0 EGP</Typography>
+                <Typography variant="h4">
+                  + {account?.balance} {account?.currency}
+                </Typography>
                 <Typography variant="subtitle2" noWrap>
                   this month
                 </Typography>
@@ -66,14 +82,20 @@ function AccountBalance() {
           </Box>
           <Grid container spacing={3}>
             <Grid sm item>
-              <Button fullWidth variant="outlined">
+              <Button
+                component={RouterLink}
+                to="/go/transaction"
+                fullWidth
+                variant="outlined"
+              >
                 Transactions
               </Button>
             </Grid>
             <Grid sm item>
-              <Button fullWidth variant="contained">
+              <Button onClick={handleClickOpen} fullWidth variant="contained">
                 Withdraw
               </Button>
+              {open && <WithdrawForm open={open} handleClose={handleClose} />}
             </Grid>
           </Grid>
         </Box>
