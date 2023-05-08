@@ -7,6 +7,8 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 // import { AuthContext } from 'src/contexts/authContext/authContext';
 import logo from 'src/assets/images/userprofile.png';
+import { UserContext, setAdmin } from 'src/contexts/UserContext';
+import { useNavigate } from 'react-router';
 
 const eyeStyles = {
   position: 'absolute',
@@ -15,31 +17,39 @@ const eyeStyles = {
   cursor: 'pointer'
 };
 
-function login() {
-  localStorage.setItem(
-    'ad',
-    JSON.stringify({
-      id: user.uid,
-      name: user.displayName,
-      email: user.email,
-      avatar: user.photoURL
-    })
-  );
-}
 function AdminAuthLogin() {
+  const { dispatch } = useContext(UserContext);
+  const navigate = useNavigate();
+
   // hooks
   const [isloading, setIsloading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  // const { login } = useContext(AuthContext);
   let [user, setUser] = useState({ username: '', password: '' });
 
-  // validation paterns
+  function login(user) {
+    localStorage.setItem(
+      'admin',
+      JSON.stringify({
+        username: user.username,
+        token: user.token
+      })
+    );
+    dispatch({
+      type: setAdmin,
+      payload: {
+        username: user.username,
+        token: user.token
+      }
+    });
+  }
+
   // submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsloading(true);
     try {
-      console.log('user', user);
+      login(user);
+      navigate('/admin');
       // await login(user, rememberMe);
     } catch (err) {
       if (err.request?.status === 400 || err.request?.status === 401) {
