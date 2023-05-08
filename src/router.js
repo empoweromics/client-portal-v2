@@ -1,10 +1,9 @@
 import { Suspense, lazy } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-
-import SidebarLayout from 'src/layouts/SidebarLayout';
 import BaseLayout from 'src/layouts/BaseLayout';
-
 import SuspenseLoader from 'src/components/SuspenseLoader';
+import AdminLayout from './layouts/AdminLayout';
+import ClientLayout from 'src/layouts/ClientLayout';
 
 const Loader = (Component) => (props) =>
   (
@@ -53,7 +52,7 @@ const Status500 = Loader(
 const StatusMaintenance = Loader(
   lazy(() => import('src/content/pages/Status/Maintenance'))
 );
-const routes = (isLoggedIn) => {
+const routes = (client, admin) => {
   const location = useLocation();
 
   return [
@@ -99,8 +98,8 @@ const routes = (isLoggedIn) => {
 
     {
       path: 'go',
-      element: isLoggedIn ? (
-        <SidebarLayout />
+      element: client ? (
+        <ClientLayout />
       ) : (
         <Navigate to="/" state={{ from: location }} />
       ),
@@ -147,6 +146,21 @@ const routes = (isLoggedIn) => {
               element: <Messenger />
             }
           ]
+        }
+      ]
+    },
+
+    {
+      path: 'admin',
+      element: admin ? (
+        <AdminLayout />
+      ) : (
+        <Navigate to="/login" state={{ from: location }} />
+      ),
+      children: [
+        {
+          path: '',
+          element: <Overview />
         }
       ]
     }

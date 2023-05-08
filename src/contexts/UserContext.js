@@ -27,7 +27,6 @@ function reducer(state, action) {
     default:
       return state;
   }
-  // }
 }
 export const UserContext = createContext(initialState);
 

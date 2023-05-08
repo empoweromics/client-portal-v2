@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
 
-const SidebarLayout = () => {
+const ClientLayout = () => {
   const theme = useTheme();
 
   return (
@@ -59,4 +59,4 @@ const SidebarLayout = () => {
   );
 };
 
-export default SidebarLayout;
+export default ClientLayout;
