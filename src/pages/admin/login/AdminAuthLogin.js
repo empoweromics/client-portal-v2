@@ -15,6 +15,17 @@ const eyeStyles = {
   cursor: 'pointer'
 };
 
+function login() {
+  localStorage.setItem(
+    'ad',
+    JSON.stringify({
+      id: user.uid,
+      name: user.displayName,
+      email: user.email,
+      avatar: user.photoURL
+    })
+  );
+}
 function AdminAuthLogin() {
   // hooks
   const [isloading, setIsloading] = useState(false);
