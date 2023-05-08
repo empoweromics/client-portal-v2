@@ -4,6 +4,7 @@ import BaseLayout from 'src/layouts/BaseLayout';
 import SuspenseLoader from 'src/components/SuspenseLoader';
 import AdminLayout from './layouts/AdminLayout';
 import ClientLayout from 'src/layouts/ClientLayout';
+import AdminAuthLogin from './pages/admin/login/AdminAuthLogin';
 
 const Loader = (Component) => (props) =>
   (
@@ -61,6 +62,10 @@ const routes = (client, admin) => {
         {
           path: '/',
           element: <Home />
+        },
+        {
+          path: '/login',
+          element: <AdminAuthLogin />
         },
         {
           path: 'emp/:id',
