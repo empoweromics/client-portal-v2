@@ -1,7 +1,7 @@
 import { Button, Rating } from '@mui/material';
 import styles from './oppDialog.module.css';
 import CheckCircleTwoToneIcon from '@mui/icons-material/CheckCircleTwoTone';
-import emLogo from '../../../../assets/images/dark_emp_logo.png';
+import emLogo from 'src/assets/images/dark_emp_logo.png';
 import { SeeMoreComponent } from 'src/components/SeeMore/seeMoreComponent';
 
 const ProjectDetails = ({ setRenderedComponent, projectDetails }) => {

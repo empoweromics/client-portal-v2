@@ -1,6 +1,6 @@
 import styles from './emp.module.css';
 import Box from '@mui/material/Box';
-import checkMark from '../../assets/images/checkmark.svg';
+import checkMark from 'src/assets/images/checkmark.svg';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { Button } from '@mui/material';

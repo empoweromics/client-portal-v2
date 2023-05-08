@@ -6,7 +6,7 @@ import { Button, CircularProgress, Snackbar } from '@mui/material';
 import { ImgsSection } from './imgsSection';
 import MenuIcon from '@mui/icons-material/Menu';
 import { PricingCard } from './pricingCard';
-import { SeeMoreComponent } from '../../../../components/SeeMore/seeMoreComponent';
+import { SeeMoreComponent } from 'src/components/SeeMore/seeMoreComponent';
 import { OtherProjects } from './otherProjects';
 
 export function ProjectDetailsDrawer({

@@ -44,15 +44,11 @@ const UserSettings = Loader(
 
 // Status
 
-const Status404 = Loader(
-  lazy(() => import('src/pages/client/pages/Status/Status404'))
-);
-const Status500 = Loader(
-  lazy(() => import('src/pages/client/pages/Status/Status500'))
-);
+const Status404 = Loader(lazy(() => import('src/components/Status/Status404')));
+const Status500 = Loader(lazy(() => import('src/components/Status/Status500')));
 
 const StatusMaintenance = Loader(
-  lazy(() => import('src/pages/client/pages/Status/Maintenance'))
+  lazy(() => import('src/components/Status/Maintenance'))
 );
 const routes = (client, admin) => {
   const location = useLocation();
