@@ -5,6 +5,7 @@ import SuspenseLoader from 'src/components/SuspenseLoader';
 import AdminLayout from './layouts/AdminLayout';
 import ClientLayout from 'src/layouts/ClientLayout';
 import AdminAuthLogin from './pages/admin/login/AdminAuthLogin';
+import AdminDashboard from './pages/admin/dashboard';
 
 const Loader = (Component) => (props) =>
   (
@@ -163,7 +164,7 @@ const routes = (client, admin) => {
       children: [
         {
           path: '',
-          element: <Overview />
+          element: <AdminDashboard />
         }
       ]
     }
