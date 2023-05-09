@@ -34,9 +34,9 @@ function reducer(state, action) {
     case setAdmin: {
       return { ...initialState, admin: action.payload };
     }
-    //     case removeUser: {
-    //       return initialState;
-    //     }
+    case removeUser: {
+      return initialState;
+    }
     default:
       return state;
   }

@@ -175,26 +175,12 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/"
+                  to="/admin"
                   startIcon={<DashboardIcon />}
                 >
-                  Home
+                  Dashboard
                 </Button>
               </ListItem>
-            </List>
-          </SubMenuWrapper>
-        </List>
-
-        <List
-          component="div"
-          subheader={
-            <ListSubheader component="div" disableSticky>
-              Go
-            </ListSubheader>
-          }
-        >
-          <SubMenuWrapper>
-            <List component="div">
               <ListItem component="div">
                 <Button
                   disableRipple
@@ -206,16 +192,29 @@ function SidebarMenu() {
                   E-Map
                 </Button>
               </ListItem>
+            </List>
+          </SubMenuWrapper>
+        </List>
 
+        <List
+          component="div"
+          subheader={
+            <ListSubheader component="div" disableSticky>
+              Manage
+            </ListSubheader>
+          }
+        >
+          <SubMenuWrapper>
+            <List component="div">
               <ListItem component="div">
                 <Button
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/go/opportunity"
+                  to="/admin/opportunities"
                   startIcon={<MapsHomeWorkIcon />}
                 >
-                  Opportunity
+                  Opportunities
                 </Button>
               </ListItem>
               <ListItem component="div">
@@ -223,10 +222,10 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/go/transaction"
+                  to="/admin/transaction"
                   startIcon={<AccountBalanceIcon />}
                 >
-                  Transaction
+                  Transactions
                 </Button>
               </ListItem>
               <ListItem component="div">
@@ -234,7 +233,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/go/academy"
+                  to="/admin/Academy"
                   startIcon={<SchoolIcon />}
                 >
                   Academy
@@ -245,10 +244,21 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/go/eMP"
+                  to="/admin/projects"
                   startIcon={<CompareArrowsIcon />}
                 >
-                  eMP
+                  Projects
+                </Button>
+              </ListItem>
+              <ListItem component="div">
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
+                  to="/admin/units"
+                  startIcon={<CompareArrowsIcon />}
+                >
+                  Unit Stock
                 </Button>
               </ListItem>
             </List>
