@@ -9,6 +9,7 @@ import {
 import styles from './style/empHome.module.css';
 import React from 'react';
 import { nFormatter } from 'src/utilities/numbers/nFormatter';
+import { Language } from 'src/i18n/ar';
 
 export default function IntroCard({ empData }) {
   // const outputs = Object.values(empData?.outputs || {});
@@ -173,7 +174,7 @@ export default function IntroCard({ empData }) {
                     {empData?.user?.displayName}
                   </Typography>
                   <Typography component="p" variant="body1">
-                    Property Consultant
+                    {Language['en']['Property_Consultant']}
                   </Typography>
                   <Typography component="p" variant="body1">
                     {empData?.user?.phone}
@@ -184,7 +185,7 @@ export default function IntroCard({ empData }) {
                     {empData?.user?.displayName}
                   </Typography>
                   <Typography component="p" variant="body1">
-                    مستشار عقارات
+                    {Language['ar']['Property_Consultant']}
                   </Typography>
                   <Typography component="p" variant="body1">
                     {empData?.user?.phone}
