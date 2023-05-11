@@ -9,6 +9,7 @@ import EMPUnitSection from './stepper/pages/Unit';
 import EMPFinancialsSection from './stepper/pages/Financials';
 import { Helmet } from 'react-helmet-async';
 import axiosClient from 'src/utilities/axios/axiosIntercept';
+import { EMPContext } from 'src/contexts/EMPContext';
 
 export default function EmpHome() {
   const [empData, setEmpData] = useState();
@@ -47,13 +48,13 @@ export default function EmpHome() {
           />
         </>
       ) : (
-        <>
-          <IntroCard empData={empData} />
-          <EMPDeveloperSection empData={empData} />
-          <EMPProjectSection empData={empData} />
-          <EMPUnitSection empData={empData} />
-          <EMPFinancialsSection empData={empData} />{' '}
-        </>
+        <EMPContext.Provider value={empData}>
+          <IntroCard />
+          <EMPDeveloperSection />
+          <EMPProjectSection />
+          <EMPUnitSection />
+          <EMPFinancialsSection />{' '}
+        </EMPContext.Provider>
       )}
     </>
   );

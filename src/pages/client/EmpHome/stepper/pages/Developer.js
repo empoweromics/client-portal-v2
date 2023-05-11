@@ -6,17 +6,19 @@ import {
   Card,
   CardContent
 } from '@mui/material';
-import React from 'react';
+import React, { useContext } from 'react';
 import styles from '../../style/empHome.module.css';
 import { SeeMoreComponent } from 'src/components/SeeMore/seeMoreComponent';
 
 import emLogo from 'src/assets/images/dark_emp_logo.png';
+import { EMPContext } from 'src/contexts/EMPContext';
 
 function handleError(event) {
   event.target.src = emLogo;
 }
 
-export default function EMPDeveloperSection({ empData }) {
+export default function EMPDeveloperSection() {
+  const empData = useContext(EMPContext);
   const developerData = Object.values(empData?.outputs || {}).map(
     (el) => el.developer
   );

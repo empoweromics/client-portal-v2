@@ -7,12 +7,13 @@ import {
   Divider
 } from '@mui/material';
 import styles from './style/empHome.module.css';
-import React from 'react';
+import React, { useContext } from 'react';
 import { nFormatter } from 'src/utilities/numbers/nFormatter';
-import { Language } from 'src/i18n/ar';
+import { Area, Language, propertyType } from 'src/i18n/emp';
+import { EMPContext } from 'src/contexts/EMPContext';
 
-export default function IntroCard({ empData }) {
-  // const outputs = Object.values(empData?.outputs || {});
+export default function IntroCard() {
+  const empData = useContext(EMPContext);
   const createdAtDate = new Date(empData?.createdAt);
   const createdAttimeString = createdAtDate.toLocaleTimeString('en-US', {
     hour12: true,
@@ -37,15 +38,11 @@ export default function IntroCard({ empData }) {
               <Grid item>
                 <Box display="flex" flexDirection="column" alignItems="center">
                   <Box textAlign="center" paddingY={3}>
-                    <Typography
-                      component="p"
-                      variant="h3"
-                      // sx={{ fontWeight: 'light' }}
-                    >
+                    <Typography component="p" variant="h3">
                       by {empData?.user?.displayName}
                     </Typography>
                     <Typography component="p" variant="body1">
-                      Property Consultant
+                      {Language['en']['Property_Consultant']}
                     </Typography>
                   </Box>
                   <Box>
@@ -92,10 +89,10 @@ export default function IntroCard({ empData }) {
                 <Grid container justifyContent="space-evenly" spacing={3}>
                   <Grid item>
                     <Typography component="p" variant="h3" fontWeight="light">
-                      Comparative Market Analysis
+                      {Language['en']['Comparative_Market_Analysis']}
                     </Typography>
                     <Typography component="p" variant="h3" fontWeight="light">
-                      دراسة السوق حسب طلبكم
+                      {Language['ar']['Comparative_Market_Analysis']}
                     </Typography>
                     <Box className={styles.customerTitle}>
                       <Typography component="h2" variant="h2">
@@ -141,15 +138,17 @@ export default function IntroCard({ empData }) {
               for a <b>{/* <u>{empData?.inputs?.type}</u> */}</b>{' '}
               {/* and an average area of {empData?.inputs?.sqm} SQM. I am pleased to */}
               present to you the following 3 best fit options specifically
-              developed to your requirements: After analyzing 67,000+ available
-              units from 749+ developers, in 1,944+ projects, valued at over EGP
+              developed to your requirements: After analyzing 68,000+ available
+              units from 789+ developers, in 1,944+ projects, valued at over EGP
               521 Billion.
             </p>
             <p style={{ textAlign: 'right' }}>
-              بناءاً على طلبك لوحدة سكنية في مدينة السادس من أكتوبر بميزانية{' '}
+              بناءاً على طلبك لوحدة{' '}
+              {propertyType['ar'][empData?.inputs?.category]} في مدينة{' '}
+              {Area['ar'][empData?.inputs?.area]} بميزانية{' '}
               {((empData?.inputs?.budget || 0) / 1000000).toFixed(0)}
               مليون اقدم لك انسب 3 خيارات مصممة خصيصا لتلبية متطلباتك بعد تحليل
-              67,000 وحدة متاحة من أكثر من 749 مطور عقاري بأكثر من 944,1 مشروع
+              68,000 وحدة متاحة من أكثر من 789 مطور عقاري بأكثر من 944,1 مشروع
               مقدرة بأكثر من 521 مليار
             </p>
             <Grid padding={5} container spacing={3} justifyContent="center" />
