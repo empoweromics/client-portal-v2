@@ -2,9 +2,9 @@ import { Helmet } from 'react-helmet-async';
 import { Grid, Container } from '@mui/material';
 import Footer from 'src/components/Footer';
 
-import MyOpportunities from './MyOpportunities';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import PageHeader from './PageHeader';
+import MyOpportunitiesTable from './MyOpportunitiesTable';
 
 export default function AdminOpportunity() {
   return (
@@ -24,7 +24,7 @@ export default function AdminOpportunity() {
           spacing={3}
         >
           <Grid item xs={12}>
-            <MyOpportunities />
+            <MyOpportunitiesTable />
           </Grid>
         </Grid>
       </Container>
