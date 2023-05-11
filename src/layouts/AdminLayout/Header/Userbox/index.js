@@ -121,24 +121,14 @@ function HeaderUserbox() {
           <UserBoxText>
             <UserBoxLabel variant="body1">{state.user?.name}</UserBoxLabel>
             <UserBoxDescription variant="body2">
-              {state.admin?.username}
+              {state.user?.name}
             </UserBoxDescription>
           </UserBoxText>
         </MenuUserBox>
-        <Divider sx={{ mb: 0 }} />
-        <List sx={{ p: 1 }} component="nav">
-          <ListItem button to="/go/profile/messenger" component={NavLink}>
-            <InboxTwoToneIcon fontSize="small" />
-            <ListItemText primary="Messenger" />
-          </ListItem>
-          <ListItem button to="/go/profile/settings" component={NavLink}>
-            <AccountTreeTwoToneIcon fontSize="small" />
-            <ListItemText primary="Account Settings" />
-          </ListItem>
-        </List>
+
         <Divider />
         <Box sx={{ m: 1 }}>
-          <Button color="primary" fullWidth onClick={() => signOutAdmin()}>
+          <Button color="error" fullWidth onClick={() => signOutAdmin()}>
             <LockOpenTwoToneIcon sx={{ mr: 1 }} />
             Sign out
           </Button>
