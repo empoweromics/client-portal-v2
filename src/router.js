@@ -21,6 +21,9 @@ const AdminDashboard = Loader(lazy(() => import('src/pages/admin/dashboard')));
 const AdminOpportunity = Loader(
   lazy(() => import('src/pages/admin/opportunities/index'))
 );
+const AdminWithdraw = Loader(
+  lazy(() => import('src/pages/admin/withdraw/index'))
+);
 
 // Client Applications Pages
 const Overview = Loader(
@@ -169,6 +172,10 @@ const routes = (client, admin) => {
         {
           path: '/admin/opportunities',
           element: <AdminOpportunity />
+        },
+        {
+          path: '/admin/withdraw',
+          element: <AdminWithdraw />
         }
       ]
     }
