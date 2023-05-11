@@ -18,7 +18,7 @@ function Footer() {
       >
         <Box>
           <Typography variant="subtitle1">
-            &copy; 2022 - empoweromics
+            &copy; 2023 - empoweromics
           </Typography>
         </Box>
       </Box>

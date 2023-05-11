@@ -51,7 +51,6 @@ function HeaderNotifications() {
     try {
       const res = await axiosClient.get(`/notification/latest`);
       setNotificationsList(res.data);
-      console.log(res.data);
     } catch (e) {
       console.log(e);
     }
