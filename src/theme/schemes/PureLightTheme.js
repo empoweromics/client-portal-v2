@@ -290,6 +290,7 @@ export const PureLightTheme = createTheme({
     },
     text: {
       primary: colors.alpha.black[100],
+      error: colors.error.light,
       secondary: colors.alpha.black[70],
       disabled: colors.alpha.black[50]
     },

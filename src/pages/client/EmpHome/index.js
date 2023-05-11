@@ -20,7 +20,6 @@ export default function EmpHome() {
     try {
       const res = await axiosClient.get(`/public/emp/${id}`);
       setEmpData(res.data);
-      console.log(res.data);
     } catch (e) {
       console.log(e);
     }
