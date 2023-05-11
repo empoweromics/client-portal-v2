@@ -13,18 +13,18 @@ const MainContent = styled(Box)(
 `
 );
 
-function Status404() {
+export default function Status403() {
   return (
     <>
       <Helmet>
-        <title>Status - 404</title>
+        <title>Access Denied</title>
       </Helmet>
       <MainContent>
         <Container maxWidth="md">
           <Box textAlign="center">
-            <img alt="404" height={180} src="/static/images/status/404.svg" />
+            <img alt="404" height={180} src="/static/images/status/403.svg" />
             <Typography variant="h2" sx={{ my: 2 }}>
-              The page you were looking for doesn't exist.
+              403 Forbidden
             </Typography>
             <Typography
               variant="h4"
@@ -32,8 +32,8 @@ function Status404() {
               fontWeight="normal"
               sx={{ mb: 4 }}
             >
-              It's on us, we moved the content to a different page. The search
-              below should help!
+              your server is working, but you no longer have permission to view
+              all or some of your site for some reason
             </Typography>
           </Box>
         </Container>
@@ -41,5 +41,3 @@ function Status404() {
     </>
   );
 }
-
-export default Status404;

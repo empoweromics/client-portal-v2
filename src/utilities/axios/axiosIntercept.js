@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getToken } from '../firebase/firebase.service';
 
 const axiosClient = axios.create({
-  baseURL: process.env.REACT_APP_DEVELOP_URL
+  baseURL: process.env.REACT_APP_CLIENT_URL
 });
 
 axiosClient.interceptors.request.use(
@@ -15,8 +15,8 @@ axiosClient.interceptors.request.use(
         Accept: 'application/json'
       };
     }
-     config.headers.user = JSON.parse(localStorage.getItem('user')).id;
- 
+    config.headers.user = JSON.parse(localStorage.getItem('user'))?.id;
+
     return config;
   },
   function (error) {
@@ -33,8 +33,7 @@ axiosClient.interceptors.response.use(
     return response;
   },
   function (error) {
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
-    // Do something with response error
+    window.location.href = '/status/' + error.response.status;
     return Promise.reject(error);
   }
 );

@@ -47,11 +47,9 @@ const UserSettings = Loader(
 // Status
 
 const Status404 = Loader(lazy(() => import('src/components/Status/Status404')));
+const Status403 = Loader(lazy(() => import('src/components/Status/Status403')));
 const Status500 = Loader(lazy(() => import('src/components/Status/Status500')));
 
-const StatusMaintenance = Loader(
-  lazy(() => import('src/components/Status/Maintenance'))
-);
 const routes = (client, admin) => {
   const location = useLocation();
 
@@ -88,8 +86,8 @@ const routes = (client, admin) => {
               element: <Status500 />
             },
             {
-              path: 'maintenance',
-              element: <StatusMaintenance />
+              path: '403',
+              element: <Status403 />
             }
           ]
         },

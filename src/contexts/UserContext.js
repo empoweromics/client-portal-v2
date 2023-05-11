@@ -8,7 +8,7 @@ const initialState = {
     const admin = JSON.parse(localStorage.getItem('admin'));
     return (
       admin || {
-        username: '',
+        email: '',
         token: ''
       }
     );
