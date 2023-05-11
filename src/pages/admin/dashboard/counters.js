@@ -24,7 +24,7 @@ export default function DashboardCounters() {
 
   return (
     <Grid container spacing={3}>
-      <Grid item xs={6} md={3}>
+      <Grid item xs={12} sm={6} md={2}>
         <Card>
           <CardContent>
             <Typography variant="h5" component="h2">
@@ -36,7 +36,7 @@ export default function DashboardCounters() {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={6} md={3}>
+      <Grid item xs={12} sm={6} md={2}>
         <Card>
           <CardContent>
             <Typography variant="h5" component="h2">
@@ -48,7 +48,7 @@ export default function DashboardCounters() {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={6} md={3}>
+      <Grid item xs={12} sm={6} md={2}>
         <Card>
           <CardContent>
             <Typography variant="h5" component="h2">
@@ -60,14 +60,38 @@ export default function DashboardCounters() {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={6} md={3}>
+      <Grid item xs={12} sm={6} md={2}>
+        <Card>
+          <CardContent>
+            <Typography variant="h5" component="h2">
+              Total EMP
+            </Typography>
+            <Box mt={2}>
+              <Typography variant="h4">16</Typography>
+            </Box>
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item xs={12} sm={6} md={2}>
+        <Card>
+          <CardContent>
+            <Typography variant="h5" component="h2">
+              Total EMP views
+            </Typography>
+            <Box mt={2}>
+              <Typography variant="h4">160</Typography>
+            </Box>
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item xs={12} sm={6} md={2}>
         <Card>
           <CardContent>
             <Typography variant="h5" component="h2">
               Total Properties
             </Typography>
             <Box mt={2}>
-              <Typography variant="h4">200</Typography>
+              <Typography variant="h4">0</Typography>
             </Box>
           </CardContent>
         </Card>
