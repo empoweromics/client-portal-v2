@@ -27,19 +27,10 @@ function AdminAuthLogin() {
   let [form, setForm] = useState({ email: state.user.email, password: '' });
 
   function redirect(payload) {
-    localStorage.setItem(
-      'admin',
-      JSON.stringify({
-        data: payload.data,
-        token: payload.token
-      })
-    );
+    localStorage.setItem('admin', payload.accessToken);
     dispatch({
       type: setAdmin,
-      payload: {
-        data: payload.data,
-        token: payload.token
-      }
+      payload: payload.accessToken
     });
     navigate('/admin');
   }

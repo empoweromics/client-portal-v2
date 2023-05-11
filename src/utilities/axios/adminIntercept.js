@@ -11,7 +11,7 @@ axiosAdmin.interceptors.request.use(
       ...config.headers,
       Accept: 'application/json'
     };
-    config.headers.token = JSON.parse(localStorage.getItem('admin'))?.token;
+    config.headers.Authorization = `Bearer ${localStorage.getItem('admin')}`;
     return config;
   },
   function (error) {
