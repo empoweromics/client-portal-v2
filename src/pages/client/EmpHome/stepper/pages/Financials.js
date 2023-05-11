@@ -37,6 +37,7 @@ export default function EMPFinancialsSection({ empData }) {
   const [generatedEmpId, setGeneratedEmpId] = useState('');
 
   const SubmitOpportunity = async (item, index) => {
+    let paymentYears = item.unit.paymentYears || 8;
     const body = {
       client: {
         name: inputs.clientname,
@@ -51,10 +52,9 @@ export default function EMPFinancialsSection({ empData }) {
       budget: {
         downpayment: Number(item.unit.priceBase * 0.1),
         installmentAmountDue: Number(
-          ((100 - 10) / (item.unit.paymentYears * 4) / 100) *
-            item.unit.priceBase
+          ((100 - 10) / (paymentYears * 4) / 100) * item.unit.priceBase
         ),
-        totalNumberOfInstallments: item.unit.paymentYears * 4
+        totalNumberOfInstallments: paymentYears * 4
       },
       emp: { _id, selected: index + 1 }
     };
@@ -80,6 +80,12 @@ export default function EMPFinancialsSection({ empData }) {
             rowGap={5}
           >
             {outputs.map((item, index) => {
+              let paymentYears = 8;
+              let paymentYearsAssumtion = 'assume that avg payment years = 8';
+              if (item?.unit?.paymentYears) {
+                paymentYears = item?.unit?.paymentYears;
+                paymentYearsAssumtion = undefined;
+              }
               return (
                 <>
                   <Grid item md={12} lg={4}>
@@ -89,16 +95,21 @@ export default function EMPFinancialsSection({ empData }) {
                         fontWeight="bold"
                         color="text.primary"
                       >
-                        No. of installment:{' '}
-                        {(item?.unit?.paymentYears || 0) * 4}
-                        {/* No. of installment: {item.InstallmentNo} */}
+                        No. of installment: {paymentYears * 4}
                       </Typography>
                       <Typography
                         variant="body1"
                         fontWeight="bold"
                         color="text.primary"
                       >
-                        Years: {item.unit?.paymentYears}
+                        Years: {paymentYears}
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        fontWeight="bold"
+                        color="text.error"
+                      >
+                        {paymentYearsAssumtion}
                       </Typography>
                     </Box>
                     <TableContainer sx={{ marginY: '0.4em' }}>
@@ -117,7 +128,7 @@ export default function EMPFinancialsSection({ empData }) {
                         </TableHead>
                         <TableBody>
                           {Array.from({
-                            length: item.unit.paymentYears * 4
+                            length: paymentYears * 4
                           }).map((el, i) => {
                             return (
                               <TableRow hover key={i}>
@@ -143,7 +154,7 @@ export default function EMPFinancialsSection({ empData }) {
                                   >
                                     {/* {row.percent} */}
                                     {Number(
-                                      (100 - 10) / (item.unit.paymentYears * 4)
+                                      (100 - 10) / (paymentYears * 4)
                                     ).toFixed(1)}
                                     %
                                   </Typography>
@@ -160,7 +171,7 @@ export default function EMPFinancialsSection({ empData }) {
                                     {Number(
                                       (
                                         ((100 - 10) /
-                                          (item.unit.paymentYears * 4) /
+                                          (paymentYears * 4) /
                                           100) *
                                         item.unit.priceBase
                                       ).toFixed(2)

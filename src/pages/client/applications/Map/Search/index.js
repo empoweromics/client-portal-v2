@@ -25,7 +25,7 @@ import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
 import ChevronRightTwoToneIcon from '@mui/icons-material/ChevronRightTwoTone';
 import { useDebounce } from 'use-lodash-debounce';
 import axiosClient from 'src/utilities/axios/axiosIntercept';
-import emLogo from '../../../../assets/images/dark_emp_logo.png';
+import emLogo from 'src/assets/images/dark_emp_logo.png';
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;

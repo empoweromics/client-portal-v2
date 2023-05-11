@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import axiosClient from 'src/utilities/axios/axiosIntercept';
-import emLogo from '../../../assets/images/dark_emp_logo.png';
+import emLogo from 'src/assets/images/dark_emp_logo.png';
 
 function TopDeveloper() {
   const [topDevelopers, setTopDevelopers] = useState([]);

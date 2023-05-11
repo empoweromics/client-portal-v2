@@ -4,6 +4,8 @@ import BaseLayout from 'src/layouts/BaseLayout';
 import SuspenseLoader from 'src/components/SuspenseLoader';
 import AdminLayout from './layouts/AdminLayout';
 import ClientLayout from 'src/layouts/ClientLayout';
+import AdminAuthLogin from './pages/admin/login/AdminAuthLogin';
+import AdminDashboard from './pages/admin/dashboard';
 
 const Loader = (Component) => (props) =>
   (
@@ -11,46 +13,44 @@ const Loader = (Component) => (props) =>
       <Component {...props} />
     </Suspense>
   );
-const Home = Loader(lazy(() => import('src/content/home')));
+const Home = Loader(lazy(() => import('src/pages/client/home')));
 
-const EmpHome = Loader(lazy(() => import('src/content/EmpHome')));
+const EmpHome = Loader(lazy(() => import('src/pages/client/EmpHome')));
 // Dashboards
 
 const Overview = Loader(
-  lazy(() => import('src/content/applications/Overview'))
+  lazy(() => import('src/pages/client/applications/Overview'))
 );
 
 // Applications
 
 const Messenger = Loader(
-  lazy(() => import('src/content/applications/Messenger'))
+  lazy(() => import('src/pages/client/applications/Messenger'))
 );
 const Opportunity = Loader(
-  lazy(() => import('src/content/applications/Opportunity'))
+  lazy(() => import('src/pages/client/applications/Opportunity'))
 );
 const Transaction = Loader(
-  lazy(() => import('src/content/applications/Transaction'))
+  lazy(() => import('src/pages/client/applications/Transaction'))
 );
-const Academy = Loader(lazy(() => import('src/content/applications/Academy')));
-const Emp = Loader(lazy(() => import('src/content/applications/Emp')));
+const Academy = Loader(
+  lazy(() => import('src/pages/client/applications/Academy'))
+);
+const Emp = Loader(lazy(() => import('src/pages/client/applications/Emp')));
 
-const MapBox = Loader(lazy(() => import('src/content/applications/Map')));
+const MapBox = Loader(lazy(() => import('src/pages/client/applications/Map')));
 
 const UserSettings = Loader(
-  lazy(() => import('src/content/applications/Users/settings'))
+  lazy(() => import('src/pages/client/applications/Users/settings'))
 );
 
 // Status
 
-const Status404 = Loader(
-  lazy(() => import('src/content/pages/Status/Status404'))
-);
-const Status500 = Loader(
-  lazy(() => import('src/content/pages/Status/Status500'))
-);
+const Status404 = Loader(lazy(() => import('src/components/Status/Status404')));
+const Status500 = Loader(lazy(() => import('src/components/Status/Status500')));
 
 const StatusMaintenance = Loader(
-  lazy(() => import('src/content/pages/Status/Maintenance'))
+  lazy(() => import('src/components/Status/Maintenance'))
 );
 const routes = (client, admin) => {
   const location = useLocation();
@@ -63,6 +63,10 @@ const routes = (client, admin) => {
         {
           path: '/',
           element: <Home />
+        },
+        {
+          path: '/login',
+          element: <AdminAuthLogin />
         },
         {
           path: 'emp/:id',
@@ -160,7 +164,7 @@ const routes = (client, admin) => {
       children: [
         {
           path: '',
-          element: <Overview />
+          element: <AdminDashboard />
         }
       ]
     }

@@ -1,6 +1,6 @@
 import { useRef, useState, useContext } from 'react';
 
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 import {
   Avatar,
@@ -22,7 +22,6 @@ import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
 import { UserContext } from 'src/contexts/UserContext';
-import useGoogle from 'src/utilities/firebase/google';
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
@@ -60,13 +59,17 @@ const UserBoxDescription = styled(Typography)(
 );
 
 function HeaderUserbox() {
-  const { state } = useContext(UserContext);
-
+  const { state, dispatch, removeUser } = useContext(UserContext);
   const ref = useRef(null);
   const [isOpen, setOpen] = useState(false);
-
-  const { signOutGoogle } = useGoogle();
-
+  const navigate = useNavigate();
+  const signOutAdmin = () => {
+    localStorage.removeItem('admin');
+    dispatch({
+      type: removeUser
+    });
+    navigate('/go');
+  };
   const handleOpen = () => {
     setOpen(true);
   };
@@ -80,14 +83,14 @@ function HeaderUserbox() {
       <UserBoxButton color="secondary" ref={ref} onClick={handleOpen}>
         <Avatar
           variant="rounded"
-          alt={state.user?.name}
+          alt={state.admin?.username}
           src={state.user?.avatar}
         />
         <Hidden mdDown>
           <UserBoxText>
-            <UserBoxLabel variant="body1">{state.user?.name}</UserBoxLabel>
+            <UserBoxLabel variant="body1">{state.admin?.username}</UserBoxLabel>
             <UserBoxDescription variant="body2">
-              {state.user.email}
+              administration role
             </UserBoxDescription>
           </UserBoxText>
         </Hidden>
@@ -118,7 +121,7 @@ function HeaderUserbox() {
           <UserBoxText>
             <UserBoxLabel variant="body1">{state.user?.name}</UserBoxLabel>
             <UserBoxDescription variant="body2">
-              {state.user?.email}
+              {state.admin?.username}
             </UserBoxDescription>
           </UserBoxText>
         </MenuUserBox>
@@ -135,7 +138,7 @@ function HeaderUserbox() {
         </List>
         <Divider />
         <Box sx={{ m: 1 }}>
-          <Button color="primary" fullWidth onClick={() => signOutGoogle()}>
+          <Button color="primary" fullWidth onClick={() => signOutAdmin()}>
             <LockOpenTwoToneIcon sx={{ mr: 1 }} />
             Sign out
           </Button>

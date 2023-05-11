@@ -1,5 +1,5 @@
 import styles from './projectDrawer.module.css';
-import emLogo from '../../../../assets/images/dark_emp_logo.png';
+import emLogo from 'src/assets/images/dark_emp_logo.png';
 import { Rating } from '@mui/material';
 
 function handleError(event) {

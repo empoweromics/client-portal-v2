@@ -1,5 +1,5 @@
 import styles from './emp.module.css';
-import emLogo from '../../../assets/images/dark_emp_logo.png';
+import emLogo from 'src/assets/images/dark_emp_logo.png';
 import { CircularProgress } from '@mui/material';
 import { nFormatter } from 'src/utilities/numbers/nFormatter';
 

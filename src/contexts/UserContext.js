@@ -1,8 +1,18 @@
 import { createContext, useReducer } from 'react';
 
 export const setUser = 'setUser';
+export const setAdmin = 'setAdmin';
 export const removeUser = 'removeUser';
 const initialState = {
+  admin: (() => {
+    const admin = JSON.parse(localStorage.getItem('admin'));
+    return (
+      admin || {
+        username: '',
+        token: ''
+      }
+    );
+  })(),
   user: (() => {
     const user = JSON.parse(localStorage.getItem('user'));
     return (
@@ -21,9 +31,12 @@ function reducer(state, action) {
     case setUser: {
       return { ...initialState, user: action.payload };
     }
-    //     case removeUser: {
-    //       return initialState;
-    //     }
+    case setAdmin: {
+      return { ...initialState, admin: action.payload };
+    }
+    case removeUser: {
+      return initialState;
+    }
     default:
       return state;
   }

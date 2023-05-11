@@ -1,19 +1,14 @@
 import { useContext, useState } from 'react';
 import styles from './login.module.css';
-import {
-  Button,
-  Checkbox,
-  CircularProgress,
-  FormControlLabel,
-  TextField,
-  Typography
-} from '@mui/material';
+import { Button, CircularProgress, TextField } from '@mui/material';
 import PermIdentityTwoToneIcon from '@mui/icons-material/PermIdentityTwoTone';
 import LockIcon from '@mui/icons-material/Lock';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { AuthContext } from 'src/contexts/authContext/authContext';
-import logo from '../../assets/images/emp_logo.png';
+// import { AuthContext } from 'src/contexts/authContext/authContext';
+import logo from 'src/assets/images/userprofile.png';
+import { UserContext, setAdmin } from 'src/contexts/UserContext';
+import { useNavigate } from 'react-router';
 
 const eyeStyles = {
   position: 'absolute',
@@ -22,25 +17,40 @@ const eyeStyles = {
   cursor: 'pointer'
 };
 
-function Login() {
-  console.log('login');
+function AdminAuthLogin() {
+  const { dispatch } = useContext(UserContext);
+  const navigate = useNavigate();
+
   // hooks
-  const [rememberMe, setRememberMe] = useState(false);
   const [isloading, setIsloading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const { login } = useContext(AuthContext);
-  let [user, setUser] = useState({ phoneNumber: '', password: '' });
-  let [passwordErr, setPasswordErr] = useState('');
-  let [phoneNumberErr, setPhoneNumberErr] = useState('');
-  const [disableSubmit, setDisableSubmit] = useState(true);
+  let [user, setUser] = useState({ username: '', password: '' });
 
-  // validation paterns
+  function login(user) {
+    localStorage.setItem(
+      'admin',
+      JSON.stringify({
+        username: user.username,
+        token: user.token
+      })
+    );
+    dispatch({
+      type: setAdmin,
+      payload: {
+        username: user.username,
+        token: user.token
+      }
+    });
+  }
+
   // submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsloading(true);
     try {
-      await login(user, rememberMe);
+      login(user);
+      navigate('/admin');
+      // await login(user, rememberMe);
     } catch (err) {
       if (err.request?.status === 400 || err.request?.status === 401) {
         // alert('Phone Number Or password not valid')
@@ -62,21 +72,12 @@ function Login() {
     setUser((prev) => {
       setUser({ ...prev, password: e.target.value });
     });
-    // if (e.target.value.length < 6) {
-    //     setPasswordErr('password must be at least 6 characters')
-    // } else {
-    //     setPasswordErr('')
-    // }
   };
   // validate name input
-  const phoneNumberChange = (e) => {
-    setUser((prev) => setUser({ ...prev, phoneNumber: e.target.value }));
+  const formChange = (id, value) => {
+    setUser((prev) => setUser({ ...prev, [id]: value }));
   };
 
-  // effect
-  // useEffect(() => {
-  //     setDisableSubmit(!!(passwordErr || phoneNumberErr || !user?.phoneNumber || !user?.password))
-  // }, [passwordErr, phoneNumberErr, user?.phoneNumber, user?.password]);
   return (
     <div
       className={styles.login_wrapper}
@@ -96,7 +97,7 @@ function Login() {
               <PermIdentityTwoToneIcon className={styles.icon} />
               <TextField
                 size="small"
-                id="Phone-Number"
+                id="username"
                 placeholder="Username"
                 variant="standard"
                 InputProps={{
@@ -105,24 +106,9 @@ function Login() {
                 }}
                 sx={{ input: { color: '#fff' } }}
                 style={{ width: '100%', padding: '0 15px' }}
-                value={user?.phoneNumber}
-                onChange={(e) => {
-                  phoneNumberChange(e);
-                }}
+                value={user?.username}
+                onChange={(e) => formChange(e.target.id, e.target.value)}
               />
-
-              {user?.phoneNumber && (
-                <p
-                  className="text-danger text-start p-0 m-0"
-                  style={{
-                    fontSize: '12px',
-                    position: 'absolute',
-                    bottom: '-18px'
-                  }}
-                >
-                  {phoneNumberErr}
-                </p>
-              )}
             </div>
 
             {/* password */}
@@ -149,18 +135,6 @@ function Login() {
               ) : (
                 <Visibility onClick={handleToggleEyeIcon} sx={eyeStyles} />
               )}
-              {user?.password && (
-                <p
-                  className="text-danger text-start p-0 m-0"
-                  style={{
-                    fontSize: '12px',
-                    position: 'absolute',
-                    bottom: '-18px'
-                  }}
-                >
-                  {passwordErr}
-                </p>
-              )}
             </div>
 
             <div
@@ -171,23 +145,7 @@ function Login() {
                 marginTop: '10px',
                 marginBottom: '13px'
               }}
-            >
-              <FormControlLabel
-                onChange={() => {
-                  setRememberMe(!rememberMe);
-                }}
-                control={
-                  <Checkbox checked={rememberMe} sx={{ color: '#6c7375' }} />
-                }
-                label={
-                  <Typography className={styles.forget_pass_font}>
-                    Remember Me
-                  </Typography>
-                }
-              />
-
-              {/* <span className={styles.forget_pass_font} style={{ marginTop: '9px', display: 'inline-block' }}>Forget password</span> */}
-            </div>
+            />
 
             <Button
               type="submit"
@@ -213,4 +171,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default AdminAuthLogin;
