@@ -16,12 +16,14 @@ jobs:
           cat <<EOF > .env
           REACT_APP_GOOGLEMAPS_API_KEY="$REACT_APP_GOOGLEMAPS_API_KEY"
           REACT_APP_CLIENT_URL="$REACT_APP_CLIENT_URL"
+          REACT_APP_ADMIN_URL="$REACT_APP_ADMIN_URL"
           REACT_APP_DOMAIN_URL="$REACT_APP_DOMAIN_URL"
           REACT_APP_OLD_DOMAIN_URL="$REACT_APP_OLD_DOMAIN_URL"
           EOF
         env:
           REACT_APP_GOOGLEMAPS_API_KEY: ${{ secrets.REACT_APP_GOOGLEMAPS_API_KEY }}
           REACT_APP_CLIENT_URL: ${{ secrets.REACT_APP_CLIENT_URL }}
+          REACT_APP_ADMIN_URL: ${{ secrets.REACT_APP_ADMIN_URL }}
           REACT_APP_DOMAIN_URL: ${{ secrets.REACT_APP_DOMAIN_URL }}
           REACT_APP_OLD_DOMAIN_URL: ${{ secrets.REACT_APP_OLD_DOMAIN_URL }}
       - run: npm ci && npm run build
