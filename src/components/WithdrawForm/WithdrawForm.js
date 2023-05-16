@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import axiosClient from 'src/utilities/axios/axiosIntercept';
 
 const DialogWrapper = styled(Dialog)(
   () => `
@@ -22,7 +23,7 @@ const DialogWrapper = styled(Dialog)(
     }
 `
 );
-const method = ['bank_transfer', 'cash', 'VC'];
+const method = ['bank_transfer', 'cash', 'vodafone_cash'];
 
 export default function WithdrawForm({ open, handleClose }) {
   const {
@@ -35,7 +36,14 @@ export default function WithdrawForm({ open, handleClose }) {
       method: ''
     }
   });
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    const res = await axiosClient.post(`/transactions/withdraw`, {
+      amount: Number(data.amount),
+      method: data.method
+    });
+
+    console.log(res);
+  };
 
   return (
     <>
@@ -83,13 +91,6 @@ export default function WithdrawForm({ open, handleClose }) {
                     sx={{ mb: 2 }}
                     helperText={errors.amount?.message}
                     error={!!errors.amount}
-                    // InputProps={{
-                    //   endAdornment: (
-                    //     <InputAdornment position="end">
-                    //       {data?.maxDelivery ? '>=' + data.maxDelivery : ''}
-                    //     </InputAdornment>
-                    //   )
-                    // }}
                   />
                 </Grid>
                 <Grid item xs={12} md={5}>
@@ -106,10 +107,12 @@ export default function WithdrawForm({ open, handleClose }) {
                     error={!!errors.method}
                     InputLabelProps={{ shrink: true }}
                   >
-                    <option value="">select an option ...</option>
+                    <option value="">
+                      select your favourate method option ...
+                    </option>
                     {method?.map((option, id) => (
                       <option key={id} value={option.id}>
-                        {id === 0 ? option.replace('_', ' ') : option}
+                        {option.replace('_', ' ')}
                       </option>
                     ))}
                   </TextField>

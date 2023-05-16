@@ -16,7 +16,6 @@ import { ProjectDetailsDrawer } from './projectDetailsDrawer/projectDetailsDrawe
 import axiosClient from 'src/utilities/axios/axiosIntercept';
 import { OppDialog } from './oppdialog/opp-dialog';
 
-// let infoWindowContent = <InfoWindowContent />
 function GoogleMaps() {
   // const [dialogProjectId, setDialogProjectId] = useState();
   const [snackbarMsg, setSnackbarMsg] = useState('');
@@ -159,7 +158,7 @@ function GoogleMaps() {
           >
             <InfoWindowContent
               loading={loading}
-              setOpenDialog={setOpenDialog}
+              setOpenSubmitForm={setOpenDialog}
               projectDetails={projectDetails}
             />
           </InfoWindow>

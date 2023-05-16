@@ -6,15 +6,13 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
-  Snackbar
+  Paper
 } from '@mui/material';
 import { DeleteConfirmationDialog } from './deleteConfirmationDialog';
 import { TablePagination } from '@mui/material';
 import moment from 'moment';
 
 const EmpTable = ({ empLinks, setEmpLinks }) => {
-  const openSnackbar = useRef(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -69,15 +67,6 @@ const EmpTable = ({ empLinks, setEmpLinks }) => {
           setRowsPerPage(parseInt(event.target.value, 10));
           setPage(0);
         }}
-      />
-      <Snackbar
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center'
-        }}
-        open={!!openSnackbar.current}
-        autoHideDuration={6000}
-        message={'Link copied'}
       />
     </TableContainer>
   );
