@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Typography,
   Grid,
@@ -9,12 +9,14 @@ import {
 } from '@mui/material';
 import { SeeMoreComponent } from 'src/components/SeeMore/seeMoreComponent';
 import emLogo from 'src/assets/images/dark_emp_logo.png';
+import { EMPContext } from 'src/contexts/EMPContext';
 
 function handleError(event) {
   event.target.src = emLogo;
 }
 
-export default function EMPProjectSection({ empData }) {
+export default function EMPProjectSection() {
+  const empData = useContext(EMPContext);
   const projectsData = Object.values(empData?.outputs || {});
   return (
     <Box padding={{ sm: '2em 1em', md: '2em 5em' }}>

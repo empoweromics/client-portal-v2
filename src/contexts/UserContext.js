@@ -5,13 +5,8 @@ export const setAdmin = 'setAdmin';
 export const removeUser = 'removeUser';
 const initialState = {
   admin: (() => {
-    const admin = JSON.parse(localStorage.getItem('admin'));
-    return (
-      admin || {
-        username: '',
-        token: ''
-      }
-    );
+    const admin = localStorage.getItem('admin');
+    return admin || '';
   })(),
   user: (() => {
     const user = JSON.parse(localStorage.getItem('user'));

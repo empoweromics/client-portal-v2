@@ -5,7 +5,6 @@ import SuspenseLoader from 'src/components/SuspenseLoader';
 import AdminLayout from './layouts/AdminLayout';
 import ClientLayout from 'src/layouts/ClientLayout';
 import AdminAuthLogin from './pages/admin/login/AdminAuthLogin';
-import AdminDashboard from './pages/admin/dashboard';
 
 const Loader = (Component) => (props) =>
   (
@@ -13,17 +12,23 @@ const Loader = (Component) => (props) =>
       <Component {...props} />
     </Suspense>
   );
+
+// Public Pages
 const Home = Loader(lazy(() => import('src/pages/client/home')));
-
 const EmpHome = Loader(lazy(() => import('src/pages/client/EmpHome')));
-// Dashboards
+// Admin Dashboards Pages
+const AdminDashboard = Loader(lazy(() => import('src/pages/admin/dashboard')));
+const AdminOpportunity = Loader(
+  lazy(() => import('src/pages/admin/opportunities/index'))
+);
+const AdminWithdraw = Loader(
+  lazy(() => import('src/pages/admin/withdraw/index'))
+);
 
+// Client Applications Pages
 const Overview = Loader(
   lazy(() => import('src/pages/client/applications/Overview'))
 );
-
-// Applications
-
 const Messenger = Loader(
   lazy(() => import('src/pages/client/applications/Messenger'))
 );
@@ -47,11 +52,9 @@ const UserSettings = Loader(
 // Status
 
 const Status404 = Loader(lazy(() => import('src/components/Status/Status404')));
+const Status403 = Loader(lazy(() => import('src/components/Status/Status403')));
 const Status500 = Loader(lazy(() => import('src/components/Status/Status500')));
 
-const StatusMaintenance = Loader(
-  lazy(() => import('src/components/Status/Maintenance'))
-);
 const routes = (client, admin) => {
   const location = useLocation();
 
@@ -88,8 +91,8 @@ const routes = (client, admin) => {
               element: <Status500 />
             },
             {
-              path: 'maintenance',
-              element: <StatusMaintenance />
+              path: '403',
+              element: <Status403 />
             }
           ]
         },
@@ -165,6 +168,14 @@ const routes = (client, admin) => {
         {
           path: '',
           element: <AdminDashboard />
+        },
+        {
+          path: '/admin/opportunities',
+          element: <AdminOpportunity />
+        },
+        {
+          path: '/admin/withdraw',
+          element: <AdminWithdraw />
         }
       ]
     }

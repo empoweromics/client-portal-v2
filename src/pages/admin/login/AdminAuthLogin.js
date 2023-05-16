@@ -5,10 +5,10 @@ import PermIdentityTwoToneIcon from '@mui/icons-material/PermIdentityTwoTone';
 import LockIcon from '@mui/icons-material/Lock';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-// import { AuthContext } from 'src/contexts/authContext/authContext';
 import logo from 'src/assets/images/userprofile.png';
 import { UserContext, setAdmin } from 'src/contexts/UserContext';
 import { useNavigate } from 'react-router';
+import axiosAdmin from 'src/utilities/axios/adminIntercept';
 
 const eyeStyles = {
   position: 'absolute',
@@ -18,49 +18,31 @@ const eyeStyles = {
 };
 
 function AdminAuthLogin() {
-  const { dispatch } = useContext(UserContext);
+  const { dispatch, state } = useContext(UserContext);
   const navigate = useNavigate();
 
   // hooks
   const [isloading, setIsloading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  let [user, setUser] = useState({ username: '', password: '' });
+  let [form, setForm] = useState({ email: state.user.email, password: '' });
 
-  function login(user) {
-    localStorage.setItem(
-      'admin',
-      JSON.stringify({
-        username: user.username,
-        token: user.token
-      })
-    );
+  function redirect(payload) {
+    localStorage.setItem('admin', payload.accessToken);
     dispatch({
       type: setAdmin,
-      payload: {
-        username: user.username,
-        token: user.token
-      }
+      payload: payload.accessToken
     });
+    navigate('/admin');
   }
 
   // submit
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setIsloading(true);
-    try {
-      login(user);
-      navigate('/admin');
-      // await login(user, rememberMe);
-    } catch (err) {
-      if (err.request?.status === 400 || err.request?.status === 401) {
-        // alert('Phone Number Or password not valid')
-      } else if (err.request?.status === 500) {
-        // alert('Internal server Error')
-      } else {
-        // alert('Something went wrong, please try again')
-      }
-    }
-    setIsloading(false);
+    axiosAdmin.post('/auth/login', form).then((data) => {
+      redirect(data.data);
+      setIsloading(false);
+    });
   };
   // toggle password eye icon
   const handleToggleEyeIcon = () => {
@@ -69,13 +51,9 @@ function AdminAuthLogin() {
   // validate name password
 
   const passwordChange = (e) => {
-    setUser((prev) => {
-      setUser({ ...prev, password: e.target.value });
+    setForm((prev) => {
+      setForm({ ...prev, password: e.target.value });
     });
-  };
-  // validate name input
-  const formChange = (id, value) => {
-    setUser((prev) => setUser({ ...prev, [id]: value }));
   };
 
   return (
@@ -97,8 +75,8 @@ function AdminAuthLogin() {
               <PermIdentityTwoToneIcon className={styles.icon} />
               <TextField
                 size="small"
-                id="username"
-                placeholder="Username"
+                id="email"
+                disabled="true"
                 variant="standard"
                 InputProps={{
                   disableUnderline: true,
@@ -106,8 +84,7 @@ function AdminAuthLogin() {
                 }}
                 sx={{ input: { color: '#fff' } }}
                 style={{ width: '100%', padding: '0 15px' }}
-                value={user?.username}
-                onChange={(e) => formChange(e.target.id, e.target.value)}
+                value={state.user?.email}
               />
             </div>
 
@@ -125,7 +102,7 @@ function AdminAuthLogin() {
                   disableUnderline: true
                 }}
                 style={{ width: '100%', padding: '0 15px' }}
-                value={user?.password}
+                value={form?.password}
                 onChange={(e) => {
                   passwordChange(e);
                 }}
@@ -148,8 +125,8 @@ function AdminAuthLogin() {
             />
 
             <Button
+              disabled={isloading}
               type="submit"
-              //  disabled={disableSubmit || isloading}
               className={styles.login_button}
             >
               {isloading && (
@@ -161,8 +138,8 @@ function AdminAuthLogin() {
                     marginRight: '10px !important'
                   }}
                 />
-              )}{' '}
-              Login{' '}
+              )}
+              Login
             </Button>
           </div>
         </form>

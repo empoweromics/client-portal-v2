@@ -45,7 +45,6 @@ function ManagementUserSettings() {
   useEffect(() => {
     getCurrentUser();
   }, []);
-  // ----------------------------------------------------------------------------------------------
 
   return (
     <>
@@ -102,7 +101,6 @@ function ManagementUserSettings() {
                 currentUser={currentUser}
               />
             )}
-            {/* {currentTab === 'security' && <SecurityTab />} */}
           </Grid>
         </Grid>
       </Container>

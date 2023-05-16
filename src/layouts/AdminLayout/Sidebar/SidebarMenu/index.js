@@ -222,10 +222,10 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/admin/transaction"
+                  to="/admin/withdraw"
                   startIcon={<AccountBalanceIcon />}
                 >
-                  Transactions
+                  Withdraw Requests
                 </Button>
               </ListItem>
               <ListItem component="div">
@@ -233,7 +233,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/admin/Academy"
+                  to="/admin/academy"
                   startIcon={<SchoolIcon />}
                 >
                   Academy

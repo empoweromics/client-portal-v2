@@ -5,7 +5,6 @@ import { Grid, Container } from '@mui/material';
 import Footer from 'src/components/Footer';
 
 import AccountBalance from './AccountBalance';
-import TopDeveloper from './TopDeveloper';
 import RecentActivity from './RecentActivity';
 import { useEffect, useState } from 'react';
 import axiosClient from 'src/utilities/axios/axiosIntercept';
@@ -56,9 +55,6 @@ function DashboardCrypto() {
               <RecentActivity />
             </Grid>
           </OverviewContext.Provider>
-          <Grid item xs={12}>
-            <TopDeveloper />
-          </Grid>
         </Grid>
       </Container>
 

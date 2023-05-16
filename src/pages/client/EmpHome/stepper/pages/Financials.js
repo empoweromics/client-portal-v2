@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Grid,
   TableContainer,
@@ -16,6 +16,7 @@ import {
 import axiosClient from 'src/utilities/axios/axiosIntercept';
 import { SuccessMsgPopup } from 'src/components/Messages/SuccessMsgPopup';
 import { nFormatter } from 'src/utilities/numbers/nFormatter';
+import { EMPContext } from 'src/contexts/EMPContext';
 
 const formatDate = (date, addedMonthes) => {
   const dateObj = new Date(date);
@@ -27,7 +28,8 @@ const formatDate = (date, addedMonthes) => {
   return formattedDate;
 };
 
-export default function EMPFinancialsSection({ empData }) {
+export default function EMPFinancialsSection() {
+  const empData = useContext(EMPContext);
   const outputs = Object.values(empData?.outputs || {});
   const inputs = empData?.inputs || {};
   const user = empData?.user || {};

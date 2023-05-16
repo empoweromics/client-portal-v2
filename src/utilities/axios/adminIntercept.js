@@ -1,16 +1,17 @@
 import axios from 'axios';
 
 const axiosAdmin = axios.create({
-  baseURL: process.env.REACT_APP_DEVELOP_URL
+  baseURL: process.env.REACT_APP_ADMIN_URL
 });
 
 axiosAdmin.interceptors.request.use(
   async function (config) {
-    config.headers.token = JSON.parse(localStorage.getItem('admin')).token;
+    // Do  before request is sent
     config.headers = {
       ...config.headers,
       Accept: 'application/json'
     };
+    config.headers.Authorization = `Bearer ${localStorage.getItem('admin')}`;
     return config;
   },
   function (error) {
@@ -27,8 +28,8 @@ axiosAdmin.interceptors.response.use(
     return response;
   },
   function (error) {
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
-    // Do something with response error
+    window.location.href = '/status/' + error.response.status;
+
     return Promise.reject(error);
   }
 );

@@ -6,15 +6,17 @@ import {
   Grid,
   Typography
 } from '@mui/material';
-import React from 'react';
+import React, { useContext } from 'react';
 
 import emLogo from 'src/assets/images/dark_emp_logo.png';
+import { EMPContext } from 'src/contexts/EMPContext';
 
 function handleError(event) {
   event.target.src = emLogo;
 }
 
-export default function EMPUnitSection({ empData }) {
+export default function EMPUnitSection() {
+  const empData = useContext(EMPContext);
   const unitData = Object.values(empData?.outputs || {});
   return (
     <Box padding={{ sm: '2em 1em', md: '2em 5em' }}>

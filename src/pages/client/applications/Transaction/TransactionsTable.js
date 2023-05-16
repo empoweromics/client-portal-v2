@@ -183,7 +183,6 @@ const TransactionsTable = ({ data }) => {
                       gutterBottom
                       noWrap
                     >
-                      {/* {numeral(transaction.downPayment).format(`0,0`)} EGP- Down */}
                       {transaction.createdAt}
                     </Typography>
                   </TableCell>
