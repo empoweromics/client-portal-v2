@@ -24,6 +24,10 @@ const AdminOpportunity = Loader(
 const AdminWithdraw = Loader(
   lazy(() => import('src/pages/admin/withdraw/index'))
 );
+const AdminStock = Loader(lazy(() => import('src/pages/admin/stock/index')));
+const AdminAcademy = Loader(
+  lazy(() => import('src/pages/admin/academy/index'))
+);
 
 // Client Applications Pages
 const Overview = Loader(
@@ -176,6 +180,14 @@ const routes = (client, admin) => {
         {
           path: '/admin/withdraw',
           element: <AdminWithdraw />
+        },
+        {
+          path: '/admin/academy',
+          element: <AdminAcademy />
+        },
+        {
+          path: '/admin/stock',
+          element: <AdminStock />
         }
       ]
     }

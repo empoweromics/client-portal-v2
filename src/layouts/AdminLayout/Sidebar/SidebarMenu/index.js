@@ -239,26 +239,16 @@ function SidebarMenu() {
                   Academy
                 </Button>
               </ListItem>
+
               <ListItem component="div">
                 <Button
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/admin/projects"
+                  to="/admin/stock"
                   startIcon={<CompareArrowsIcon />}
                 >
-                  Projects
-                </Button>
-              </ListItem>
-              <ListItem component="div">
-                <Button
-                  disableRipple
-                  component={RouterLink}
-                  onClick={closeSidebar}
-                  to="/admin/units"
-                  startIcon={<CompareArrowsIcon />}
-                >
-                  Unit Stock
+                  Stock Units
                 </Button>
               </ListItem>
             </List>
