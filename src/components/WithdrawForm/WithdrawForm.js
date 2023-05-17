@@ -1,14 +1,15 @@
+import { LoadingButton } from '@mui/lab';
 import {
   DialogContent,
   styled,
   Dialog,
   TextField,
   Grid,
-  Button,
   Box,
-  DialogTitle
+  DialogTitle,
+  Alert
 } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axiosClient from 'src/utilities/axios/axiosIntercept';
 
@@ -23,9 +24,11 @@ const DialogWrapper = styled(Dialog)(
     }
 `
 );
-const method = ['bank_transfer', 'cash', 'vodafone_cash'];
+const method = ['bank_account', 'cash', 'vodafone_cash'];
 
 export default function WithdrawForm({ open, handleClose }) {
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -36,13 +39,25 @@ export default function WithdrawForm({ open, handleClose }) {
       method: ''
     }
   });
-  const onSubmit = async (data) => {
-    const res = await axiosClient.post(`/transactions/withdraw`, {
-      amount: Number(data.amount),
-      method: data.method
-    });
-
-    console.log(res);
+  const onSubmit = async (payload) => {
+    try {
+      setIsLoading(true);
+      const res = await axiosClient.post(`/transactions/withdraw`, {
+        amount: Number(payload.amount),
+        method: payload.method
+      });
+      if (res.data) {
+        setIsLoading(false);
+        setSuccessMessage(
+          `Thanks we have recived you request to withdraw ${res.data.amount} EGP from your wallet , through ${res.data.method} and current status is ${res.data.status}`
+        );
+        setTimeout(() => {
+          handleClose(true);
+        }, 6000);
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -59,6 +74,12 @@ export default function WithdrawForm({ open, handleClose }) {
           Submit Transaction
         </DialogTitle>
         <DialogContent>
+          {successMessage && (
+            <>
+              <Alert severity="success">{successMessage}</Alert>
+            </>
+          )}
+
           <form onSubmit={handleSubmit(onSubmit)}>
             <Box
               display="flex"
@@ -111,7 +132,7 @@ export default function WithdrawForm({ open, handleClose }) {
                       select your favourate method option ...
                     </option>
                     {method?.map((option, id) => (
-                      <option key={id} value={option.id}>
+                      <option key={id} value={option}>
                         {option.replace('_', ' ')}
                       </option>
                     ))}
@@ -119,13 +140,14 @@ export default function WithdrawForm({ open, handleClose }) {
                 </Grid>
               </Grid>
 
-              <Button
+              <LoadingButton
                 sx={{ mt: { xs: 2, md: 0 } }}
                 type="submit"
                 variant="outlined"
+                loading={isLoading}
               >
                 Submit
-              </Button>
+              </LoadingButton>
             </Box>
           </form>
         </DialogContent>

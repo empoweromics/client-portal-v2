@@ -2,7 +2,7 @@ import * as React from 'react';
 import Drawer from '@mui/material/Drawer';
 import styles from './projectDrawer.module.css';
 
-import { Button, CircularProgress, Snackbar } from '@mui/material';
+import { CircularProgress, Snackbar } from '@mui/material';
 import { ImgsSection } from './imgsSection';
 import MenuIcon from '@mui/icons-material/Menu';
 import { PricingCard } from './pricingCard';
@@ -42,7 +42,6 @@ export function ProjectDetailsDrawer({
       />
       {['left'].map((anchor) => (
         <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
           <Drawer
             sx={{ maxWidth: '450px !important', position: 'relative' }}
             anchor={anchor}

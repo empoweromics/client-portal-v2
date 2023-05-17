@@ -50,7 +50,6 @@ function GoogleMaps() {
       lat: getCentroid(projectWithPolygon?.geometry?.coordinates[0])[1],
       lng: getCentroid(projectWithPolygon?.geometry?.coordinates[0])[0]
     });
-    console.log(getCentroid(projectWithPolygon?.geometry?.coordinates[0])[1]);
   };
   // ----------------------------------------------------------------------------------------------
 
@@ -71,7 +70,6 @@ function GoogleMaps() {
     mapInstance.data.addGeoJson(projects);
     mapInstance.data.setStyle(setStyle);
     mapInstance.data.addListener('click', function ({ feature, latLng }) {
-      console.log(feature, latLng);
       // setCenter(latLng);
       mapInstance.panTo(latLng);
 
