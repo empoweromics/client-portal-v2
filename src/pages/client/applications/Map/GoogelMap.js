@@ -16,7 +16,6 @@ import { ProjectDetailsDrawer } from './projectDetailsDrawer/projectDetailsDrawe
 import axiosClient from 'src/utilities/axios/axiosIntercept';
 import { OppDialog } from './oppdialog/opp-dialog';
 
-// let infoWindowContent = <InfoWindowContent />
 function GoogleMaps() {
   // const [dialogProjectId, setDialogProjectId] = useState();
   const [snackbarMsg, setSnackbarMsg] = useState('');
@@ -51,7 +50,6 @@ function GoogleMaps() {
       lat: getCentroid(projectWithPolygon?.geometry?.coordinates[0])[1],
       lng: getCentroid(projectWithPolygon?.geometry?.coordinates[0])[0]
     });
-    console.log(getCentroid(projectWithPolygon?.geometry?.coordinates[0])[1]);
   };
   // ----------------------------------------------------------------------------------------------
 
@@ -72,7 +70,6 @@ function GoogleMaps() {
     mapInstance.data.addGeoJson(projects);
     mapInstance.data.setStyle(setStyle);
     mapInstance.data.addListener('click', function ({ feature, latLng }) {
-      console.log(feature, latLng);
       // setCenter(latLng);
       mapInstance.panTo(latLng);
 
@@ -159,7 +156,7 @@ function GoogleMaps() {
           >
             <InfoWindowContent
               loading={loading}
-              setOpenDialog={setOpenDialog}
+              setOpenSubmitForm={setOpenDialog}
               projectDetails={projectDetails}
             />
           </InfoWindow>
