@@ -242,6 +242,7 @@ export default function RecentOrdersTable() {
     setLoading(true);
     const axios = await axiosAdmin.get('/opportunity');
     setRows(axios.data);
+    setLoading(false);
   }, []);
 
   const handleRequestSort = (event, property) => {
