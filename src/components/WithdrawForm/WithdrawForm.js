@@ -1,15 +1,17 @@
+import { LoadingButton } from '@mui/lab';
 import {
   DialogContent,
   styled,
   Dialog,
   TextField,
   Grid,
-  Button,
   Box,
-  DialogTitle
+  DialogTitle,
+  Alert
 } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import axiosClient from 'src/utilities/axios/axiosIntercept';
 
 const DialogWrapper = styled(Dialog)(
   () => `
@@ -22,9 +24,11 @@ const DialogWrapper = styled(Dialog)(
     }
 `
 );
-const method = ['bank_transfer', 'cash', 'VC'];
+const method = ['bank_account', 'cash', 'vodafone_cash'];
 
 export default function WithdrawForm({ open, handleClose }) {
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -35,7 +39,26 @@ export default function WithdrawForm({ open, handleClose }) {
       method: ''
     }
   });
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (payload) => {
+    try {
+      setIsLoading(true);
+      const res = await axiosClient.post(`/transactions/withdraw`, {
+        amount: Number(payload.amount),
+        method: payload.method
+      });
+      if (res.data) {
+        setIsLoading(false);
+        setSuccessMessage(
+          `Thanks we have recived you request to withdraw ${res.data.amount} EGP from your wallet , through ${res.data.method} and current status is ${res.data.status}`
+        );
+        setTimeout(() => {
+          handleClose(true);
+        }, 6000);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
     <>
@@ -51,6 +74,12 @@ export default function WithdrawForm({ open, handleClose }) {
           Submit Transaction
         </DialogTitle>
         <DialogContent>
+          {successMessage && (
+            <>
+              <Alert severity="success">{successMessage}</Alert>
+            </>
+          )}
+
           <form onSubmit={handleSubmit(onSubmit)}>
             <Box
               display="flex"
@@ -83,13 +112,6 @@ export default function WithdrawForm({ open, handleClose }) {
                     sx={{ mb: 2 }}
                     helperText={errors.amount?.message}
                     error={!!errors.amount}
-                    // InputProps={{
-                    //   endAdornment: (
-                    //     <InputAdornment position="end">
-                    //       {data?.maxDelivery ? '>=' + data.maxDelivery : ''}
-                    //     </InputAdornment>
-                    //   )
-                    // }}
                   />
                 </Grid>
                 <Grid item xs={12} md={5}>
@@ -106,23 +128,26 @@ export default function WithdrawForm({ open, handleClose }) {
                     error={!!errors.method}
                     InputLabelProps={{ shrink: true }}
                   >
-                    <option value="">select an option ...</option>
+                    <option value="">
+                      select your favourate method option ...
+                    </option>
                     {method?.map((option, id) => (
-                      <option key={id} value={option.id}>
-                        {id === 0 ? option.replace('_', ' ') : option}
+                      <option key={id} value={option}>
+                        {option.replace('_', ' ')}
                       </option>
                     ))}
                   </TextField>
                 </Grid>
               </Grid>
 
-              <Button
+              <LoadingButton
                 sx={{ mt: { xs: 2, md: 0 } }}
                 type="submit"
                 variant="outlined"
+                loading={isLoading}
               >
                 Submit
-              </Button>
+              </LoadingButton>
             </Box>
           </form>
         </DialogContent>

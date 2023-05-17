@@ -123,7 +123,6 @@ const EmpForm = ({
     setIsPreviewLoading(true);
     try {
       const res = await axiosClient.post(`/emp/preview`, body);
-      console.log(res);
       delete res.data.lenght;
       setPreviewEmp(Object.values(res.data));
     } catch (e) {

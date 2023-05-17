@@ -1,8 +1,9 @@
 import React from 'react';
 import styles from './map.module.css';
 import { CircularProgress } from '@mui/material';
+import { nFormatter } from 'src/utilities/numbers/nFormatter';
 
-const InfoWindowContent = ({ projectDetails, setOpenDialog, loading }) => {
+const InfoWindowContent = ({ projectDetails, setOpenSubmitForm, loading }) => {
   return (
     <div
       className={styles.info_window_wrapper}
@@ -35,11 +36,15 @@ const InfoWindowContent = ({ projectDetails, setOpenDialog, loading }) => {
               lineHeight: '1.2'
             }}
           >
-            Earn 186,749 NET Cash
+            Earn{' '}
+            {nFormatter(
+              Number(projectDetails?.project?.units?.avg?.priceBase) * 0.0016
+            )}{' '}
+            NET Cash
           </div>
           <button
             onClick={() => {
-              setOpenDialog(true);
+              setOpenSubmitForm(true);
             }}
             type="button"
             className={styles.btn + ' ' + styles.btn_success}

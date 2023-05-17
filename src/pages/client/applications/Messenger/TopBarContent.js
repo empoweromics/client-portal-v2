@@ -146,7 +146,7 @@ function TopBarContent() {
           display: { xs: 'none', md: 'flex' }
         }}
         variant="temporary"
-        anchor={theme.direction === 'rtl' ? 'left' : 'right'}
+        // anchor={theme.direction === 'rtl' ? 'left' : 'right'}
         open={mobileOpen}
         onClose={handleDrawerToggle}
         elevation={9}

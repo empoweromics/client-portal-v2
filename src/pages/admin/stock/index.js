@@ -4,11 +4,11 @@ import Footer from 'src/components/Footer';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import PageHeader from './PageHeader';
 
-export default function AdminWithdraw() {
+export default function AdminStock() {
   return (
     <>
       <Helmet>
-        <title>Admin Withdraw</title>
+        <title>Stock managment</title>
       </Helmet>
       <PageTitleWrapper>
         <PageHeader />
