@@ -14,8 +14,9 @@ const Loader = (Component) => (props) =>
   );
 
 // Public Pages
-const Home = Loader(lazy(() => import('src/pages/client/home')));
+const Home = Loader(lazy(() => import('src/pages/client/landing/home')));
 const EmpHome = Loader(lazy(() => import('src/pages/client/EmpHome')));
+
 // Admin Dashboards Pages
 const AdminDashboard = Loader(lazy(() => import('src/pages/admin/dashboard')));
 const AdminOpportunity = Loader(
@@ -75,6 +76,7 @@ const routes = (client, admin) => {
           path: '/login',
           element: <AdminAuthLogin />
         },
+
         {
           path: 'emp/:id',
           element: <EmpHome />

@@ -1,6 +1,4 @@
-import { Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import axiosClient from 'src/utilities/axios/axiosIntercept';
 
 function Copyright() {
@@ -23,14 +21,9 @@ function Copyright() {
     getEmpData();
   }, []);
   return (
-    <Typography variant="body2" color="text.secondary" align="center">
-      Ⓒ {apiCheck.copyright} version {apiCheck.version}
-      <Link color="inherit" href="https://empoweromics.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
+    <p>
+      Copyright Ⓒ {apiCheck.copyright} version {apiCheck.version}
+    </p>
   );
 }
 

@@ -19,7 +19,8 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import MailTwoToneIcon from '@mui/icons-material/MailTwoTone';
-import GoogleLogin from './login';
+import GoogleLogin from '../../landing/auth/GoogleLoginFirebase';
+import Signup from './signup';
 
 const MainContent = styled(Box)(
   () => `
@@ -69,6 +70,9 @@ function Hero() {
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <GoogleLogin />
+            </Grid>
+            <Grid item xs={12}>
+              <Signup />
             </Grid>
           </Grid>
           <Container maxWidth="sm">

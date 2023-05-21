@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { Helmet } from 'react-helmet-async';
 
@@ -9,7 +9,7 @@ import ChatContent from './ChatContent';
 import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
 
 import Scrollbar from 'src/components/Scrollbar';
-import { collection, query, where, onSnapshot } from 'firebase/firestore';
+// import { collection, query, where, onSnapshot } from 'firebase/firestore';
 
 import {
   Box,
@@ -19,7 +19,7 @@ import {
   IconButton,
   useTheme
 } from '@mui/material';
-import { db } from 'src/utilities/firebase/firebaseConfig';
+// import { db } from 'src/utilities/firebase/firebaseConfig';
 
 const RootWrapper = styled(Box)(
   ({ theme }) => `
@@ -79,18 +79,18 @@ function ApplicationsMessenger() {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  useEffect(() => {
-    const q = query(
-      collection(db, 'messages', 'JeZK8PsmSfZTytIxMdAl', 'message'),
-      where('query', '==', 'test')
-    );
-    onSnapshot(q, (querySnapshot) => {
-      const results = [];
-      querySnapshot.forEach((doc) => {
-        results.push(doc.data().content);
-      });
-    });
-  }, []);
+  // useEffect(() => {
+  //   const q = query(
+  //     collection(db, 'messages', 'JeZK8PsmSfZTytIxMdAl', 'message'),
+  //     where('query', '==', 'test')
+  //   );
+  //   onSnapshot(q, (querySnapshot) => {
+  //     const results = [];
+  //     querySnapshot.forEach((doc) => {
+  //       results.push(doc.data().content);
+  //     });
+  //   });
+  // }, []);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
