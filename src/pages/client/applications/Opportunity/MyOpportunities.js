@@ -1,9 +1,9 @@
-import { Card, LinearProgress } from '@mui/material';
-import RecentOrdersTable from './RecentOrdersTable';
+import { LinearProgress } from '@mui/material';
 import { useEffect, useState } from 'react';
 import axiosClient from 'src/utilities/axios/axiosIntercept';
+import MuiReactTable from './MuiReactTable';
 
-function MyOpportunities() {
+export default function MyOpportunities() {
   const [opportunitiesList, setOpportunitiesList] = useState([]);
   const [loading, setLoading] = useState(false);
   useEffect(async () => {
@@ -15,12 +15,9 @@ function MyOpportunities() {
     }
   }, []);
 
-  return (
-    <Card>
-      {loading && <LinearProgress />}
-      <RecentOrdersTable Opportunities={opportunitiesList} />
-    </Card>
-  );
+  if (loading) {
+    return <LinearProgress />;
+  }
+  // If user is logged out
+  return <MuiReactTable data={opportunitiesList} />;
 }
-
-export default MyOpportunities;

@@ -1,9 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import Footer from 'src/components/Footer';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
-import PageHeader from './PageHeader';
-import RecentOrdersTable from './RecentOrdersTable';
-import { Container, Grid } from '@mui/material';
+import AllOpportunities from './AllOpportunities';
 
 export default function AdminOpportunity() {
   return (
@@ -12,20 +10,8 @@ export default function AdminOpportunity() {
         <title>Opportunity</title>
       </Helmet>
       <PageTitleWrapper>
-        <PageHeader />
+        <AllOpportunities />
       </PageTitleWrapper>
-      <Container maxWidth="lg">
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="stretch"
-          spacing={3}
-        >
-          {' '}
-          <RecentOrdersTable />
-        </Grid>
-      </Container>
 
       <Footer />
     </>
