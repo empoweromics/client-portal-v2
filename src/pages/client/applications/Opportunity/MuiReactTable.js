@@ -14,6 +14,7 @@ const MuiReactTable = ({ data }) => {
       {
         accessorKey: '_id',
         header: 'ID',
+        enableClickToCopy: true,
         size: 150
       },
       {

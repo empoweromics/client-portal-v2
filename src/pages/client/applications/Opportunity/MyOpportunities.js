@@ -1,4 +1,4 @@
-import { Card, LinearProgress } from '@mui/material';
+import { LinearProgress } from '@mui/material';
 import { useEffect, useState } from 'react';
 import axiosClient from 'src/utilities/axios/axiosIntercept';
 import MuiReactTable from './MuiReactTable';
