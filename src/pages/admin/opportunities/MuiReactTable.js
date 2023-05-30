@@ -104,11 +104,10 @@ const MuiReactTable = ({ data }) => {
       initialState={{ showColumnFilters: true }}
       positionToolbarAlertBanner="bottom"
       renderDetailPanel={renderDetailPanelFunction}
-      renderRowActionMenuItems={({ closeMenu, row }) => [
+      renderRowActionMenuItems={({ closeMenu }) => [
         <MenuItem
           key={0}
-          onClick={(x) => {
-            console.log(row);
+          onClick={() => {
             // View profile logic...
             closeMenu();
           }}
