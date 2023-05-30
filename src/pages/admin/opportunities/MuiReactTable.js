@@ -15,9 +15,8 @@ import {
 } from '@mui/material';
 
 // Icons Imports
-import { AccountCircle, Send } from '@mui/icons-material';
+import { Check, Clear } from '@mui/icons-material';
 import { nFormatter } from 'src/utilities/numbers/nFormatter';
-
 // Mock Data
 const MuiReactTable = ({ data }) => {
   const columns = useMemo(
@@ -116,9 +115,9 @@ const MuiReactTable = ({ data }) => {
           sx={{ m: 0 }}
         >
           <ListItemIcon>
-            <AccountCircle />
+            <Check />
           </ListItemIcon>
-          Success Opportunity
+          Accept Opportunity
         </MenuItem>,
         <MenuItem
           key={1}
@@ -129,9 +128,9 @@ const MuiReactTable = ({ data }) => {
           sx={{ m: 0 }}
         >
           <ListItemIcon>
-            <Send />
+            <Clear />
           </ListItemIcon>
-          Failer Opportunity
+          Close Opportunity
         </MenuItem>
       ]}
     />
