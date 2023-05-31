@@ -107,9 +107,10 @@ function HeaderNotifications() {
         <Divider />
         <List sx={{ p: 0 }}>
           {notificationsList &&
-            notificationsList.map((notifications) => {
+            notificationsList.map((notifications, index) => {
               return (
                 <ListItem
+                  key={index}
                   sx={{
                     p: 2,
                     minWidth: 350,
